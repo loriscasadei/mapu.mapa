@@ -4,10 +4,12 @@
    Necesita auth.js cargado antes. */
 (function(){
   if(typeof tt==='undefined'){window.tt=es=>es;window.alCambiarIdioma=()=>{}}
+  /* Los dos idiomas se escriben en el mismo lugar y uno queda invisible: el ancho es siempre el del texto más largo y el encabezado no se mueve al cambiar de idioma. */
+  const bi=(es,en)=>'<span class="bi"><span class="es">'+es+'</span><span class="en">'+en+'</span></span>';
   const PAGINAS=[
-    ['mapa',()=>tt('MAPA','MAP'),'index.html'],
-    ['info',()=>tt('INFO UTILES','USEFUL INFO'),'info-utiles.html'],
-    ['proyecto',()=>tt('SOBRE EL PROYECTO','ABOUT THE PROJECT'),'sobre-el-proyecto.html']
+    ['mapa',()=>bi('MAPA','MAP'),'index.html'],
+    ['info',()=>bi('INFO UTILES','USEFUL INFO'),'info-utiles.html'],
+    ['proyecto',()=>bi('SOBRE EL PROYECTO','ABOUT THE PROJECT'),'sobre-el-proyecto.html']
   ];
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const actual=document.body.dataset.page;
@@ -22,7 +24,7 @@
   /* ---------- encabezado ---------- */
   const h=document.getElementById('site-header');
   if(h){
-    h.innerHTML='<a class="brand" href="index.html"><b>Mapu Mapa</b><span></span></a>'+
+    h.innerHTML='<a class="brand" href="index.html"><b>Mapu Mapa</b><span>'+bi('El mapa de las tierras patagónicas','The map of the Patagonian lands')+'</span></a>'+
       '<button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span></span></button>'+
       '<div class="menu" id="site-menu"><nav class="mainnav"></nav><div class="langbox" id="langbox"></div><div class="userbox" id="userbox"></div></div>';
   }
@@ -30,7 +32,6 @@
   function pintarTextos(){
     if(h){
       h.querySelector('.brand').setAttribute('aria-label',tt('Mapu Mapa, ir al mapa','Mapu Mapa, go to the map'));
-      h.querySelector('.brand span').textContent=tt('El mapa de las tierras patagónicas','The map of the Patagonian lands');
       h.querySelector('.burger').setAttribute('aria-label',tt('Menú','Menu'));
       h.querySelector('.mainnav').setAttribute('aria-label',tt('Principal','Main'));
       h.querySelector('.mainnav').innerHTML=navHtml();
@@ -72,8 +73,8 @@
     if(!box)return;
     const u=window.Auth&&Auth.usuario();
     box.innerHTML=u
-      ?'<span class="uemail" title="'+esc(u.email)+'">'+esc(u.email)+'</span><button type="button" class="ubtn" id="usalir">'+tt('Salir','Sign out')+'</button>'
-      :'<button type="button" class="ubtn" id="uentrar">'+tt('Ingresar','Sign in')+'</button><button type="button" class="ubtn pri" id="ureg">'+tt('Registrarse','Sign up')+'</button>';
+      ?'<span class="uemail" title="'+esc(u.email)+'">'+esc(u.email)+'</span><button type="button" class="ubtn" id="usalir">'+bi('Salir','Sign out')+'</button>'
+      :'<button type="button" class="ubtn" id="uentrar">'+bi('Ingresar','Sign in')+'</button><button type="button" class="ubtn pri" id="ureg">'+bi('Registrarse','Sign up')+'</button>';
     const q=id=>document.getElementById(id);
     if(u)q('usalir').onclick=()=>{Auth.salir();pintarUsuario();abrirMenu(false)};
     else{q('uentrar').onclick=()=>abrirDialogo('ingresar');q('ureg').onclick=()=>abrirDialogo('registrar')}

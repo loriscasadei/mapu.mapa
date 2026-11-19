@@ -324,3 +324,10 @@ a{color:var(--g1)}
 .langsw svg{display:block;width:26px;height:17px}
 
 .e.oculto{display:none}
+
+/* encabezado: los dos idiomas ocupan el mismo lugar (el más largo manda) para que nada se mueva al cambiar */
+.bi{display:inline-grid;vertical-align:baseline}
+.bi>span{grid-area:1/1;white-space:nowrap}
+html[lang="en"] .bi>.es,html:not([lang="en"]) .bi>.en{visibility:hidden}
+.brand span.bi,.brand>span>.bi{display:inline-grid}
+.mainnav .bi>span,.ubtn .bi>span{justify-self:center;text-align:center}
