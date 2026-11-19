@@ -36,7 +36,7 @@ addEventListener('error',e=>{
   <div id="mapwrap">
     <div id="basemap" aria-hidden="true"></div>
     <svg id="map" data-z="1" role="img" aria-label="Mapa de senderos del Parque Nacional Nahuel Huapi, de Villa Traful al río Villegas"></svg>
-    <div class="capas" id="capas" role="group" aria-label="Capa del mapa"><button type="button" data-c="topo">Topográfico</button><button type="button" data-c="sat">Satélite</button><button type="button" data-c="calles">Calles</button></div>
+    <div class="capas" id="capas" role="group" aria-label="Capa del mapa"><button type="button" data-c="topo">Topográfico</button><button type="button" data-c="sat">Satélite</button></div>
     <div class="buscar"><input id="q" type="search" placeholder="Buscar refugio, sendero o cumbre" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="qres" aria-autocomplete="list" aria-label="Buscar refugio, sendero, travesía o cumbre"><ul id="qres" role="listbox" hidden></ul></div>
     <div class="vacio" id="vacio" role="status" hidden><span></span> <button type="button" id="vreset">Restablecer filtros</button></div>
     <aside id="dr" hidden aria-live="polite" aria-label="Ficha"><div class="drh"><button type="button" id="drx">✕ Cerrar</button><button type="button" id="drlink">Copiar enlace</button></div><div class="pin" id="drbody"></div></aside>

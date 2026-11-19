@@ -491,8 +491,7 @@ function guardarUrl(){clearTimeout(urlT);urlT=setTimeout(()=>{try{history.replac
 /* ---- capas del mapa ---- */
 const CAPAS={
   topo:{k:'https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © colaboradores de OpenStreetMap',cf:'Esri, USGS, NPS, © colaboradores de OpenStreetMap'},
-  sat:{k:'https://api.maptiler.com/maps/hybrid/256/{z}/{x}/{y}.jpg?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © Maxar y colaboradores de OpenStreetMap',cf:'imágenes © Esri, Maxar, Earthstar Geographics'},
-  calles:{k:'https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © colaboradores de OpenStreetMap',cf:'Esri, HERE, Garmin, © colaboradores de OpenStreetMap'}
+  sat:{k:'https://api.maptiler.com/maps/hybrid/256/{z}/{x}/{y}.jpg?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © Maxar y colaboradores de OpenStreetMap',cf:'imágenes © Esri, Maxar, Earthstar Geographics'}
 };
 let capaAct=CAPAS[HASH.get('c')]?HASH.get('c'):(()=>{try{const c=localStorage.getItem('pt.capa');return CAPAS[c]?c:'topo'}catch(e){return 'topo'}})(), capaLyr=null;
 /* Capa de baldosas que no pide las que caen enteras del lado chileno (frontera en geo/frontera.js): ahorra datos. */
