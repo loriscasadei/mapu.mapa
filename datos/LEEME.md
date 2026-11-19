@@ -141,6 +141,8 @@ Si cambiás el `tipo` de un punto, agregá o borrá estos campos extra. Si no, l
 | `id` | texto | Código único | — |
 | `nombre` | texto | Nombre de la travesía | — |
 | `resumen` | texto | Línea bajo el nombre ("De Villa Catedral a…") | — |
+| `nombre_en` | texto | Nombre en inglés (versión en inglés de la página) | Se muestra el nombre en español |
+| `resumen_en` | texto | Resumen en inglés | Se muestra el resumen en español |
 | `senda_apn` | texto | Número de senda oficial. Va como texto porque puede ser `'58 y 63'` | — |
 | `etapas` | lista de listas de ids | Una lista por día, con los tramos de ese día en el orden en que se caminan. El sentido de cada tramo se deduce solo. **La cantidad de listas es la cantidad de días**, y define en qué opción del filtro «Duración» aparece. Provisorio: la división en días es una propuesta, corregir a mano | — |
 | `donde_dormir` | texto | Dónde se duerme | "a definir" |

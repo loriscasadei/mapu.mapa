@@ -1,5 +1,5 @@
 const W=D.W,H=D.H;
-const G={g0:{l:'Sin dato',s:'Sin dato'},g1:{l:'Fácil',s:'Fácil'},g2:{l:'Moderada',s:'Moderada'},g3:{l:'Difícil',s:'Difícil'}};
+const G={get g0(){return {l:tt('Sin dato','No data')}},get g1(){return {l:tt('Fácil','Easy')}},get g2(){return {l:tt('Moderada','Moderate')}},get g3(){return {l:tt('Difícil','Hard')}}};
 
 /* ================= BASE DE DATOS: LECTURA Y CONTROL =================
    Lee datos/*.js, revisa cada registro y lo traduce a la forma interna.
@@ -24,7 +24,7 @@ const CAMPOS={
     etiqueta_x:'n',etiqueta_y:'n',etiqueta_lado:Object.keys(LADO),solo_con_zoom:'b'},
   refugio:{capacidad:'t',reserva:'t',que_se_compra:'t',agua:'t',acampe:'t',si_esta_lleno:'t'},
   acceso:{colectivo:'t',parada:'t',frecuencia:'t',ultimo_regreso:'t',estacionamiento:'t'},
-  travesia:{id:'t',nombre:'t',resumen:'t',senda_apn:'t',etapas:'e',donde_dormir:'t',salidas_de_escape:'t',como_volver:'t'}
+  travesia:{id:'t',nombre:'t',nombre_en:'t',resumen:'t',resumen_en:'t',senda_apn:'t',etapas:'e',donde_dormir:'t',salidas_de_escape:'t',como_volver:'t'}
 };
 const VACIO={t:'',n:0,b:false,l:[],e:[]};
 function revisar(r,campos,donde){
@@ -67,8 +67,13 @@ DB_T.forEach((r,i)=>{
 /* Estado según el registro del Parque (datos/estado.js, generado por herramientas/actualizar-estado.mjs).
    Un tramo toma el mejor estado entre los senderos del registro que lo recorren: habilitado o cerrado.
    Si ninguno aparece en el registro, queda «No verificado». */
-const EST={habilitado:'Habilitado',cerrado:'Cerrado',no_verificado:'No verificado'};
+const EST={get habilitado(){return tt('Habilitado','Open')},get cerrado(){return tt('Cerrado','Closed')},get no_verificado(){return tt('No verificado','Not verified')}};
 const EST_ORDEN=['habilitado','cerrado'];
+const fechaLoc=(d,o)=>new Date(d).toLocaleString(tt('es-AR','en-GB'),{...o,hour12:false});
+const ZONA_EN={'Travesía López–Cretón':'López–Cretón traverse','Tronador y Pampa Linda':'Tronador and Pampa Linda','Llao Llao y Bariloche':'Llao Llao and Bariloche','Villarino y Espejo':'Villarino and Espejo','Lago Traful':'Lake Traful','Cerro Centinela y Colorado':'Cerro Centinela and Colorado','Isla Victoria y Anchorena':'Isla Victoria and Anchorena','Lago Mascardi y Los Césares':'Lake Mascardi and Los Césares','Lago Steffen':'Lake Steffen','Sin zona':'No zone'};
+const zN=z=>tt(z,ZONA_EN[z]||z);
+const MOTIVO_EN={'CERRADO POR INCLEMENCIA CLIMÁTICA':'closed due to bad weather','SENDERO CERRADO':'trail closed','SENDERO DE MUY ALTA DIFICULTAD, SÓLO CON GUÍA DE TREKKING HABILITADO':'very high difficulty, only with a licensed trekking guide','Toda la categoría está cerrada':'the whole category is closed'};
+const motivoN=m=>tt(m,MOTIVO_EN[m]||m);
 const REG=typeof ESTADO!=='undefined'?ESTADO:(aviso('datos/estado.js','No se pudo leer el archivo. Todos los tramos quedan «No verificado».'),{entradas:{},actualizado:''});
 const regKey=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim().toLowerCase();
 const REGIDX=new Map(Object.entries(REG.entradas).map(([k,v])=>[regKey(k),[k,v]]));
@@ -87,7 +92,7 @@ DB_V.forEach((r,i)=>{
   const falta=flat.filter(x=>!tIds.has(x));
   if(falta.length){aviso(donde,`Usa tramos que no existen o no se muestran: ${falta.join(', ')}. No se muestra.`);return}
   if(!flat.length){aviso(donde,'No tiene tramos. No se muestra.');return}
-  TV.push({id:r.id,n:r.nombre,s:r.resumen,sen:r.senda_apn,t:flat,et:r.etapas,db:r});
+  TV.push({id:r.id,n:r.nombre,ne:r.nombre_en,s:r.resumen,se:r.resumen_en,sen:r.senda_apn,t:flat,et:r.etapas,db:r});
 });
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function avisos(){
@@ -109,8 +114,10 @@ const tById=Object.fromEntries(T.map(t=>[t.id,t]));
 const worst=a=>a.reduce((m,g)=>g>m?g:m,'g0');
 const tvG=tv=>worst(tv.t.map(id=>tById[id].g));
 const kn=n=>n.k||n.n;
-const tName=t=>t.nm||`${kn(N[t.a])} a ${kn(N[t.b])}`;
-const f1=x=>String(x.toFixed(1)).replace('.',',');
+const tvN=v=>tt(v.n,v.ne||v.n), tvS=v=>tt(v.s,v.se||v.s);
+const tipoN=t=>({acc:tt('Acceso','Trailhead'),ref:tt('Refugio','Hut'),pto:tt('Punto de paso','Waypoint'),lag:tt('Laguna','Lake'),cum:tt('Cumbre','Summit')})[t];
+const tName=t=>t.nm||`${kn(N[t.a])} ${tt('a','to')} ${kn(N[t.b])}`;
+const f1=x=>String(x.toFixed(1)).replace('.',tt(',','.'));
 const num=x=>String(Math.round(x));
 function orient(v){const ts=v.t.map(i=>tById[i]);const out=[];let cur=null;
   ts.forEach((t,i)=>{if(cur===null){const nx=ts[i+1];cur=(nx&&(t.a===nx.a||t.a===nx.b))?t.b:t.a}
@@ -136,7 +143,7 @@ function build(){
   const root=el('g',{},svg);
   const E=el('g',{id:'edges'},root), LB=el('g',{},root), ND=el('g',{id:'nodes'},root);
   T.forEach(tr=>{
-    const g=el('g',{class:'e','data-id':tr.id,tabindex:0,role:'button','aria-label':'Tramo '+tName(tr)},E);
+    const g=el('g',{class:'e','data-id':tr.id,tabindex:0,role:'button','aria-label':tt('Tramo ','Trail ')+tName(tr)},E);
     el('path',{d:tr.d,class:'ecase'},g);el('path',{d:tr.d,class:'eline'},g);el('path',{d:tr.d,class:'ehit'},g);
     g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('t',tr.id)});
     g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go('t',tr.id)}});
@@ -220,19 +227,19 @@ function ordenar(){
    Por defecto todo está tildado, salvo «Duración» (solo 1 día) y «Habilitado» (habilitados y no verificados).
    Los tramos que no cumplen quedan atenuados en el mapa. */
 const RANGOS={
-  km:[['Hasta 3 km',0,3],['3 a 8 km',3,8],['8 a 15 km',8,15],['Más de 15 km',15,Infinity]],
-  des:[['Hasta 200 m',0,200],['200 a 500 m',200,500],['500 a 1000 m',500,1000],['Más de 1000 m',1000,Infinity]]
+  km:[[()=>tt('Hasta 3 km','Up to 3 km'),0,3],[()=>tt('3 a 8 km','3 to 8 km'),3,8],[()=>tt('8 a 15 km','8 to 15 km'),8,15],[()=>tt('Más de 15 km','Over 15 km'),15,Infinity]],
+  des:[[()=>tt('Hasta 200 m','Up to 200 m'),0,200],[()=>tt('200 a 500 m','200 to 500 m'),200,500],[()=>tt('500 a 1000 m','500 to 1000 m'),500,1000],[()=>tt('Más de 1000 m','Over 1000 m'),1000,Infinity]]
 };
 /* desnivel = el mayor entre subida y bajada */
 const desnivel=t=>t.up==null?null:Math.max(t.up,t.dn);
 const ZONAS=[...new Set(T.map(t=>t.zona))].sort((a,b)=>a.localeCompare(b,'es'));
 const FILT=[
-  {id:'dif',nom:'Dificultad',op:[['g1','Fácil'],['g2','Moderada'],['g3','Difícil'],['g0','Sin dato']],val:t=>t.g,sw:true},
-  {id:'km',nom:'Distancia',op:RANGOS.km.map((r,i)=>[i,r[0]]),val:t=>t.km==null?null:RANGOS.km.findIndex(r=>t.km>=r[1]&&t.km<r[2])},
-  {id:'des',nom:'Desnivel',op:RANGOS.des.map((r,i)=>[i,r[0]]),val:t=>{const d=desnivel(t);return d==null?null:RANGOS.des.findIndex(r=>d>=r[1]&&d<r[2])}},
-  {id:'dur',nom:'Duración',uno:true,op:[[1,'1 día'],[2,'2 días'],[3,'3 días'],[4,'4 días'],[5,'Más de 4 días']],val:t=>t.dias>0?Math.min(5,Math.round(t.dias)):null},
-  {id:'zona',nom:'Zona',op:ZONAS.map(z=>[z,z]),val:t=>t.zona},
-  {id:'hab',nom:'Habilitado',op:Object.entries(EST),val:t=>t.hab}
+  {id:'dif',get nom(){return tt('Dificultad','Difficulty')},get op(){return [['g1',G.g1.l],['g2',G.g2.l],['g3',G.g3.l],['g0',G.g0.l]]},val:t=>t.g,sw:true},
+  {id:'km',get nom(){return tt('Distancia','Distance')},get op(){return RANGOS.km.map((r,i)=>[i,r[0]()])},val:t=>t.km==null?null:RANGOS.km.findIndex(r=>t.km>=r[1]&&t.km<r[2])},
+  {id:'des',get nom(){return tt('Desnivel','Elevation')},get op(){return RANGOS.des.map((r,i)=>[i,r[0]()])},val:t=>{const d=desnivel(t);return d==null?null:RANGOS.des.findIndex(r=>d>=r[1]&&d<r[2])}},
+  {id:'dur',get nom(){return tt('Duración','Duration')},uno:true,get op(){return [[1,tt('1 día','1 day')],[2,tt('2 días','2 days')],[3,tt('3 días','3 days')],[4,tt('4 días','4 days')],[5,tt('Más de 4 días','More than 4 days')]]},val:t=>t.dias>0?Math.min(5,Math.round(t.dias)):null},
+  {id:'zona',get nom(){return tt('Zona','Area')},get op(){return ZONAS.map(z=>[z,zN(z)])},val:t=>t.zona},
+  {id:'hab',get nom(){return tt('Habilitado','Status')},get op(){return Object.keys(EST).map(k=>[k,EST[k]])},val:t=>t.hab}
 ];
 /* valores tildados al empezar: Duración, solo 1 día; Habilitado, habilitados y no verificados; el resto, todo */
 const DEF={dur:[1],hab:['habilitado','no_verificado']};
@@ -253,10 +260,10 @@ const pasa=t=>modoTv()?TV.some(v=>tvPasa(v)&&v.t.includes(t.id)):FILT.every(f=>p
 const filtroActivo=f=>{const d=new Set(DEF[f.id]||f.op.map(o=>o[0])),s=SEL[f.id];return s.size!==d.size||[...s].some(v=>!d.has(v))};
 function resumen(f){const s=SEL[f.id],n=f.op.length;
   if(f.id==='hab'&&!filtroActivo(f))return '';   // Habilitado: sin texto mientras está en su valor inicial
-  if(s.size===n)return f.id==='hab'?'todos':f.id==='dur'?'todas':f.id==='des'?'todos':'todas';
-  if(s.size===0)return f.id==='hab'?'ninguno':f.id==='des'?'ninguno':'ninguna';
+  if(s.size===n)return tt(f.id==='hab'?'todos':f.id==='dur'?'todas':f.id==='des'?'todos':'todas','all');
+  if(s.size===0)return tt(f.id==='hab'?'ninguno':f.id==='des'?'ninguno':'ninguna','none');
   if(s.size===1)return String(f.op.find(o=>s.has(o[0]))[1]);
-  return `${s.size} de ${n}`}
+  return `${s.size} ${tt('de','of')} ${n}`}
 function paintFiltros(){
   const bar=$('#filtros');
   bar.innerHTML=FILT.map(f=>{
@@ -266,9 +273,9 @@ function paintFiltros(){
     return `<div class="flt${abierto===f.id?' open':''}${filtroActivo(f)?' on':''}">
       <button class="fbtn" data-f="${f.id}" aria-expanded="${abierto===f.id}" aria-controls="fp-${f.id}"><span class="fn">${f.nom}</span>${resumen(f)?`<span class="fv">${esc(resumen(f))}</span>`:''}<svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
       <div class="fpanel" id="fp-${f.id}" ${abierto===f.id?'':'hidden'}>
-        ${f.uno?'<div class="fall"><span>Elegí una opción</span></div>':`<div class="fall"><button data-all="${f.id}">Todas</button><button data-none="${f.id}">Ninguna</button></div>`}
-        ${op.map(o=>`<label><input type="${f.uno?'radio':'checkbox'}" name="r-${f.id}" data-f="${f.id}" data-v="${esc(o[0])}" ${SEL[f.id].has(o[0])?'checked':''}>${f.sw?swatch(o[0],26):''}<span>${esc(o[1])}</span><b title="${f.id==='dur'?(o[0]===1?'tramos':'travesías'):''}">${cnt.get(o[0])}</b></label>`).join('')}
-      </div></div>`}).join('')+`<span class="fcount" aria-live="polite">${modoTv()?TV.filter(tvPasa).length+' de '+TV.length+' travesías':T.filter(pasa).length+' de '+T.length+' tramos'}${REG.actualizado?` · Registro de Parques Nacionales leído el ${new Date(REG.actualizado).toLocaleString('es-AR',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit',hour12:false})}`:''}</span>`;
+        ${f.uno?`<div class="fall"><span>${tt('Elegí una opción','Choose one option')}</span></div>`:`<div class="fall"><button data-all="${f.id}">${tt('Todas','All')}</button><button data-none="${f.id}">${tt('Ninguna','None')}</button></div>`}
+        ${op.map(o=>`<label><input type="${f.uno?'radio':'checkbox'}" name="r-${f.id}" data-f="${f.id}" data-v="${esc(o[0])}" ${SEL[f.id].has(o[0])?'checked':''}>${f.sw?swatch(o[0],26):''}<span>${esc(o[1])}</span><b title="${f.id==='dur'?(o[0]===1?tt('tramos','trails'):tt('travesías','multi-day routes')):''}">${cnt.get(o[0])}</b></label>`).join('')}
+      </div></div>`}).join('')+`<span class="fcount" aria-live="polite">${modoTv()?TV.filter(tvPasa).length+' '+tt('de','of')+' '+TV.length+' '+tt('travesías','multi-day routes'):T.filter(pasa).length+' '+tt('de','of')+' '+T.length+' '+tt('tramos','trails')}${REG.actualizado?` · ${tt('Registro de Parques Nacionales leído el','National Parks registry read on')} ${fechaLoc(REG.actualizado,{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}`:''}</span>`;
   paintTravesias();
   bar.querySelectorAll('.fbtn').forEach(b=>b.onclick=ev=>{ev.stopPropagation();abierto=abierto===b.dataset.f?null:b.dataset.f;paintFiltros();if(abierto){const fp=$('#fp-'+abierto);fp.querySelector('input')?.focus()}});
   bar.querySelectorAll('.fpanel').forEach(p=>p.onclick=ev=>ev.stopPropagation());
@@ -284,9 +291,9 @@ function paintTravesias(){
   if(!modoTv()){tl.hidden=true;tl.innerHTML='';return}
   const d=[...SEL.dur][0],l=TV.filter(tvPasa);
   tl.hidden=false;
-  tl.innerHTML=`<span class="tvh">Travesías de ${d>=5?'más de 4 días':d+' días'}</span>`+(l.length
-    ?l.map(v=>`<button type="button" class="tvb${sel&&sel[0]==='v'&&sel[1]===v.id?' on':''}" data-v="${v.id}"><span>${esc(v.n)}</span>${swatch(tvG(v),22)}<small>${v.nd} días</small></button>`).join('')
-    :'<span class="tvh soft">Ninguna con estos filtros.</span>');
+  tl.innerHTML=`<span class="tvh">${tt('Travesías de','Multi-day routes of')} ${d>=5?tt('más de 4 días','more than 4 days'):d+' '+tt('días','days')}</span>`+(l.length
+    ?l.map(v=>`<button type="button" class="tvb${sel&&sel[0]==='v'&&sel[1]===v.id?' on':''}" data-v="${v.id}"><span>${esc(tvN(v))}</span>${swatch(tvG(v),22)}<small>${v.nd} ${tt('días','days')}</small></button>`).join('')
+    :`<span class="tvh soft">${tt('Ninguna con estos filtros.','None with these filters.')}</span>`);
   tl.querySelectorAll('button').forEach(b=>b.onclick=()=>go('v',b.dataset.v));
 }
 /* repinta el mapa sin cerrar la ventanilla ni perder el foco */
@@ -299,17 +306,17 @@ document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&abierto){const b=
 /* ================= PANEL ================= */
 function difBox(g,note){
   return `<div class="guia"><div class="gseason on">${swatch(g)}<span class="lab">${G[g].l}</span></div>${note?`<div class="gnote">${note}</div>`:''}</div>`}
-const INFO='<p class="fine" style="margin-top:14px">Normas para cuidar el lugar y teléfonos de emergencia: <a href="info-utiles.html">Info útiles</a>.</p>';
+const INFO=()=>`<p class="fine" style="margin-top:14px">${tt('Normas para cuidar el lugar y teléfonos de emergencia:','Rules for looking after the place and emergency numbers:')} <a href="info-utiles.html">${tt('Info útiles','Useful info')}</a>.</p>`;
 function estBox(t){
-  const cuando=REG.actualizado?` Leído el ${new Date(REG.actualizado).toLocaleString('es-AR',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit',hour12:false})}.`:'';
-  if(t.hab==='no_verificado')return `<div class="row"><span class="k">Estado</span><span class="v soft">No verificado</span></div><p class="fine">Este tramo no figura en el formulario de registro del Parque, o todavía no está asociado a un sendero del formulario.</p>`;
-  const det=t.regHall.map(h=>`<li>${esc(h.n)}: ${EST[h.e]}${h.m?' ('+esc(h.m.toLowerCase())+')':''}</li>`).join('');
-  return `<div class="row"><span class="k">Estado</span><span class="v">${EST[t.hab]}</span></div><ul class="plain fine">${det}</ul><p class="fine">Según el formulario de registro de trekking del Parque.${cuando}</p>`;
+  const cuando=REG.actualizado?` ${tt('Leído el','Read on')} ${fechaLoc(REG.actualizado,{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}.`:'';
+  if(t.hab==='no_verificado')return `<div class="row"><span class="k">${tt('Estado','Status')}</span><span class="v soft">${EST.no_verificado}</span></div><p class="fine">${tt('Este tramo no figura en el formulario de registro del Parque, o todavía no está asociado a un sendero del formulario.','This trail is not in the Park registration form, or is not yet linked to a trail in the form.')}</p>`;
+  const det=t.regHall.map(h=>`<li>${esc(h.n)}: ${EST[h.e]}${h.m?' ('+esc(motivoN(h.m).toLowerCase())+')':''}</li>`).join('');
+  return `<div class="row"><span class="k">${tt('Estado','Status')}</span><span class="v">${EST[t.hab]}</span></div><ul class="plain fine">${det}</ul><p class="fine">${tt('Según el formulario de registro de trekking del Parque.','According to the Park trekking registration form.')}${cuando}</p>`;
 }
 function regBlock(reg='obligatorio'){
-  if(reg==='no_requiere') return `<div class="row"><span class="k">Registro de trekking</span><span class="v">No hace falta</span></div>`;
-  if(reg==='a_confirmar'||reg==='dificultad_baja') return `<div class="row"><span class="k">Registro de trekking</span><span class="v soft">a confirmar <b class="mk pe">○</b></span></div>${reg==='dificultad_baja'?'<p class="pend" style="font-size:15px;margin-top:4px">Los senderos de dificultad baja están exceptuados; falta el anexo de clasificación para confirmarlo.</p>':''}`;
-  return `<div class="row"><span class="k">Registro de trekking</span><span class="v">Obligatorio <b class="mk of">■</b></span></div><p class="reg" style="margin-top:4px"><a href="https://www.nahuelhuapi.gov.ar/trekking-y-actividades-de-montana/" target="_blank" rel="noopener">Hacer el registro en la web del parque</a></p>`}
+  if(reg==='no_requiere') return `<div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v">${tt('No hace falta','Not required')}</span></div>`;
+  if(reg==='a_confirmar'||reg==='dificultad_baja') return `<div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v soft">${tt('a confirmar','to be confirmed')} <b class="mk pe">○</b></span></div>${reg==='dificultad_baja'?`<p class="pend" style="font-size:15px;margin-top:4px">${tt('Los senderos de dificultad baja están exceptuados; falta el anexo de clasificación para confirmarlo.','Low-difficulty trails are exempt; the classification annex is still missing to confirm it.')}</p>`:''}`;
+  return `<div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v">${tt('Obligatorio','Required')} <b class="mk of">■</b></span></div><p class="reg" style="margin-top:4px"><a href="https://www.nahuelhuapi.gov.ar/trekking-y-actividades-de-montana/" target="_blank" rel="noopener">${tt('Hacer el registro en la web del parque','Register on the park website')}</a></p>`}
 function profSvg(z,km,label){
   const lo=Math.min(...z),hi=Math.max(...z),w=560,h=120,x0=14,x1=546,y0=24,y1=100;
   const pts=z.map((v,i)=>`${(x0+(x1-x0)*i/(z.length-1)).toFixed(1)},${(y1-(y1-y0)*(v-lo)/Math.max(1,hi-lo)).toFixed(1)}`).join(' ');
@@ -319,94 +326,93 @@ function profSvg(z,km,label){
     <text x="${x0}" y="17" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${num(hi)} m</text>
     <text x="${x0}" y="${h-4}" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${num(lo)} m</text>
     <text x="${x1}" y="${h-4}" text-anchor="end" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${f1(km)} km</text></svg>`}
-function bigNums(km,up,dn){return `<div class="big"><div><b>${f1(km)} km</b><span>distancia</span></div><div><b>+${num(up)} m</b><span>subida</span></div><div><b>−${num(dn)} m</b><span>bajada</span></div></div>`}
+function bigNums(km,up,dn){return `<div class="big"><div><b>${f1(km)} km</b><span>${tt('distancia','distance')}</span></div><div><b>+${num(up)} m</b><span>${tt('subida','ascent')}</span></div><div><b>−${num(dn)} m</b><span>${tt('bajada','descent')}</span></div></div>`}
 function rows(pares,vacio){return pares.map(([k,v])=>`<div class="row"><span class="k">${k}</span>${v?`<span class="v">${esc(v)}</span>`:`<span class="v soft">${vacio} <b class="mk pe">○</b></span>`}</div>`).join('')}
-function subt(t){return [t.via?'por '+esc(t.via):'',t.rt?'ida y vuelta':''].filter(Boolean).join(', ')}
+function subt(t){return [t.via?tt('por ','via ')+esc(t.via):'',t.rt?tt('ida y vuelta','round trip'):''].filter(Boolean).join(', ')}
 function home(){
-  const pend=T.filter(t=>t.src==='none').length;
   pin.innerHTML=`
-  <p class="kind">Para empezar</p>
-  <h1 class="t">Tocá un tramo o un refugio</h1>
-  <p style="margin:10px 0 0">Cada línea de color es un tramo entre dos puntos, dibujado sobre su traza. El color dice la dificultad del tramo. Con los filtros de arriba podés mostrar solo los tramos que te sirven: los demás quedan atenuados.</p>
-  <div class="blk"><h2>Cómo leer el mapa</h2>
+  <p class="kind">${tt('Para empezar','Getting started')}</p>
+  <h1 class="t">${tt('Tocá un tramo o un refugio','Tap a trail or a hut')}</h1>
+  <p style="margin:10px 0 0">${tt('Cada línea de color es un tramo entre dos puntos, dibujado sobre su traza. El color dice la dificultad del tramo. Con los filtros de arriba podés mostrar solo los tramos que te sirven: los demás quedan atenuados.','Each colored line is a trail between two points, drawn on its track. The color shows the difficulty. With the filters above you can show only the trails that suit you: the others are dimmed.')}</p>
+  <div class="blk"><h2>${tt('Cómo leer el mapa','How to read the map')}</h2>
     <div class="leg">
-      ${swatch('g1',34)}<span>Fácil</span>
-      ${swatch('g2',34)}<span>Moderada</span>
-      ${swatch('g3',34)}<span>Difícil</span>
-      <svg width="34" height="10" viewBox="0 0 34 10"><line x1="3" y1="5" x2="31" y2="5" stroke="#6B4A2B" stroke-width="1.6" stroke-dasharray="1.5 4" stroke-linecap="round"/></svg><span>Otros senderos, todavía sin ficha</span>
+      ${swatch('g1',34)}<span>${G.g1.l}</span>
+      ${swatch('g2',34)}<span>${G.g2.l}</span>
+      ${swatch('g3',34)}<span>${G.g3.l}</span>
+      <svg width="34" height="10" viewBox="0 0 34 10"><line x1="3" y1="5" x2="31" y2="5" stroke="#6B4A2B" stroke-width="1.6" stroke-dasharray="1.5 4" stroke-linecap="round"/></svg><span>${tt('Otros senderos, todavía sin ficha','Other trails, no detail page yet')}</span>
     </div>
     <div class="leg sym">
-      <svg width="34" height="16" viewBox="-17 -8 34 16"><path d="M0,-7 L7,6 L-7,6 Z" fill="#4A3A28" stroke="#fff" stroke-width="1.5"/></svg><span>Cumbre</span>
-      <svg width="34" height="16" viewBox="-17 -8 34 16"><rect x="-6" y="-6" width="12" height="12" fill="var(--ink)" stroke="#fff" stroke-width="1.5"/></svg><span>Refugio</span>
-      <svg width="34" height="16" viewBox="-17 -8 34 16"><circle r="5.6" fill="#fff" stroke="var(--ink)" stroke-width="2.2"/></svg><span>Acceso o punto de paso</span>
-      <svg width="34" height="16" viewBox="-17 -8 34 16"><circle r="5" fill="#BFD5DD" stroke="var(--waterink)" stroke-width="2"/></svg><span>Laguna</span>
+      <svg width="34" height="16" viewBox="-17 -8 34 16"><path d="M0,-7 L7,6 L-7,6 Z" fill="#4A3A28" stroke="#fff" stroke-width="1.5"/></svg><span>${tt('Cumbre','Summit')}</span>
+      <svg width="34" height="16" viewBox="-17 -8 34 16"><rect x="-6" y="-6" width="12" height="12" fill="var(--ink)" stroke="#fff" stroke-width="1.5"/></svg><span>${tt('Refugio','Hut')}</span>
+      <svg width="34" height="16" viewBox="-17 -8 34 16"><circle r="5.6" fill="#fff" stroke="var(--ink)" stroke-width="2.2"/></svg><span>${tt('Acceso o punto de paso','Trailhead or waypoint')}</span>
+      <svg width="34" height="16" viewBox="-17 -8 34 16"><circle r="5" fill="#BFD5DD" stroke="var(--waterink)" stroke-width="2"/></svg><span>${tt('Laguna','Lake')}</span>
     </div>
-    <p class="fine" style="margin-top:8px">Al acercar el mapa aparecen más nombres.</p>
+    <p class="fine" style="margin-top:8px">${tt('Al acercar el mapa aparecen más nombres.','More names appear as you zoom in.')}</p>
   </div>
-  <div class="blk"><h2>Qué tiene y qué no tiene esta versión</h2>
-    <p>Tiene ${T.length} tramos sobre un mapa real. Distancia, desnivel y perfil salen de la traza de OpenStreetMap y del modelo de alturas.</p>
-    <p>La dificultad viene del Anexo I de la Disposición 150/19 del parque, temporada de noviembre a abril. Cada tramo toma la dificultad más baja de las sendas oficiales que lo recorren.</p>
-    <p>Ninguna traza está verificada en el terreno todavía. Agua, vadeos y sombra siguen pendientes.</p>
-    <p>Quedaron afuera las sendas oficiales que no tienen traza en OpenStreetMap, como las bajadas por el arroyo Fresco al lago Mascardi, el refugio Velco, el lago Fonck y la mayor parte de isla Victoria. La travesía glaciaria entre Meiling y Refugio Viejo figura como línea recta.</p>
+  <div class="blk"><h2>${tt('Qué tiene y qué no tiene esta versión','What this version has and lacks')}</h2>
+    <p>${tt(`Tiene ${T.length} tramos sobre un mapa real. Distancia, desnivel y perfil salen de la traza de OpenStreetMap y del modelo de alturas.`,`It has ${T.length} trails on a real map. Distance, elevation and profile come from the OpenStreetMap track and the elevation model.`)}</p>
+    <p>${tt('La dificultad viene del Anexo I de la Disposición 150/19 del parque, temporada de noviembre a abril. Cada tramo toma la dificultad más baja de las sendas oficiales que lo recorren.','Difficulty comes from Annex I of the park Disposición 150/19, for the November to April season. Each trail takes the lowest difficulty of the official trails that run along it.')}</p>
+    <p>${tt('Ninguna traza está verificada en el terreno todavía. Agua, vadeos y sombra siguen pendientes.','No track has been verified on the ground yet. Water, river crossings and shade are still pending.')}</p>
+    <p>${tt('Quedaron afuera las sendas oficiales que no tienen traza en OpenStreetMap, como las bajadas por el arroyo Fresco al lago Mascardi, el refugio Velco, el lago Fonck y la mayor parte de isla Victoria. La travesía glaciaria entre Meiling y Refugio Viejo figura como línea recta.','Official trails with no track in OpenStreetMap are left out, such as the descents along arroyo Fresco to Lake Mascardi, Velco hut, Lake Fonck and most of Isla Victoria. The glacier route between Meiling and Refugio Viejo appears as a straight line.')}</p>
   </div>`;
   pin.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>go('v',b.dataset.v));
 }
 function tramo(id){
   const t=tById[id], db=t.db;
   const A=rev?t.b:t.a,B=rev?t.a:t.b;
-  const sen=t.sen.length?`<div class="sendas">${t.sen.map(s=>`<span>${s}</span>`).join('')}${t.nsen>t.sen.length?`<em>y ${t.nsen-t.sen.length} más</em>`:''}</div>`:'';
+  const sen=t.sen.length?`<div class="sendas">${t.sen.map(s=>`<span>${s}</span>`).join('')}${t.nsen>t.sen.length?`<em>${tt('y','and')} ${t.nsen-t.sen.length} ${tt('más','more')}</em>`:''}</div>`:'';
   const tvs=TV.filter(v=>v.t.includes(id));
   let geo='';
   if(t.src==='none'){
-    geo=`<div class="blk"><h2>Recorrido</h2><span class="stamp no">Sin traza</span><p style="margin-top:7px">Es una ruta sobre glaciar que no tiene sendero marcado. La línea recta del mapa solo muestra que los dos refugios se conectan.</p></div>`;
+    geo=`<div class="blk"><h2>${tt('Recorrido','Route')}</h2><span class="stamp no">${tt('Sin traza','No track')}</span><p style="margin-top:7px">${tt('Es una ruta sobre glaciar que no tiene sendero marcado. La línea recta del mapa solo muestra que los dos refugios se conectan.','This is a glacier route with no marked trail. The straight line on the map only shows that the two huts are connected.')}</p></div>`;
   }else{
     const up=rev&&!t.rt?t.dn:t.up, dn=rev&&!t.rt?t.up:t.dn, z=rev&&!t.rt?[...t.prof].reverse():t.prof;
-    geo=`<div class="blk"><h2><span>${t.rt?'Ida y vuelta':`De ${kn(N[A])} a ${kn(N[B])}`}</span>${t.rt?'':'<button id="rv">Ver al revés</button>'}</h2>
+    geo=`<div class="blk"><h2><span>${t.rt?tt('Ida y vuelta','Round trip'):`${tt('De','From')} ${kn(N[A])} ${tt('a','to')} ${kn(N[B])}`}</span>${t.rt?'':`<button id="rv">${tt('Ver al revés','Reverse direction')}</button>`}</h2>
       ${bigNums(t.km,up,dn)}
-      <div style="margin-top:10px">${profSvg(z,t.km,'Perfil de altura del tramo')}</div>
-      <button type="button" class="gpx" id="gpx">Descargar GPX</button>
-      <div class="row" style="margin-top:6px"><span class="k">Altura mínima y máxima</span><span class="v">${num(t.zmin)} a ${num(t.zmax)} m</span></div>
-      ${db.agua||db.vadeos||db.sombra?rows([['Agua',db.agua],['Vadeos',db.vadeos],['Sombra',db.sombra]],'a relevar')
-        :`<div class="row"><span class="k">Agua, vadeos y sombra</span><span class="v soft">a relevar <b class="mk pe">○</b></span></div>`}
+      <div style="margin-top:10px">${profSvg(z,t.km,tt('Perfil de altura del tramo','Elevation profile of the trail'))}</div>
+      <button type="button" class="gpx" id="gpx">${tt('Descargar GPX','Download GPX')}</button>
+      <div class="row" style="margin-top:6px"><span class="k">${tt('Altura mínima y máxima','Lowest and highest point')}</span><span class="v">${num(t.zmin)} ${tt('a','to')} ${num(t.zmax)} m</span></div>
+      ${db.agua||db.vadeos||db.sombra?rows([[tt('Agua','Water'),db.agua],[tt('Vadeos','River crossings'),db.vadeos],[tt('Sombra','Shade'),db.sombra]],tt('a relevar','to be surveyed'))
+        :`<div class="row"><span class="k">${tt('Agua, vadeos y sombra','Water, river crossings and shade')}</span><span class="v soft">${tt('a relevar','to be surveyed')} <b class="mk pe">○</b></span></div>`}
     </div>
-    <div class="blk"><h2>Origen de la traza</h2>${t.src==='gpx'
-      ?'<span class="stamp">Track de terceros, Wikiloc</span><p style="margin-top:7px">Distancia y desnivel medidos sobre el track. Todavía no cuenta como sendero verificado.</p>'
-      :'<span class="stamp">OpenStreetMap, sin verificar</span><p style="margin-top:7px">La traza la cargaron voluntarios y puede tener errores o estar desactualizada. Se reemplaza cuando haya un track propio.</p>'}</div>`;
+    <div class="blk"><h2>${tt('Origen de la traza','Source of the track')}</h2>${t.src==='gpx'
+      ?`<span class="stamp">${tt('Track de terceros, Wikiloc','Third-party track, Wikiloc')}</span><p style="margin-top:7px">${tt('Distancia y desnivel medidos sobre el track. Todavía no cuenta como sendero verificado.','Distance and elevation measured on the track. It does not count as a verified trail yet.')}</p>`
+      :`<span class="stamp">${tt('OpenStreetMap, sin verificar','OpenStreetMap, not verified')}</span><p style="margin-top:7px">${tt('La traza la cargaron voluntarios y puede tener errores o estar desactualizada. Se reemplaza cuando haya un track propio.','The track was entered by volunteers and may contain errors or be out of date. It is replaced when we have our own track.')}</p>`}</div>`;
   }
   pin.innerHTML=`
-  <p class="kind">Tramo${t.ha?', parte de la Huella Andina':''}</p>
+  <p class="kind">${tt('Tramo','Trail')}${t.ha?tt(', parte de la Huella Andina',', part of the Huella Andina'):''}</p>
   <h1 class="t">${esc(tName(t))}</h1>
   ${subt(t)?`<p class="subt">${subt(t)}</p>`:''}
-  <div class="blk"><h2>Estado en el registro del Parque</h2>${estBox(t)}</div>
-  <div class="blk"><h2>Dificultad</h2>${difBox(t.g, esc(t.nota)|| (t.ed?(t.muni?'Es '+esc(t.muni)+', no figura en el listado de la APN.':'No figura en el listado de la APN.'):''))}
+  <div class="blk"><h2>${tt('Estado en el registro del Parque','Status in the Park registry')}</h2>${estBox(t)}</div>
+  <div class="blk"><h2>${tt('Dificultad','Difficulty')}</h2>${difBox(t.g, esc(t.nota)|| (t.ed?(t.muni?tt('Es ','It is ')+esc(t.muni)+tt(', no figura en el listado de la APN.',', not in the APN list.'):tt('No figura en el listado de la APN.','Not in the APN list.')):''))}
     <div style="margin-top:9px">${regBlock(t.reg)}</div>
   </div>
   ${geo}
-  <div class="blk"><h2>Cómo es</h2>${t.desc?`<p>${esc(t.desc)}</p>${db.descripcion_verificada?'':'<p class="pend" style="font-size:15px">Descripción provisoria, sin verificar en el terreno.</p>'}`:`<p class="pend">Pendiente de escribir.</p>`}</div>
-  ${t.ed||!sen?'':`<div class="blk"><h2>Sendas oficiales que lo incluyen</h2>${sen}</div>`}
-  ${tvs.length?`<div class="blk"><h2>Travesías que pasan por acá</h2><ul class="list">${tvs.map(v=>`<li><button data-v="${v.id}"><span><span class="nm">${v.n}</span><span class="ds">${v.s}</span></span><span class="sws">${swatch(tvG(v))}</span></button></li>`).join('')}</ul></div>`:''}
-  ${INFO}`;
+  <div class="blk"><h2>${tt('Cómo es','What it is like')}</h2>${t.desc?`<p>${esc(t.desc)}</p>${LANG==='en'?'<p class="fine">(Description in Spanish only.)</p>':''}${db.descripcion_verificada?'':`<p class="pend" style="font-size:15px">${tt('Descripción provisoria, sin verificar en el terreno.','Provisional description, not verified on the ground.')}</p>`}`:`<p class="pend">${tt('Pendiente de escribir.','Still to be written.')}</p>`}</div>
+  ${t.ed||!sen?'':`<div class="blk"><h2>${tt('Sendas oficiales que lo incluyen','Official trails that include it')}</h2>${sen}</div>`}
+  ${tvs.length?`<div class="blk"><h2>${tt('Travesías que pasan por acá','Multi-day routes through here')}</h2><ul class="list">${tvs.map(v=>`<li><button data-v="${v.id}"><span><span class="nm">${tvN(v)}</span><span class="ds">${tvS(v)}</span></span><span class="sws">${swatch(tvG(v))}</span></button></li>`).join('')}</ul></div>`:''}
+  ${INFO()}`;
   wire(); const r=$('#rv'); if(r)r.onclick=()=>{rev=!rev;tramo(id);guardarUrl()};
   const g=$('#gpx'); if(g)g.onclick=()=>gpxTramo(t,rev);
 }
 function nodo(id){
   const n=N[id], db=n.db; const ts=T.filter(t=>t.a===id||t.b===id);
-  const kind={acc:'Acceso',ref:'Refugio',pto:'Punto de paso',lag:'Laguna',cum:'Cumbre'}[n.t];
+  const kind=tipoN(n.t);
   pin.innerHTML=`
   <p class="kind">${kind}</p>
   <h1 class="t">${esc(n.n)}</h1>
   <p class="subt">${n.s&&!/\d/.test(n.s)?esc(n.s)+', ':''}${num(n.ele)} m</p>
   ${db.descripcion?`<div class="blk"><p>${esc(db.descripcion)}</p></div>`:''}
-  ${n.t==='ref'?`<div class="blk"><h2>El refugio</h2>${[db.capacidad,db.reserva,db.que_se_compra,db.agua,db.acampe,db.si_esta_lleno].some(Boolean)
-    ?rows([['Capacidad',db.capacidad],['Reserva',db.reserva],['Qué se puede comprar',db.que_se_compra],['Agua',db.agua],['Dónde se acampa',db.acampe],['Si llegás y está lleno',db.si_esta_lleno]],'a relevar')
-    :'<p class="pend">Pendiente: capacidad, si hay que reservar, qué se puede comprar, agua, dónde se acampa y qué pasa si llegás y está lleno.</p>'}</div>`:''}
-  ${n.t==='acc'?`<div class="blk"><h2>Cómo llegar</h2>${[db.colectivo,db.parada,db.frecuencia,db.ultimo_regreso,db.estacionamiento].some(Boolean)
-    ?rows([['Colectivo',db.colectivo],['Parada',db.parada],['Frecuencia',db.frecuencia],['Último horario de vuelta',db.ultimo_regreso],['Dónde dejar el auto',db.estacionamiento]],'a relevar')
-    :'<p class="pend">Pendiente: colectivo, parada, frecuencia, último horario de vuelta y dónde dejar el auto.</p>'}</div>`:''}
-  <div class="blk"><h2>Tramos que salen de acá</h2>
-    <ul class="list">${ts.map(t=>{const o=t.a===id?t.b:t.a;const up=t.a===id?t.up:t.dn;return `<li><button data-t="${t.id}" data-rev="${t.a===id?0:1}"><span><span class="nm">a ${kn(N[o])}</span><span class="ds">${t.src==='none'?'ruta glaciaria, sin traza':`${f1(t.km)} km, +${num(up)} m${t.via?', por '+esc(t.via):''}`}</span></span><span class="sws">${swatch(t.g)}</span></button></li>`}).join('')}</ul>
+  ${n.t==='ref'?`<div class="blk"><h2>${tt('El refugio','The hut')}</h2>${[db.capacidad,db.reserva,db.que_se_compra,db.agua,db.acampe,db.si_esta_lleno].some(Boolean)
+    ?rows([[tt('Capacidad','Capacity'),db.capacidad],[tt('Reserva','Booking'),db.reserva],[tt('Qué se puede comprar','What you can buy'),db.que_se_compra],[tt('Agua','Water'),db.agua],[tt('Dónde se acampa','Where to camp'),db.acampe],[tt('Si llegás y está lleno','If you arrive and it is full'),db.si_esta_lleno]],tt('a relevar','to be surveyed'))
+    :`<p class="pend">${tt('Pendiente: capacidad, si hay que reservar, qué se puede comprar, agua, dónde se acampa y qué pasa si llegás y está lleno.','Pending: capacity, whether you must book, what you can buy, water, where to camp and what happens if you arrive and it is full.')}</p>`}</div>`:''}
+  ${n.t==='acc'?`<div class="blk"><h2>${tt('Cómo llegar','How to get there')}</h2>${[db.colectivo,db.parada,db.frecuencia,db.ultimo_regreso,db.estacionamiento].some(Boolean)
+    ?rows([[tt('Colectivo','Bus'),db.colectivo],[tt('Parada','Bus stop'),db.parada],[tt('Frecuencia','Frequency'),db.frecuencia],[tt('Último horario de vuelta','Last bus back'),db.ultimo_regreso],[tt('Dónde dejar el auto','Where to park'),db.estacionamiento]],tt('a relevar','to be surveyed'))
+    :`<p class="pend">${tt('Pendiente: colectivo, parada, frecuencia, último horario de vuelta y dónde dejar el auto.','Pending: bus, bus stop, frequency, last bus back and where to park.')}</p>`}</div>`:''}
+  <div class="blk"><h2>${tt('Tramos que salen de acá','Trails starting here')}</h2>
+    <ul class="list">${ts.map(t=>{const o=t.a===id?t.b:t.a;const up=t.a===id?t.up:t.dn;return `<li><button data-t="${t.id}" data-rev="${t.a===id?0:1}"><span><span class="nm">${tt('a','to')} ${kn(N[o])}</span><span class="ds">${t.src==='none'?tt('ruta glaciaria, sin traza','glacier route, no track'):`${f1(t.km)} km, +${num(up)} m${t.via?tt(', por ',', via ')+esc(t.via):''}`}</span></span><span class="sws">${swatch(t.g)}</span></button></li>`}).join('')}</ul>
   </div>
-  ${INFO}`;
+  ${INFO()}`;
   wire();
 }
 function travesia(id){
@@ -414,26 +420,26 @@ function travesia(id){
   let km=0,up=0,dn=0,z=[];
   O.forEach(([t,a])=>{if(t.src==='none')return;const f=t.a===a;km+=t.km;up+=f?t.up:t.dn;dn+=f?t.dn:t.up;const p=f?t.prof:[...t.prof].reverse();const k=Math.max(4,Math.round(t.km*4));for(let i=0;i<k;i++)z.push(p[Math.round(i*(p.length-1)/(k-1))])});
   const crit=v.t.map(i=>tById[i]).filter(t=>t.g===g);
-  const note=crit.length===v.t.length?'Todos los tramos tienen esta dificultad.':`La define el tramo más exigente: ${crit.map(t=>esc(tName(t))).join(' y ')}.`;
+  const note=crit.length===v.t.length?tt('Todos los tramos tienen esta dificultad.','All trails have this difficulty.'):`${tt('La define el tramo más exigente:','Set by the hardest trail:')} ${crit.map(t=>esc(tName(t))).join(tt(' y ',' and '))}.`;
   pin.innerHTML=`
-  <p class="kind">Travesía${v.sen?', senda oficial '+v.sen+' <b class="mk of">■</b>':''}</p>
-  <h1 class="t">${v.n}</h1>
-  <p class="subt">${v.s}</p>
-  <div class="blk"><h2>Dificultad</h2>${difBox(g,note)}<div style="margin-top:9px">${regBlock()}</div></div>
-  <div class="blk"><h2>El recorrido completo</h2>${bigNums(km,up,dn)}<div style="margin-top:10px">${profSvg(z,km,'Perfil de altura de la travesía')}</div>
-    <button type="button" class="gpx" id="gpxv">Descargar GPX de la travesía</button></div>
-  ${v.dd.map((d,n)=>`<div class="blk"><h2>Día ${n+1}</h2>
-    <p class="subt" style="margin:0 0 8px">${esc(kn(N[d.from]))} a ${esc(kn(N[d.to]))}</p>
+  <p class="kind">${tt('Travesía','Multi-day route')}${v.sen?tt(', senda oficial ',', official trail ')+v.sen+' <b class="mk of">■</b>':''}</p>
+  <h1 class="t">${esc(tvN(v))}</h1>
+  <p class="subt">${esc(tvS(v))}</p>
+  <div class="blk"><h2>${tt('Dificultad','Difficulty')}</h2>${difBox(g,note)}<div style="margin-top:9px">${regBlock()}</div></div>
+  <div class="blk"><h2>${tt('El recorrido completo','The whole route')}</h2>${bigNums(km,up,dn)}<div style="margin-top:10px">${profSvg(z,km,tt('Perfil de altura de la travesía','Elevation profile of the route'))}</div>
+    <button type="button" class="gpx" id="gpxv">${tt('Descargar GPX de la travesía','Download route GPX')}</button></div>
+  ${v.dd.map((d,n)=>`<div class="blk"><h2>${tt('Día','Day')} ${n+1}</h2>
+    <p class="subt" style="margin:0 0 8px">${esc(kn(N[d.from]))} ${tt('a','to')} ${esc(kn(N[d.to]))}</p>
     ${bigNums(d.km,d.up,d.dn)}
-    <ul class="list" style="margin-top:8px">${d.O.map(([t,a,b])=>{const f=t.a===a;return `<li><button data-t="${t.id}" data-rev="${f?0:1}"><span><span class="nm">${kn(N[a])} a ${kn(N[b])}</span><span class="ds">${t.src==='none'?'ruta glaciaria, sin traza':`${f1(t.km)} km, +${num(f?t.up:t.dn)} m, −${num(f?t.dn:t.up)} m`} · ${EST[t.hab]}</span></span><span class="sws">${swatch(t.g)}</span></button></li>`}).join('')}</ul>
+    <ul class="list" style="margin-top:8px">${d.O.map(([t,a,b])=>{const f=t.a===a;return `<li><button data-t="${t.id}" data-rev="${f?0:1}"><span><span class="nm">${kn(N[a])} ${tt('a','to')} ${kn(N[b])}</span><span class="ds">${t.src==='none'?tt('ruta glaciaria, sin traza','glacier route, no track'):`${f1(t.km)} km, +${num(f?t.up:t.dn)} m, −${num(f?t.dn:t.up)} m`} · ${EST[t.hab]}</span></span><span class="sws">${swatch(t.g)}</span></button></li>`}).join('')}</ul>
     ${d.O.map(([t])=>t.desc?`<p class="fine">${esc(t.desc)}</p>`:'').join('')}
   </div>`).join('')}
-  <div class="blk"><h2>Lo propio de la travesía</h2>
-    ${rows([['Días',v.nd+(v.nd===1?' día':' días')]],'')}
-    ${rows([['Dónde se duerme',v.db.donde_dormir]],'a definir')}
-    ${rows([['Salidas de escape',v.db.salidas_de_escape],['Cómo volver',v.db.como_volver]],'a relevar')}
+  <div class="blk"><h2>${tt('Lo propio de la travesía','About the route')}</h2>
+    ${rows([[tt('Días','Days'),v.nd+' '+(v.nd===1?tt('día','day'):tt('días','days'))]],'')}
+    ${rows([[tt('Dónde se duerme','Where to sleep'),v.db.donde_dormir]],tt('a definir','to be defined'))}
+    ${rows([[tt('Salidas de escape','Escape routes'),v.db.salidas_de_escape],[tt('Cómo volver','Getting back'),v.db.como_volver]],tt('a relevar','to be surveyed'))}
   </div>
-  ${INFO}`;
+  ${INFO()}`;
   wire(); $('#gpxv').onclick=()=>gpxTv(v);
 }
 function wire(){
@@ -450,7 +456,7 @@ function go(k,id,keepRev,desde){
 }
 $('#drx').onclick=()=>go(null);
 $('#drlink').onclick=()=>{const u=urlActual();
-  (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>hint('Enlace copiado',1200),()=>{try{prompt('Copiá el enlace:',u)}catch(e){}})};
+  (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>hint(tt('Enlace copiado','Link copied'),1200),()=>{try{prompt(tt('Copiá el enlace:','Copy the link:'),u)}catch(e){}})};
 
 /* ================= PAN / ZOOM ================= */
 /* Mapa real (Leaflet) debajo; el dibujo de trazas, símbolos y nombres sigue siendo este SVG,
@@ -479,13 +485,14 @@ function urlActual(){
   FILT.forEach(f=>{const s=SEL[f.id],d=new Set(DEF[f.id]||f.op.map(o=>o[0]));if(s.size!==d.size||[...s].some(x=>!d.has(x)))add(f.id,[...s].join('~')||'-')});
   if(sel){add('s',sel[0]+'.'+sel[1]);if(rev)add('rev','1')}
   if(capaAct!=='topo')add('c',capaAct);
+  if(LANG==='en')add('lang','en');
   if(map){const c=map.getCenter();add('v',c.lat.toFixed(4)+','+c.lng.toFixed(4)+','+map.getZoom().toFixed(1))}
   return location.href.split('#')[0]+(p.length?'#'+p.join('&'):'')}
 function guardarUrl(){clearTimeout(urlT);urlT=setTimeout(()=>{try{history.replaceState(null,'',urlActual())}catch(e){}},300)}
 /* ---- capas del mapa ---- */
 const CAPAS={
-  topo:{k:'https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © colaboradores de OpenStreetMap',cf:'Esri, USGS, NPS, © colaboradores de OpenStreetMap'},
-  sat:{k:'https://api.maptiler.com/maps/hybrid/256/{z}/{x}/{y}.jpg?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © Maxar y colaboradores de OpenStreetMap',cf:'imágenes © Esri, Maxar, Earthstar Geographics'}
+  topo:{k:'https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © OpenStreetMap',cf:'Esri, USGS, NPS, © colaboradores de OpenStreetMap',cfe:'Esri, USGS, NPS, © OpenStreetMap contributors'},
+  sat:{k:'https://api.maptiler.com/maps/hybrid/256/{z}/{x}/{y}.jpg?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © Maxar © OpenStreetMap',cf:'imágenes © Esri, Maxar, Earthstar Geographics',cfe:'imagery © Esri, Maxar, Earthstar Geographics'}
 };
 let capaAct=CAPAS[HASH.get('c')]?HASH.get('c'):(()=>{try{const c=localStorage.getItem('pt.capa');return CAPAS[c]?c:'topo'}catch(e){return 'topo'}})(), capaLyr=null;
 /* Capa de baldosas que no pide las que caen enteras del lado chileno (frontera en geo/frontera.js): ahorra datos. */
@@ -503,12 +510,13 @@ if(LIMITES){
   map.setMaxBounds(LIMITES); map.setMinZoom(map.getBoundsZoom(LIMITES));
   map.on('move zoom resize',()=>apply());
   map.on('moveend',guardarUrl);
-}else{$('.attr').textContent='No se pudo cargar el mapa base. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).';$('#capas').hidden=true;$('#zloc').hidden=true}
+}else{$('.attr').textContent=tt('No se pudo cargar el mapa base. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).','The base map could not be loaded. Trails: © OpenStreetMap contributors (November 2026).');$('#capas').hidden=true;$('#zloc').hidden=true}
+function credito(){const d=CAPAS[capaAct];$('.attr').innerHTML=tt('Mapa base: ','Base map: ')+(CLAVE?d.ck:tt(d.cf,d.cfe||d.cf))+tt('. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).','. Trails: © OpenStreetMap contributors (November 2026).')}
 function ponerCapa(c){
   if(!map)return; capaAct=c; const d=CAPAS[c];
   if(capaLyr)map.removeLayer(capaLyr);
   capaLyr=new CapaSinChile(CLAVE?d.k+encodeURIComponent(CLAVE):d.f,{maxZoom:17,maxNativeZoom:17}).addTo(map);
-  $('.attr').innerHTML='Mapa base: '+(CLAVE?d.ck:d.cf)+'. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).';
+  credito();
   document.querySelectorAll('#capas button').forEach(b=>{const on=b.dataset.c===c;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
   try{localStorage.setItem('pt.capa',c)}catch(e){}
   guardarUrl()}
@@ -542,10 +550,10 @@ let hintT=0;
 function hint(txt,ms=1500){hintEl.textContent=txt;hintEl.classList.add('on');clearTimeout(hintT);hintT=setTimeout(()=>hintEl.classList.remove('on'),ms)}
 function el0(t,c){const e=document.createElement(t);e.className=c;e.setAttribute('role','status');return e}
 svg.addEventListener('wheel',ev=>{
-  if(!(ev.ctrlKey||ev.metaKey)){hint('Usá Ctrl + rueda del mouse para hacer zoom en el mapa');return}
+  if(!(ev.ctrlKey||ev.metaKey)){hint(tt('Usá Ctrl + rueda del mouse para hacer zoom en el mapa','Use Ctrl + mouse wheel to zoom the map'));return}
   ev.preventDefault();const p=pt(ev);zoom(ev.deltaY>0?1.2:1/1.2,p.x,p.y)},{passive:false});
 /* Celular: un dedo baja la página, dos dedos mueven y acercan el mapa. */
-svg.addEventListener('touchmove',ev=>{if(ev.touches.length>=2)ev.preventDefault();else hint('Usá dos dedos para mover el mapa')},{passive:false});
+svg.addEventListener('touchmove',ev=>{if(ev.touches.length>=2)ev.preventDefault();else hint(tt('Usá dos dedos para mover el mapa','Use two fingers to move the map'))},{passive:false});
 const ptrs=new Map(); let last=null, pinch=0, mid=null;
 svg.addEventListener('pointerdown',ev=>{ptrs.set(ev.pointerId,ev);last={x:ev.clientX,y:ev.clientY};moved=false;
   if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)}});
@@ -599,24 +607,23 @@ function ajustarAFiltros(){
 function vacioAviso(){
   const n=visibles().length,v=$('#vacio');
   v.hidden=n>0;
-  if(!n)v.querySelector('span').textContent=(modoTv()?'Ninguna travesía cumple estos filtros.':'Ningún tramo cumple estos filtros.')+(SEL.hab.has('cerrado')?'':' Probá tildar «Cerrado» en Habilitado.')}
+  if(!n)v.querySelector('span').textContent=(modoTv()?tt('Ninguna travesía cumple estos filtros.','No multi-day route matches these filters.'):tt('Ningún tramo cumple estos filtros.','No trail matches these filters.'))+(SEL.hab.has('cerrado')?'':tt(' Probá tildar «Cerrado» en Habilitado.',' Try ticking «Closed» under Status.'))}
 $('#vreset').onclick=()=>{FILT.forEach(f=>SEL[f.id]=new Set(DEF[f.id]||f.op.map(o=>o[0])));paint();ajustarAFiltros()};
 /* cualquier cambio de filtro llama a ajustarAFiltros (ver paintFiltros) */
 
 /* ================= BÚSQUEDA ================= */
 const sinAcento=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-const TIPO_N={ref:'Refugio',acc:'Acceso',pto:'Punto de paso',lag:'Laguna',cum:'Cumbre'};
-const IDX=[
-  ...Object.entries(N).map(([id,n])=>({k:'n',id,txt:sinAcento(n.n+' '+(n.s||'')),n:n.n,s:[TIPO_N[n.t],n.s&&!/\d/.test(n.s)?n.s:''].filter(Boolean).join(' · '),o:n.t==='ref'?0:1})),
-  ...TV.map(v=>({k:'v',id:v.id,txt:sinAcento(v.n+' '+v.s),n:v.n,s:'Travesía de '+v.nd+' días · '+v.s,o:2})),
-  ...T.map(t=>({k:'t',id:t.id,txt:sinAcento(tName(t)+' '+(t.via||'')),n:tName(t),s:'Tramo'+(t.via?' · por '+t.via:''),o:3}))];
+const IDX=()=>[
+  ...Object.entries(N).map(([id,n])=>({k:'n',id,txt:sinAcento(n.n+' '+(n.s||'')),n:n.n,s:[tipoN(n.t),n.s&&!/\d/.test(n.s)?n.s:''].filter(Boolean).join(' · '),o:n.t==='ref'?0:1})),
+  ...TV.map(v=>({k:'v',id:v.id,txt:sinAcento(v.n+' '+v.s+' '+(v.ne||'')+' '+(v.se||'')),n:tvN(v),s:tt('Travesía de ','Multi-day route, ')+v.nd+tt(' días',' days')+' · '+tvS(v),o:2})),
+  ...T.map(t=>({k:'t',id:t.id,txt:sinAcento(tName(t)+' '+(t.via||'')),n:tName(t),s:tt('Tramo','Trail')+(t.via?tt(' · por ',' · via ')+t.via:''),o:3}))];
 const q=$('#q'),qres=$('#qres'); let qsel=-1,qlist=[];
 function buscar(){
   const t=sinAcento(q.value.trim()); qsel=-1;
   if(t.length<2){qlist=[];}else{
-    qlist=IDX.map(it=>{const i=it.txt.indexOf(t);return i<0?null:[it,(i===0||it.txt[i-1]===" "?0:1)*10+it.o]}).filter(Boolean)
+    qlist=IDX().map(it=>{const i=it.txt.indexOf(t);return i<0?null:[it,(i===0||it.txt[i-1]===" "?0:1)*10+it.o]}).filter(Boolean)
       .sort((a,b)=>a[1]-b[1]||a[0].n.localeCompare(b[0].n,'es')).slice(0,8).map(x=>x[0])}
-  qres.innerHTML=qlist.length?qlist.map((it,i)=>`<li role="option" id="qo${i}" data-i="${i}"><b>${esc(it.n)}</b><span>${esc(it.s)}</span></li>`).join(''):(t.length>=2?'<li class="vacio-q">Sin resultados</li>':'');
+  qres.innerHTML=qlist.length?qlist.map((it,i)=>`<li role="option" id="qo${i}" data-i="${i}"><b>${esc(it.n)}</b><span>${esc(it.s)}</span></li>`).join(''):(t.length>=2?`<li class="vacio-q">${tt('Sin resultados','No results')}</li>`:'');
   qres.hidden=!qres.innerHTML; q.setAttribute('aria-expanded',!qres.hidden)}
 function elegirRes(it){
   qres.hidden=true;q.setAttribute('aria-expanded','false');q.value='';
@@ -635,15 +642,15 @@ document.addEventListener('click',ev=>{if(!ev.target.closest('.buscar')){qres.hi
 /* ================= MI UBICACIÓN ================= */
 let YO=null;
 $('#zloc').onclick=()=>{
-  if(!navigator.geolocation||!map){hint('Este navegador no puede darte tu ubicación',2500);return}
+  if(!navigator.geolocation||!map){hint(tt('Este navegador no puede darte tu ubicación','This browser cannot get your location'),2500);return}
   navigator.geolocation.getCurrentPosition(p=>{
     const ll=L.latLng(p.coords.latitude,p.coords.longitude);
-    if(!LIMITES.contains(ll)){hint('Estás fuera del área del mapa',2500);return}
+    if(!LIMITES.contains(ll)){hint(tt('Estás fuera del área del mapa','You are outside the map area'),2500);return}
     const c=llImg(ll.lat,ll.lng);
     if(!YO){YO=el('g',{class:'yo'},svg.firstChild);el('circle',{r:16,class:'yo-h'},YO);el('circle',{r:6.5,class:'yo-d'},YO)}
     YO.style.transform=`translate(${c.x}px,${c.y}px) scale(var(--u))`;
     map.setView(ll,Math.max(map.getZoom(),12),{animate:false})},
-  e=>hint(e.code===1?'No diste permiso para usar tu ubicación':'No se pudo obtener tu ubicación',2500),
+  e=>hint(e.code===1?tt('No diste permiso para usar tu ubicación','Location permission was denied'):tt('No se pudo obtener tu ubicación','Could not get your location'),2500),
   {enableHighAccuracy:true,timeout:15000})};
 
 /* ================= DESCARGAR GPX ================= */
@@ -657,7 +664,7 @@ function ptsGpx(t,inv){
   const out=P.map((p,i)=>{const f=A[i]/tot*(pr.length-1),a=Math.floor(f),b=Math.min(pr.length-1,a+1);return [...imgLat(p[0],p[1]),pr[a]+(pr[b]-pr[a])*(f-a)]});
   return inv?out.reverse():out}
 function gpxTexto(nombre,trks,wpts){
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Mapu Mapa" xmlns="http://www.topografix.com/GPX/1/1">\n<metadata><name>${xml(nombre)}</name><desc>Traza de OpenStreetMap, sin verificar en el terreno. No la uses como única guía para navegar.</desc></metadata>\n`
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Mapu Mapa" xmlns="http://www.topografix.com/GPX/1/1">\n<metadata><name>${xml(nombre)}</name><desc>${tt('Traza de OpenStreetMap, sin verificar en el terreno. No la uses como única guía para navegar.','Track from OpenStreetMap, not verified on the ground. Do not use it as your only navigation aid.')}</desc></metadata>\n`
    +wpts.map(n=>{const [la,lo]=imgLat(n.x,n.y);return `<wpt lat="${la.toFixed(6)}" lon="${lo.toFixed(6)}"><ele>${Math.round(n.ele)}</ele><name>${xml(n.n)}</name></wpt>`}).join('\n')+'\n'
    +trks.map(k=>`<trk><name>${xml(k.n)}</name>${k.segs.map(s=>`<trkseg>${s.map(p=>`<trkpt lat="${p[0].toFixed(6)}" lon="${p[1].toFixed(6)}"><ele>${Math.round(p[2])}</ele></trkpt>`).join('')}</trkseg>`).join('')}</trk>`).join('\n')+'\n</gpx>\n'}
 function bajarGpx(nombre,texto){
@@ -666,9 +673,18 @@ function bajarGpx(nombre,texto){
   document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 const gpxTramo=(t,inv)=>{const A=inv?t.b:t.a,B=inv?t.a:t.b;bajarGpx(tName(t),gpxTexto(tName(t),[{n:tName(t),segs:[ptsGpx(t,inv&&!t.rt)]}],[N[A],N[B]]))};
 const gpxTv=v=>{const O=orient(v);
-  const trks=v.dd.map((d,i)=>({n:`Día ${i+1}: ${kn(N[d.from])} a ${kn(N[d.to])}`,segs:d.O.filter(([t])=>t.d).map(([t,a])=>ptsGpx(t,t.a!==a))}));
+  const trks=v.dd.map((d,i)=>({n:`${tt('Día','Day')} ${i+1}: ${kn(N[d.from])} ${tt('a','to')} ${kn(N[d.to])}`,segs:d.O.filter(([t])=>t.d).map(([t,a])=>ptsGpx(t,t.a!==a))}));
   const ids=[];const w=[];O.forEach(([t,a,b])=>{[a,b].forEach(i=>{if(!ids.includes(i)){ids.push(i);w.push(N[i])}})});
-  bajarGpx(v.n,gpxTexto(v.n,trks,w))};
+  bajarGpx(tvN(v),gpxTexto(tvN(v),trks,w))};
+
+/* ================= CAMBIO DE IDIOMA ================= */
+alCambiarIdioma(()=>{
+  if(map)credito();
+  if(sel)go(sel[0],sel[1],true,'mapa'); else {home();paint()}
+  if(qres&&!qres.hidden)buscar();
+  document.querySelector('.maphint')?.classList.remove('on');
+  guardarUrl();
+});
 
 /* ================= ARRANQUE ================= */
 build(); avisos(); home(); paint(); fit();

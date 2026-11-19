@@ -313,3 +313,12 @@ a{color:var(--g1)}
 .yo .yo-h{fill:rgba(36,118,226,.22)}
 .yo .yo-d{fill:#2476E2;stroke:#fff;stroke-width:2.5px}
 @media (max-width:880px){.capas button{padding:4px 9px 5px;font-size:14.5px}.buscar{left:14px;right:14px;width:auto;top:54px}.vacio{top:104px}}
+
+/* ---------- idioma ---------- */
+.langbox{display:flex;align-items:center}
+.langsw{display:flex;gap:6px;align-items:center}
+.langsw button{background:none;border:2px solid transparent;border-radius:3px;padding:2px;cursor:pointer;line-height:0;opacity:.55}
+.langsw button:hover{opacity:.9}
+.langsw button.on{opacity:1;border-color:#EEF2EF}
+.langsw button:focus-visible{outline:2px solid #F0C36A;outline-offset:2px}
+.langsw svg{display:block;width:26px;height:17px}
