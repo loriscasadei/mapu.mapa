@@ -24,6 +24,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -56,6 +57,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Refugio Piedritas',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -88,6 +90,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Playa Muñoz',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -120,6 +123,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -152,6 +156,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -184,6 +189,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -216,6 +222,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Laguna Schmoll',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -248,6 +255,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'el filo',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -280,6 +288,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -312,6 +321,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Paso Brecha Negra',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -344,6 +354,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Arroyo Casa de Piedra',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -376,6 +387,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Arroyo Casalata',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -408,6 +420,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -440,6 +453,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Arroyo Goye',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -472,6 +486,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -504,6 +519,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -536,6 +552,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Palotinos y cerro López',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -568,6 +585,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -600,6 +618,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -632,6 +651,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -664,6 +684,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -696,6 +717,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -728,6 +750,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -760,6 +783,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Mirada del Doctor',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -792,6 +816,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -824,6 +849,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -856,6 +882,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'La Almohadilla',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -888,6 +915,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Mallín Chileno',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -920,6 +948,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'sin_dato',
@@ -952,6 +981,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Paso de las Nubes',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -984,6 +1014,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1016,6 +1047,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Lago Escondido',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'sin_dato',
@@ -1048,6 +1080,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      'Lago Escondido',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'sin_dato',
@@ -1080,6 +1113,7 @@ const TRAMOS = [
   nombre:                   'Cerro San Martín',
   via:                      '',
   ida_y_vuelta:             true,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'sin_dato',
@@ -1114,6 +1148,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1146,6 +1181,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1178,6 +1214,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1210,6 +1247,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -1242,6 +1280,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1274,6 +1313,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -1306,6 +1346,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1338,6 +1379,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1370,6 +1412,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -1402,6 +1445,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1434,6 +1478,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1466,6 +1511,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -1498,6 +1544,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1530,6 +1577,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1562,6 +1610,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1594,6 +1643,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -1626,6 +1676,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1658,6 +1709,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1690,6 +1742,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1722,6 +1775,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1754,6 +1808,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1786,6 +1841,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1818,6 +1874,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1850,6 +1907,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -1882,6 +1940,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1914,6 +1973,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1946,6 +2006,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -1978,6 +2039,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2010,6 +2072,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2042,6 +2105,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2074,6 +2138,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2106,6 +2171,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2138,6 +2204,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2170,6 +2237,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -2202,6 +2270,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2234,6 +2303,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2266,6 +2336,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2298,6 +2369,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2330,6 +2402,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2362,6 +2435,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2394,6 +2468,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2426,6 +2501,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -2458,6 +2534,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -2490,6 +2567,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -2522,6 +2600,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -2554,6 +2633,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -2586,6 +2666,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -2618,6 +2699,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2650,6 +2732,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -2682,6 +2765,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -2714,6 +2798,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -2746,6 +2831,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2778,6 +2864,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -2810,6 +2897,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -2842,6 +2930,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2874,6 +2963,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2906,6 +2996,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -2938,6 +3029,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -2970,6 +3062,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -3002,6 +3095,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -3034,6 +3128,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -3066,6 +3161,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -3098,6 +3194,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -3130,6 +3227,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -3162,6 +3260,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -3194,6 +3293,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -3226,6 +3326,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -3258,6 +3359,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -3290,6 +3392,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -3322,6 +3425,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'facil',
@@ -3354,6 +3458,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -3386,6 +3491,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -3418,6 +3524,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -3450,6 +3557,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'dificil',
@@ -3482,6 +3590,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -3514,6 +3623,7 @@ const TRAMOS = [
   nombre:                   '',
   via:                      '',
   ida_y_vuelta:             false,
+  solo_travesia:            false,
 
   // dificultad y norma
   dificultad:               'moderada',
@@ -3529,6 +3639,39 @@ const TRAMOS = [
   zona:                     'Lago Steffen',
   duracion_dias:            1,
   nombres_en_registro:      ['Steffen- Villegas (Huella Andina)', 'Mascardi-Steffen (Huella Andina)'],
+
+  // cómo es
+  descripcion:              '',
+  descripcion_verificada:   false,
+  agua:                     '',
+  vadeos:                   '',
+  sombra:                   '',
+},
+
+{
+  // identidad
+  id:                       'ilo-roc',
+  desde:                    'ILO',
+  hasta:                    'ROC',
+  nombre:                   '',
+  via:                      'Mirador del Doctor y paso La Marca',
+  ida_y_vuelta:             false,
+  solo_travesia:            true,
+
+  // dificultad y norma
+  dificultad:               'dificil',
+  nota_dificultad:          '',
+  sendas_apn:               [129],
+  sendas_apn_total:         1,
+  fuera_de_apn:             false,
+  administra:               '',
+  registro:                 'obligatorio',
+  huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Laguna Ilón - Refugio Rocca (por paso La Marca)'],
 
   // cómo es
   descripcion:              '',

@@ -208,4 +208,23 @@ const TRAVESIAS = [
   como_volver:        '',
 },
 
+{
+  id:                 'tv11',
+  nombre:             'Pampa Linda, Ilón y Roca',
+  nombre_en:          'Pampa Linda, Ilón and Roca',
+  resumen:            'Circuito por la laguna Ilón y el refugio Roca',
+  resumen_en:         'Loop via Laguna Ilón and Roca hut',
+  senda_apn:          '',
+  etapas:             [
+    ['ilo-pli'],   // día 1
+    ['ilo-roc'],   // día 2
+    ['pli-roc'],   // día 3
+  ],
+
+  // lo propio de la travesía
+  donde_dormir:       '',
+  salidas_de_escape:  '',
+  como_volver:        '',
+},
+
 ];

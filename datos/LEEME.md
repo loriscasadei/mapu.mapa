@@ -4,7 +4,7 @@ Esta carpeta es lo único que se edita a mano, salvo `estado.js` (generado, ver 
 
 | Archivo | Qué guarda | Cuántos |
 |---|---|---|
-| `tramos.js` | Senderos entre dos puntos: lo que se dibuja en el mapa | 110 |
+| `tramos.js` | Senderos entre dos puntos: lo que se dibuja en el mapa | 111 |
 | `puntos.js` | Accesos, refugios, puntos de paso, lagunas y cumbres | 152 |
 | `travesias.js` | Recorridos armados encadenando tramos | 7 |
 
@@ -52,6 +52,7 @@ Cada campo termina con coma. Cada registro va entre llaves `{ }` y también term
 | `nombre` | texto | Nombre propio del tramo | Se arma con los puntos: "Villa Catedral a Arroyo Van Titter" |
 | `via` | texto | Por dónde pasa. Se muestra como "por …" | No se muestra |
 | `ida_y_vuelta` | sí/no | El tramo vuelve por la misma traza: no se ofrece "Ver al revés" | — |
+| `solo_travesia` | sí/no | El tramo no se puede empezar por separado: solo se ve y se cuenta dentro de una travesía (por ejemplo, un tramo largo sin acceso propio) | — |
 
 ### Dificultad y norma
 
@@ -160,3 +161,7 @@ Las travesías no se dibujan como líneas propias: son combinaciones de tramos y
 `estado.js` no se edita: lo escribe `herramientas/actualizar-estado.mjs`, que lee el formulario de registro de trekking del Parque (el mismo enlace de la web del parque) y anota si cada sendero está **habilitado** o **cerrado** (los de «sólo con guía» cuentan como habilitados y conservan esa aclaración). Se corre con `node herramientas/actualizar-estado.mjs` (hace falta Node 18 o más nuevo) y conviene repetirlo cada pocas horas (ver `herramientas/LEEME.md`).
 
 Cada tramo toma su estado de los nombres que tiene en `nombres_en_registro`. Si ninguno aparece en el formulario, el tramo queda **No verificado**. Por defecto el mapa muestra los habilitados y los no verificados.
+
+## Completar textos desde la planilla de Google
+
+Los textos de «cómo es», agua, vadeos, sombra, datos de refugios y accesos, y datos de travesías se pueden escribir en la planilla **Mapu Mapa - datos para completar** en lugar de en estos archivos. La página la lee sola. Una celda vacía deja lo que haya acá. Cada dato tiene una columna en español y otra `_en` para el inglés. El id de la planilla está en `mapa-config.js`.

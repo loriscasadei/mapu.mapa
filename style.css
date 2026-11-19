@@ -322,3 +322,5 @@ a{color:var(--g1)}
 .langsw button.on{opacity:1;border-color:#EEF2EF}
 .langsw button:focus-visible{outline:2px solid #F0C36A;outline-offset:2px}
 .langsw svg{display:block;width:26px;height:17px}
+
+.e.oculto{display:none}

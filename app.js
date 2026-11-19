@@ -16,7 +16,7 @@ const DB_V=typeof TRAVESIAS!=='undefined'?TRAVESIAS:(aviso('datos/travesias.js',
 
 /* tipo de cada campo: t texto, n número, b sí/no, l lista, o una lista de valores permitidos */
 const CAMPOS={
-  tramo:{id:'t',desde:'t',hasta:'t',nombre:'t',via:'t',ida_y_vuelta:'b',
+  tramo:{id:'t',desde:'t',hasta:'t',nombre:'t',via:'t',ida_y_vuelta:'b',solo_travesia:'b',
     dificultad:Object.keys(DIF),nota_dificultad:'t',sendas_apn:'l',sendas_apn_total:'n',
     fuera_de_apn:'b',administra:'t',registro:REGISTRO,huella_andina:'b',zona:'t',duracion_dias:'n',nombres_en_registro:'l',
     descripcion:'t',descripcion_verificada:'b',agua:'t',vadeos:'t',sombra:'t'},
@@ -61,8 +61,8 @@ DB_T.forEach((r,i)=>{
   if(!D.T[r.id]){aviso(donde,'No tiene traza dibujada en geo/geometria.js. No se muestra.');return}
   for(const k of ['desde','hasta']) if(!NM[r[k]]){aviso(donde,`«${k}» es '${r[k]}', que no es un punto de datos/puntos.js. No se muestra.`);return}
   T.push({id:r.id,a:r.desde,b:r.hasta,nm:r.nombre,via:r.via,rt:r.ida_y_vuelta,g:DIF[r.dificultad],
-    nota:r.nota_dificultad,sen:r.sendas_apn,nsen:Math.max(r.sendas_apn_total,r.sendas_apn.length),ed:r.fuera_de_apn,muni:r.administra,
-    reg:r.registro,ha:r.huella_andina,zona:r.zona||'Sin zona',dias:r.duracion_dias,reg_nombres:r.nombres_en_registro,desc:r.descripcion,db:r});
+    nota:r.nota_dificultad,sen:r.sendas_apn,nsen:Math.max(r.sendas_apn_total,r.sendas_apn.length),ed:r.fuera_de_apn,muni:r.administra,st:r.solo_travesia,
+    reg:r.registro,ha:r.huella_andina,zona:r.zona||'Sin zona',dias:r.duracion_dias,reg_nombres:r.nombres_en_registro,db:r});
 });
 /* Estado según el registro del Parque (datos/estado.js, generado por herramientas/actualizar-estado.mjs).
    Un tramo toma el mejor estado entre los senderos del registro que lo recorren: habilitado o cerrado.
@@ -114,8 +114,11 @@ const tById=Object.fromEntries(T.map(t=>[t.id,t]));
 const worst=a=>a.reduce((m,g)=>g>m?g:m,'g0');
 const tvG=tv=>worst(tv.t.map(id=>tById[id].g));
 const kn=n=>n.k||n.n;
+/* valor de un campo en el idioma de ahora: si hay versión en inglés (campo_en) y se pide inglés, esa; si no, el español */
+const fv=(o,k)=>(LANG==='en'&&o[k+'_en'])||o[k]||'';
 const tvN=v=>tt(v.n,v.ne||v.n), tvS=v=>tt(v.s,v.se||v.s);
 const tipoN=t=>({acc:tt('Acceso','Trailhead'),ref:tt('Refugio','Hut'),pto:tt('Punto de paso','Waypoint'),lag:tt('Laguna','Lake'),cum:tt('Cumbre','Summit')})[t];
+const Tn=T.filter(t=>!t.st);   // tramos que se pueden empezar por separado (los demás solo se ven dentro de una travesía)
 const tName=t=>t.nm||`${kn(N[t.a])} ${tt('a','to')} ${kn(N[t.b])}`;
 const f1=x=>String(x.toFixed(1)).replace('.',tt(',','.'));
 const num=x=>String(Math.round(x));
@@ -174,7 +177,7 @@ function paint(){
   const hn=new Set(); if(hi)T.forEach(t=>{if(hi.has(t.id)){hn.add(t.a);hn.add(t.b)}});
   svg.querySelectorAll('.e').forEach(g=>{
     const t=tById[g.dataset.id], gg=t.g;
-    g.setAttribute('class','e '+gg+(t.src==='none'?' none':'')+((hi?!hi.has(t.id):!pasa(t))?' dim':'')+(hi&&hi.has(t.id)&&sel[0]!=='n'?' sel':''));
+    g.setAttribute('class','e '+gg+(t.src==='none'?' none':'')+(t.st&&!modoTv()&&!(hi&&hi.has(t.id))?' oculto':'')+((hi?!hi.has(t.id):!pasa(t))?' dim':'')+(hi&&hi.has(t.id)&&sel[0]!=='n'?' sel':''));
   });
   svg.querySelectorAll('.n').forEach(g=>{const id=g.dataset.id;
     g.classList.toggle('dim',!!hi&&!hn.has(id)&&!(sel[0]==='n'&&sel[1]===id));
@@ -256,7 +259,7 @@ function tvPasa(v){
   const km=Math.max(...v.dd.map(d=>d.km)),des=Math.max(...v.dd.map(d=>Math.max(d.up,d.dn)));   // el día más largo y el más exigente
   return SEL.km.has(rango(RANGOS.km,km))&&SEL.des.has(rango(RANGOS.des,des));
 }
-const pasa=t=>modoTv()?TV.some(v=>tvPasa(v)&&v.t.includes(t.id)):FILT.every(f=>pasaF(f,t));
+const pasa=t=>modoTv()?TV.some(v=>tvPasa(v)&&v.t.includes(t.id)):(!t.st&&FILT.every(f=>pasaF(f,t)));
 const filtroActivo=f=>{const d=new Set(DEF[f.id]||f.op.map(o=>o[0])),s=SEL[f.id];return s.size!==d.size||[...s].some(v=>!d.has(v))};
 function resumen(f){const s=SEL[f.id],n=f.op.length;
   if(f.id==='hab'&&!filtroActivo(f))return '';   // Habilitado: sin texto mientras está en su valor inicial
@@ -267,7 +270,7 @@ function resumen(f){const s=SEL[f.id],n=f.op.length;
 function paintFiltros(){
   const bar=$('#filtros');
   bar.innerHTML=FILT.map(f=>{
-    const cnt=new Map(f.op.map(o=>[o[0],0]));T.forEach(t=>{const v=f.val(t);if(cnt.has(v))cnt.set(v,cnt.get(v)+1)});
+    const cnt=new Map(f.op.map(o=>[o[0],0]));Tn.forEach(t=>{const v=f.val(t);if(cnt.has(v))cnt.set(v,cnt.get(v)+1)});
     if(f.id==='dur'){cnt.set(1,cnt.get(1)||0);for(let d=2;d<=5;d++)cnt.set(d,0);TV.forEach(v=>{const d=Math.min(5,v.nd);if(d>=2)cnt.set(d,cnt.get(d)+1)})}   // 1 día cuenta tramos; 2 o más, travesías
     const op=f.op.filter(o=>f.id==='hab'||f.id==='dur'||cnt.get(o[0])||SEL[f.id].has(o[0]));
     return `<div class="flt${abierto===f.id?' open':''}${filtroActivo(f)?' on':''}">
@@ -275,7 +278,7 @@ function paintFiltros(){
       <div class="fpanel" id="fp-${f.id}" ${abierto===f.id?'':'hidden'}>
         ${f.uno?`<div class="fall"><span>${tt('Elegí una opción','Choose one option')}</span></div>`:`<div class="fall"><button data-all="${f.id}">${tt('Todas','All')}</button><button data-none="${f.id}">${tt('Ninguna','None')}</button></div>`}
         ${op.map(o=>`<label><input type="${f.uno?'radio':'checkbox'}" name="r-${f.id}" data-f="${f.id}" data-v="${esc(o[0])}" ${SEL[f.id].has(o[0])?'checked':''}>${f.sw?swatch(o[0],26):''}<span>${esc(o[1])}</span><b title="${f.id==='dur'?(o[0]===1?tt('tramos','trails'):tt('travesías','multi-day routes')):''}">${cnt.get(o[0])}</b></label>`).join('')}
-      </div></div>`}).join('')+`<span class="fcount" aria-live="polite">${modoTv()?TV.filter(tvPasa).length+' '+tt('de','of')+' '+TV.length+' '+tt('travesías','multi-day routes'):T.filter(pasa).length+' '+tt('de','of')+' '+T.length+' '+tt('tramos','trails')}${REG.actualizado?` · ${tt('Registro de Parques Nacionales leído el','National Parks registry read on')} ${fechaLoc(REG.actualizado,{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}`:''}</span>`;
+      </div></div>`}).join('')+`<span class="fcount" aria-live="polite">${modoTv()?TV.filter(tvPasa).length+' '+tt('de','of')+' '+TV.length+' '+tt('travesías','multi-day routes'):T.filter(pasa).length+' '+tt('de','of')+' '+Tn.length+' '+tt('tramos','trails')}${REG.actualizado?` · ${tt('Registro de Parques Nacionales leído el','National Parks registry read on')} ${fechaLoc(REG.actualizado,{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'})}`:''}</span>`;
   paintTravesias();
   bar.querySelectorAll('.fbtn').forEach(b=>b.onclick=ev=>{ev.stopPropagation();abierto=abierto===b.dataset.f?null:b.dataset.f;paintFiltros();if(abierto){const fp=$('#fp-'+abierto);fp.querySelector('input')?.focus()}});
   bar.querySelectorAll('.fpanel').forEach(p=>p.onclick=ev=>ev.stopPropagation());
@@ -350,7 +353,7 @@ function home(){
     <p class="fine" style="margin-top:8px">${tt('Al acercar el mapa aparecen más nombres.','More names appear as you zoom in.')}</p>
   </div>
   <div class="blk"><h2>${tt('Qué tiene y qué no tiene esta versión','What this version has and lacks')}</h2>
-    <p>${tt(`Tiene ${T.length} tramos sobre un mapa real. Distancia, desnivel y perfil salen de la traza de OpenStreetMap y del modelo de alturas.`,`It has ${T.length} trails on a real map. Distance, elevation and profile come from the OpenStreetMap track and the elevation model.`)}</p>
+    <p>${tt(`Tiene ${Tn.length} tramos sobre un mapa real. Distancia, desnivel y perfil salen de la traza de OpenStreetMap y del modelo de alturas.`,`It has ${Tn.length} trails on a real map. Distance, elevation and profile come from the OpenStreetMap track and the elevation model.`)}</p>
     <p>${tt('La dificultad viene del Anexo I de la Disposición 150/19 del parque, temporada de noviembre a abril. Cada tramo toma la dificultad más baja de las sendas oficiales que lo recorren.','Difficulty comes from Annex I of the park Disposición 150/19, for the November to April season. Each trail takes the lowest difficulty of the official trails that run along it.')}</p>
     <p>${tt('Ninguna traza está verificada en el terreno todavía. Agua, vadeos y sombra siguen pendientes.','No track has been verified on the ground yet. Water, river crossings and shade are still pending.')}</p>
     <p>${tt('Quedaron afuera las sendas oficiales que no tienen traza en OpenStreetMap, como las bajadas por el arroyo Fresco al lago Mascardi, el refugio Velco, el lago Fonck y la mayor parte de isla Victoria. La travesía glaciaria entre Meiling y Refugio Viejo figura como línea recta.','Official trails with no track in OpenStreetMap are left out, such as the descents along arroyo Fresco to Lake Mascardi, Velco hut, Lake Fonck and most of Isla Victoria. The glacier route between Meiling and Refugio Viejo appears as a straight line.')}</p>
@@ -372,7 +375,7 @@ function tramo(id){
       <div style="margin-top:10px">${profSvg(z,t.km,tt('Perfil de altura del tramo','Elevation profile of the trail'))}</div>
       <button type="button" class="gpx" id="gpx">${tt('Descargar GPX','Download GPX')}</button>
       <div class="row" style="margin-top:6px"><span class="k">${tt('Altura mínima y máxima','Lowest and highest point')}</span><span class="v">${num(t.zmin)} ${tt('a','to')} ${num(t.zmax)} m</span></div>
-      ${db.agua||db.vadeos||db.sombra?rows([[tt('Agua','Water'),db.agua],[tt('Vadeos','River crossings'),db.vadeos],[tt('Sombra','Shade'),db.sombra]],tt('a relevar','to be surveyed'))
+      ${db.agua||db.vadeos||db.sombra?rows([[tt('Agua','Water'),fv(db,'agua')],[tt('Vadeos','River crossings'),fv(db,'vadeos')],[tt('Sombra','Shade'),fv(db,'sombra')]],tt('a relevar','to be surveyed'))
         :`<div class="row"><span class="k">${tt('Agua, vadeos y sombra','Water, river crossings and shade')}</span><span class="v soft">${tt('a relevar','to be surveyed')} <b class="mk pe">○</b></span></div>`}
     </div>
     <div class="blk"><h2>${tt('Origen de la traza','Source of the track')}</h2>${t.src==='gpx'
@@ -383,12 +386,13 @@ function tramo(id){
   <p class="kind">${tt('Tramo','Trail')}${t.ha?tt(', parte de la Huella Andina',', part of the Huella Andina'):''}</p>
   <h1 class="t">${esc(tName(t))}</h1>
   ${subt(t)?`<p class="subt">${subt(t)}</p>`:''}
+  ${t.st?`<p class="fine" style="margin-top:6px"><b>${tt('Este tramo solo se recorre como parte de una travesía.','This trail is only walked as part of a multi-day route.')}</b></p>`:''}
   <div class="blk"><h2>${tt('Estado en el registro del Parque','Status in the Park registry')}</h2>${estBox(t)}</div>
   <div class="blk"><h2>${tt('Dificultad','Difficulty')}</h2>${difBox(t.g, esc(t.nota)|| (t.ed?(t.muni?tt('Es ','It is ')+esc(t.muni)+tt(', no figura en el listado de la APN.',', not in the APN list.'):tt('No figura en el listado de la APN.','Not in the APN list.')):''))}
     <div style="margin-top:9px">${regBlock(t.reg)}</div>
   </div>
   ${geo}
-  <div class="blk"><h2>${tt('Cómo es','What it is like')}</h2>${t.desc?`<p>${esc(t.desc)}</p>${LANG==='en'?'<p class="fine">(Description in Spanish only.)</p>':''}${db.descripcion_verificada?'':`<p class="pend" style="font-size:15px">${tt('Descripción provisoria, sin verificar en el terreno.','Provisional description, not verified on the ground.')}</p>`}`:`<p class="pend">${tt('Pendiente de escribir.','Still to be written.')}</p>`}</div>
+  <div class="blk"><h2>${tt('Cómo es','What it is like')}</h2>${fv(db,'descripcion')?`<p>${esc(fv(db,'descripcion'))}</p>${LANG==='en'&&!db.descripcion_en?'<p class="fine">(Description in Spanish only.)</p>':''}${db.descripcion_verificada?'':`<p class="pend" style="font-size:15px">${tt('Descripción provisoria, sin verificar en el terreno.','Provisional description, not verified on the ground.')}</p>`}`:`<p class="pend">${tt('Pendiente de escribir.','Still to be written.')}</p>`}</div>
   ${t.ed||!sen?'':`<div class="blk"><h2>${tt('Sendas oficiales que lo incluyen','Official trails that include it')}</h2>${sen}</div>`}
   ${tvs.length?`<div class="blk"><h2>${tt('Travesías que pasan por acá','Multi-day routes through here')}</h2><ul class="list">${tvs.map(v=>`<li><button data-v="${v.id}"><span><span class="nm">${tvN(v)}</span><span class="ds">${tvS(v)}</span></span><span class="sws">${swatch(tvG(v))}</span></button></li>`).join('')}</ul></div>`:''}
   ${INFO()}`;
@@ -396,18 +400,18 @@ function tramo(id){
   const g=$('#gpx'); if(g)g.onclick=()=>gpxTramo(t,rev);
 }
 function nodo(id){
-  const n=N[id], db=n.db; const ts=T.filter(t=>t.a===id||t.b===id);
+  const n=N[id], db=n.db; const ts=T.filter(t=>(t.a===id||t.b===id)&&!t.st);
   const kind=tipoN(n.t);
   pin.innerHTML=`
   <p class="kind">${kind}</p>
   <h1 class="t">${esc(n.n)}</h1>
   <p class="subt">${n.s&&!/\d/.test(n.s)?esc(n.s)+', ':''}${num(n.ele)} m</p>
-  ${db.descripcion?`<div class="blk"><p>${esc(db.descripcion)}</p></div>`:''}
+  ${db.descripcion?`<div class="blk"><p>${esc(fv(db,'descripcion'))}</p></div>`:''}
   ${n.t==='ref'?`<div class="blk"><h2>${tt('El refugio','The hut')}</h2>${[db.capacidad,db.reserva,db.que_se_compra,db.agua,db.acampe,db.si_esta_lleno].some(Boolean)
-    ?rows([[tt('Capacidad','Capacity'),db.capacidad],[tt('Reserva','Booking'),db.reserva],[tt('Qué se puede comprar','What you can buy'),db.que_se_compra],[tt('Agua','Water'),db.agua],[tt('Dónde se acampa','Where to camp'),db.acampe],[tt('Si llegás y está lleno','If you arrive and it is full'),db.si_esta_lleno]],tt('a relevar','to be surveyed'))
+    ?rows([[tt('Capacidad','Capacity'),fv(db,'capacidad')],[tt('Reserva','Booking'),fv(db,'reserva')],[tt('Qué se puede comprar','What you can buy'),fv(db,'que_se_compra')],[tt('Agua','Water'),fv(db,'agua')],[tt('Dónde se acampa','Where to camp'),fv(db,'acampe')],[tt('Si llegás y está lleno','If you arrive and it is full'),fv(db,'si_esta_lleno')]],tt('a relevar','to be surveyed'))
     :`<p class="pend">${tt('Pendiente: capacidad, si hay que reservar, qué se puede comprar, agua, dónde se acampa y qué pasa si llegás y está lleno.','Pending: capacity, whether you must book, what you can buy, water, where to camp and what happens if you arrive and it is full.')}</p>`}</div>`:''}
   ${n.t==='acc'?`<div class="blk"><h2>${tt('Cómo llegar','How to get there')}</h2>${[db.colectivo,db.parada,db.frecuencia,db.ultimo_regreso,db.estacionamiento].some(Boolean)
-    ?rows([[tt('Colectivo','Bus'),db.colectivo],[tt('Parada','Bus stop'),db.parada],[tt('Frecuencia','Frequency'),db.frecuencia],[tt('Último horario de vuelta','Last bus back'),db.ultimo_regreso],[tt('Dónde dejar el auto','Where to park'),db.estacionamiento]],tt('a relevar','to be surveyed'))
+    ?rows([[tt('Colectivo','Bus'),fv(db,'colectivo')],[tt('Parada','Bus stop'),fv(db,'parada')],[tt('Frecuencia','Frequency'),fv(db,'frecuencia')],[tt('Último horario de vuelta','Last bus back'),fv(db,'ultimo_regreso')],[tt('Dónde dejar el auto','Where to park'),fv(db,'estacionamiento')]],tt('a relevar','to be surveyed'))
     :`<p class="pend">${tt('Pendiente: colectivo, parada, frecuencia, último horario de vuelta y dónde dejar el auto.','Pending: bus, bus stop, frequency, last bus back and where to park.')}</p>`}</div>`:''}
   <div class="blk"><h2>${tt('Tramos que salen de acá','Trails starting here')}</h2>
     <ul class="list">${ts.map(t=>{const o=t.a===id?t.b:t.a;const up=t.a===id?t.up:t.dn;return `<li><button data-t="${t.id}" data-rev="${t.a===id?0:1}"><span><span class="nm">${tt('a','to')} ${kn(N[o])}</span><span class="ds">${t.src==='none'?tt('ruta glaciaria, sin traza','glacier route, no track'):`${f1(t.km)} km, +${num(up)} m${t.via?tt(', por ',', via ')+esc(t.via):''}`}</span></span><span class="sws">${swatch(t.g)}</span></button></li>`}).join('')}</ul>
@@ -432,12 +436,12 @@ function travesia(id){
     <p class="subt" style="margin:0 0 8px">${esc(kn(N[d.from]))} ${tt('a','to')} ${esc(kn(N[d.to]))}</p>
     ${bigNums(d.km,d.up,d.dn)}
     <ul class="list" style="margin-top:8px">${d.O.map(([t,a,b])=>{const f=t.a===a;return `<li><button data-t="${t.id}" data-rev="${f?0:1}"><span><span class="nm">${kn(N[a])} ${tt('a','to')} ${kn(N[b])}</span><span class="ds">${t.src==='none'?tt('ruta glaciaria, sin traza','glacier route, no track'):`${f1(t.km)} km, +${num(f?t.up:t.dn)} m, −${num(f?t.dn:t.up)} m`} · ${EST[t.hab]}</span></span><span class="sws">${swatch(t.g)}</span></button></li>`}).join('')}</ul>
-    ${d.O.map(([t])=>t.desc?`<p class="fine">${esc(t.desc)}</p>`:'').join('')}
+    ${d.O.map(([t])=>fv(t.db,'descripcion')?`<p class="fine">${esc(fv(t.db,'descripcion'))}</p>`:'').join('')}
   </div>`).join('')}
   <div class="blk"><h2>${tt('Lo propio de la travesía','About the route')}</h2>
     ${rows([[tt('Días','Days'),v.nd+' '+(v.nd===1?tt('día','day'):tt('días','days'))]],'')}
-    ${rows([[tt('Dónde se duerme','Where to sleep'),v.db.donde_dormir]],tt('a definir','to be defined'))}
-    ${rows([[tt('Salidas de escape','Escape routes'),v.db.salidas_de_escape],[tt('Cómo volver','Getting back'),v.db.como_volver]],tt('a relevar','to be surveyed'))}
+    ${rows([[tt('Dónde se duerme','Where to sleep'),fv(v.db,'donde_dormir')]],tt('a definir','to be defined'))}
+    ${rows([[tt('Salidas de escape','Escape routes'),fv(v.db,'salidas_de_escape')],[tt('Cómo volver','Getting back'),fv(v.db,'como_volver')]],tt('a relevar','to be surveyed'))}
   </div>
   ${INFO()}`;
   wire(); $('#gpxv').onclick=()=>gpxTv(v);
@@ -616,7 +620,7 @@ const sinAcento=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
 const IDX=()=>[
   ...Object.entries(N).map(([id,n])=>({k:'n',id,txt:sinAcento(n.n+' '+(n.s||'')),n:n.n,s:[tipoN(n.t),n.s&&!/\d/.test(n.s)?n.s:''].filter(Boolean).join(' · '),o:n.t==='ref'?0:1})),
   ...TV.map(v=>({k:'v',id:v.id,txt:sinAcento(v.n+' '+v.s+' '+(v.ne||'')+' '+(v.se||'')),n:tvN(v),s:tt('Travesía de ','Multi-day route, ')+v.nd+tt(' días',' days')+' · '+tvS(v),o:2})),
-  ...T.map(t=>({k:'t',id:t.id,txt:sinAcento(tName(t)+' '+(t.via||'')),n:tName(t),s:tt('Tramo','Trail')+(t.via?tt(' · por ',' · via ')+t.via:''),o:3}))];
+  ...Tn.map(t=>({k:'t',id:t.id,txt:sinAcento(tName(t)+' '+(t.via||'')),n:tName(t),s:tt('Tramo','Trail')+(t.via?tt(' · por ',' · via ')+t.via:''),o:3}))];
 const q=$('#q'),qres=$('#qres'); let qsel=-1,qlist=[];
 function buscar(){
   const t=sinAcento(q.value.trim()); qsel=-1;
@@ -677,6 +681,60 @@ const gpxTv=v=>{const O=orient(v);
   const ids=[];const w=[];O.forEach(([t,a,b])=>{[a,b].forEach(i=>{if(!ids.includes(i)){ids.push(i);w.push(N[i])}})});
   bajarGpx(tvN(v),gpxTexto(tvN(v),trks,w))};
 
+/* ================= HOJA DE DATOS (Google Sheets) =================
+   Los textos que se completan a mano (descripciones, agua, vadeos, datos de refugios y accesos, travesías)
+   se escriben en una planilla de Google. La página la lee cada vez que se abre y pone esos textos en las fichas.
+   · Una celda vacía deja lo que ya hay en datos/ (o «pendiente»).
+   · Si no se puede leer la planilla (sin internet, o no está compartida), se usa la última copia guardada o datos/.
+   El id de la planilla va en mapa-config.js (HOJA_GOOGLE_ID). */
+const HOJA_ID=typeof HOJA_GOOGLE_ID==='string'?HOJA_GOOGLE_ID.trim():'';
+const HOJAS=[['tramos','Tramos'],['refugios','Refugios'],['accesos','Accesos'],['puntos','Otros puntos'],['travesias','Travesías']];
+function csvFilas(t){
+  const r=[];let f='',row=[],q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true;
+    else if(c===','){row.push(f);f=''}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;row.push(f);r.push(row);row=[];f=''}
+    else f+=c}
+  if(f!==''||row.length){row.push(f);r.push(row)}
+  if(!r.length)return [];
+  const h=r[0].map(x=>x.trim());
+  if(!h.includes('id'))throw new Error('sin columna id');
+  return r.slice(1).filter(x=>x.some(c=>c.trim())).map(x=>Object.fromEntries(h.map((k,i)=>[k,(x[i]??'').trim()])))}
+const ORIG=new WeakMap();
+/* pone los valores de la hoja en un registro; una celda vacía devuelve el valor original */
+function pisar(db,claves,fila){
+  if(!ORIG.has(db))ORIG.set(db,{...db});
+  const o=ORIG.get(db);
+  claves.forEach(k=>[k,k+'_en'].forEach(kk=>{db[kk]=fila[kk]||o[kk]||''}))}
+function aplicarHojas(H){
+  (H.tramos||[]).forEach(f=>{const t=tById[f.id];if(!t)return;
+    pisar(t.db,['descripcion','agua','vadeos','sombra'],f);
+    if(f.verificada)t.db.descripcion_verificada=/^(s[ií]|x|true|1|yes|ok)$/i.test(f.verificada)||ORIG.get(t.db).descripcion_verificada;
+    else t.db.descripcion_verificada=ORIG.get(t.db).descripcion_verificada});
+  const puntos=(rows,claves)=>(rows||[]).forEach(f=>{const n=N[f.id];if(n&&n.db)pisar(n.db,claves,f)});
+  puntos(H.refugios,['descripcion','capacidad','reserva','que_se_compra','agua','acampe','si_esta_lleno']);
+  puntos(H.accesos,['descripcion','colectivo','parada','frecuencia','ultimo_regreso','estacionamiento']);
+  puntos(H.puntos,['descripcion']);
+  (H.travesias||[]).forEach(f=>{const v=TV.find(x=>x.id===f.id);if(v)pisar(v.db,['donde_dormir','salidas_de_escape','como_volver'],f)})}
+function repintarFicha(){if(sel)go(sel[0],sel[1],true,'mapa');else home()}
+try{const c=JSON.parse(localStorage.getItem('pt.hojas')||'null');if(c&&c.d)aplicarHojas(c.d)}catch(e){}
+async function cargarHojas(){
+  if(!HOJA_ID)return;
+  try{
+    const filas=await Promise.all(HOJAS.map(([k,n])=>
+      fetch(`https://docs.google.com/spreadsheets/d/${HOJA_ID}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(n)}`)
+        .then(r=>{if(!r.ok)throw new Error(r.status);return r.text()}).then(csvFilas)));
+    const H=Object.fromEntries(HOJAS.map(([k],i)=>[k,filas[i]]));
+    if(!H.tramos.length)return;   // respuesta rara: se queda con lo que había
+    const nuevo=JSON.stringify(H);
+    let viejo='';try{viejo=JSON.stringify((JSON.parse(localStorage.getItem('pt.hojas')||'null')||{}).d||'')}catch(e){}
+    aplicarHojas(H);
+    try{localStorage.setItem('pt.hojas',JSON.stringify({t:Date.now(),d:H}))}catch(e){}
+    if(nuevo!==viejo)repintarFicha();
+  }catch(e){/* sin hoja: se usan los datos de datos/ */}}
+
 /* ================= CAMBIO DE IDIOMA ================= */
 alCambiarIdioma(()=>{
   if(map)credito();
@@ -692,3 +750,4 @@ build(); avisos(); home(); paint(); fit();
   if(map&&V.length===3&&V.every(Number.isFinite)){map.setView([V[0],V[1]],V[2],{animate:false});apply()}
   const S=(HASH.get('s')||'').split('.'),sid=S.slice(1).join('.');
   if((S[0]==='t'&&tById[sid])||(S[0]==='n'&&N[sid])||(S[0]==='v'&&TV.find(v=>v.id===sid))){rev=HASH.get('rev')==='1';go(S[0],sid,true,'mapa')}}
+cargarHojas();
