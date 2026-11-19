@@ -1,0 +1,44 @@
+# Lee el formulario de registro del Parque cada 3 horas y actualiza datos/estado.js en main.
+# Solo guarda un cambio si el estado de algún sendero cambió; una vez al día lo guarda igual,
+# para que "Registro de Parques Nacionales leído el..." no quede viejo.
+# También se puede correr a mano: pestaña Actions > Actualizar estado de los senderos > Run workflow.
+name: Actualizar estado de los senderos
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar-estado
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Leer el formulario del Parque
+        run: node herramientas/actualizar-estado.mjs
+      - name: Guardar si hubo cambios
+        run: |
+          # sin contar la línea de la fecha, ¿cambió algo?
+          if git diff --quiet -I'"actualizado"' -- datos/estado.js && [ "$(date -u +%H)" != "09" ]; then
+            echo "Sin cambios de estado."
+            git checkout -- datos/estado.js
+            exit 0
+          fi
+          git config user.name "estado-senderos"
+          git config user.email "estado-senderos@users.noreply.github.com"
+          git add datos/estado.js
+          git commit -m "Estado de senderos según el registro del Parque"
+          git pull --rebase origin main
+          git push origin HEAD:main

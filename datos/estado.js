@@ -1,7 +1,7 @@
 /* GENERADO por herramientas/actualizar-estado.mjs: no editar a mano.
    Estado de cada sendero según el formulario de registro de trekking del Parque. */
 const ESTADO = {
- "actualizado": "2026-11-18T23:29:14.246Z",
+ "actualizado": "2026-11-19T02:13:57.208Z",
  "fuente": "https://forms.gle/sGNVrn7DmpEjfmNf9",
  "entradas": {
   "5 Lagunas (Colonia Suiza- Pampa Linda)": {

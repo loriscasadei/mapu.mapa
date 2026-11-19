@@ -62,7 +62,7 @@ DB_T.forEach((r,i)=>{
   for(const k of ['desde','hasta']) if(!NM[r[k]]){aviso(donde,`«${k}» es '${r[k]}', que no es un punto de datos/puntos.js. No se muestra.`);return}
   T.push({id:r.id,a:r.desde,b:r.hasta,nm:r.nombre,via:r.via,rt:r.ida_y_vuelta,g:DIF[r.dificultad],
     nota:r.nota_dificultad,sen:r.sendas_apn,nsen:Math.max(r.sendas_apn_total,r.sendas_apn.length),ed:r.fuera_de_apn,muni:r.administra,
-    reg:r.registro,ha:r.huella_andina,zona:r.zona||'Sin zona',dias:r.duracion_dias,reg_nombres:r.nombres_en_registro,d:r.descripcion,db:r});
+    reg:r.registro,ha:r.huella_andina,zona:r.zona||'Sin zona',dias:r.duracion_dias,reg_nombres:r.nombres_en_registro,desc:r.descripcion,db:r});
 });
 /* Estado según el registro del Parque (datos/estado.js, generado por herramientas/actualizar-estado.mjs).
    Un tramo toma el mejor estado entre los senderos del registro que lo recorren: habilitado o cerrado.
@@ -99,7 +99,8 @@ function avisos(){
 /* ================= ESTADO ================= */
 let sel=null, rev=false;
 const $=s=>document.querySelector(s);
-const svg=$('#map'), pin=$('#pin');
+const svg=$('#map'), pinHome=$('#pin'), dr=$('#dr'), drBody=$('#drbody'), mapwrap=$('#mapwrap');
+let pin=pinHome;   // dónde se escribe la ficha: abajo (inicio) o en el panel sobre el mapa (lo elegido)
 const NS='http://www.w3.org/2000/svg';
 const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
 T.forEach(t=>Object.assign(t,D.T[t.id]||{}));
@@ -139,7 +140,7 @@ function build(){
   T.forEach(tr=>{
     const g=el('g',{class:'e','data-id':tr.id,tabindex:0,role:'button','aria-label':'Tramo '+tName(tr)},E);
     el('path',{d:tr.d,class:'ecase'},g);el('path',{d:tr.d,class:'eline'},g);el('path',{d:tr.d,class:'ehit'},g);
-    g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('t',tr.id)});
+    g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('t',tr.id,false,'mapa')});
     g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go('t',tr.id)}});
   });
   for(const id in N){
@@ -156,7 +157,7 @@ function build(){
      LBL.push({g,id,x:n.x,y:n.y,node:true,pri:/^(acceso|empalme|inicio)$/i.test(n.n.trim())?20:({ref:100,acc:85,cum:60,lag:55,pto:40}[n.t]||40)-(n.min?10:0),min:n.min,t:n.t,
        b:[x0,n.ly-13,x1,n.ly+4],bs:n.s?[Math.min(x0,sx0),n.ly-13,Math.max(x1,sx1),n.ly+17]:null,sym:[-8,-8,8,8]})}
     if(n.s){const sx=el('text',{class:'sub',x:n.lx,y:n.ly+13,'text-anchor':n.an||'start'},g);sx.textContent=n.s}
-    g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('n',id)});
+    g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('n',id,false,'mapa')});
     g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go('n',id)}});
   }
 }
@@ -174,6 +175,7 @@ function paint(){
     g.classList.toggle('dim',!!hi&&!hn.has(id)&&!(sel[0]==='n'&&sel[1]===id));
     g.classList.toggle('sel',!!sel&&sel[0]==='n'&&sel[1]===id)});
   paintFiltros();
+  vacioAviso();
   ordenarEtiquetas();
 }
 
@@ -274,10 +276,10 @@ function paintFiltros(){
   bar.querySelectorAll('.fpanel').forEach(p=>p.onclick=ev=>ev.stopPropagation());
   bar.querySelectorAll('input[type=checkbox],input[type=radio]').forEach(c=>c.onchange=()=>{
     const f=FILT.find(x=>x.id===c.dataset.f),v=f.op.find(o=>String(o[0])===c.dataset.v)[0];
-    if(f.uno){SEL[f.id]=new Set([v]);abierto=null;if(sel&&sel[0]==='v'&&!modoTv())go(null);paint();$(`.fbtn[data-f="${f.id}"]`).focus();return}
-    c.checked?SEL[f.id].add(v):SEL[f.id].delete(v);refresh(f.id)});
-  bar.querySelectorAll('[data-all]').forEach(b=>b.onclick=()=>{const f=FILT.find(x=>x.id===b.dataset.all);f.op.forEach(o=>SEL[f.id].add(o[0]));refresh(f.id)});
-  bar.querySelectorAll('[data-none]').forEach(b=>b.onclick=()=>{SEL[b.dataset.none].clear();refresh(b.dataset.none)});
+    if(f.uno){SEL[f.id]=new Set([v]);abierto=null;if(sel&&sel[0]==='v'&&!modoTv())go(null);paint();ajustarAFiltros();guardarUrl();$(`.fbtn[data-f="${f.id}"]`).focus();return}
+    c.checked?SEL[f.id].add(v):SEL[f.id].delete(v);refresh(f.id);ajustarAFiltros();guardarUrl()});
+  bar.querySelectorAll('[data-all]').forEach(b=>b.onclick=()=>{const f=FILT.find(x=>x.id===b.dataset.all);f.op.forEach(o=>SEL[f.id].add(o[0]));refresh(f.id);ajustarAFiltros();guardarUrl()});
+  bar.querySelectorAll('[data-none]').forEach(b=>b.onclick=()=>{SEL[b.dataset.none].clear();refresh(b.dataset.none);guardarUrl()});
 }
 function paintTravesias(){
   const tl=$('#tvlist'); if(!tl)return;
@@ -301,7 +303,7 @@ function difBox(g,note){
   return `<div class="guia"><div class="gseason on">${swatch(g)}<span class="lab">${G[g].l}</span></div>${note?`<div class="gnote">${note}</div>`:''}</div>`}
 const INFO='<p class="fine" style="margin-top:14px">Normas para cuidar el lugar y teléfonos de emergencia: <a href="info-utiles.html">Info útiles</a>.</p>';
 function estBox(t){
-  const cuando=REG.actualizado?` Leído el ${new Date(REG.actualizado).toLocaleString('es-AR',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}.`:'';
+  const cuando=REG.actualizado?` Leído el ${new Date(REG.actualizado).toLocaleString('es-AR',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit',hour12:false})}.`:'';
   if(t.hab==='no_verificado')return `<div class="row"><span class="k">Estado</span><span class="v soft">No verificado</span></div><p class="fine">Este tramo no figura en el formulario de registro del Parque, o todavía no está asociado a un sendero del formulario.</p>`;
   const det=t.regHall.map(h=>`<li>${esc(h.n)}: ${EST[h.e]}${h.m?' ('+esc(h.m.toLowerCase())+')':''}</li>`).join('');
   return `<div class="row"><span class="k">Estado</span><span class="v">${EST[t.hab]}</span></div><ul class="plain fine">${det}</ul><p class="fine">Según el formulario de registro de trekking del Parque.${cuando}</p>`;
@@ -345,10 +347,10 @@ function home(){
       <svg width="34" height="16" viewBox="-17 -8 34 16"><circle r="5.6" fill="#fff" stroke="var(--ink)" stroke-width="2.2"/></svg><span>Acceso o punto de paso</span>
       <svg width="34" height="16" viewBox="-17 -8 34 16"><circle r="5" fill="#BFD5DD" stroke="var(--waterink)" stroke-width="2"/></svg><span>Laguna</span>
     </div>
-    <p class="fine" style="margin-top:8px">Al acercar el mapa aparecen más nombres. Curvas de nivel cada 100 m, marcadas cada 500. Al acercar aparecen más cumbres y lagunas.</p>
+    <p class="fine" style="margin-top:8px">Al acercar el mapa aparecen más nombres.</p>
   </div>
   <div class="blk"><h2>Qué tiene y qué no tiene esta versión</h2>
-    <p>Tiene ${T.length} tramos sobre relieve real. Distancia, desnivel y perfil salen de la traza de OpenStreetMap y del modelo de alturas.</p>
+    <p>Tiene ${T.length} tramos sobre un mapa real. Distancia, desnivel y perfil salen de la traza de OpenStreetMap y del modelo de alturas.</p>
     <p>La dificultad viene del Anexo I de la Disposición 150/19 del parque, temporada de noviembre a abril. Cada tramo toma la dificultad más baja de las sendas oficiales que lo recorren.</p>
     <p>Ninguna traza está verificada en el terreno todavía. Agua, vadeos, sombra y tiempos medidos siguen pendientes.</p>
     <p>Quedaron afuera las sendas oficiales que no tienen traza en OpenStreetMap, como las bajadas por el arroyo Fresco al lago Mascardi, el refugio Velco, el lago Fonck y la mayor parte de isla Victoria. La travesía glaciaria entre Meiling y Refugio Viejo figura como línea recta.</p>
@@ -368,6 +370,7 @@ function tramo(id){
     geo=`<div class="blk"><h2><span>${t.rt?'Ida y vuelta':`De ${kn(N[A])} a ${kn(N[B])}`}</span>${t.rt?'':'<button id="rv">Ver al revés</button>'}</h2>
       ${bigNums(t.km,up,dn,hours(t.km,up,dn),(!rev||t.rt)?db.tiempo_medido:'',(rev&&!t.rt)?db.tiempo_medido:'')}
       <div style="margin-top:10px">${profSvg(z,t.km,'Perfil de altura del tramo')}</div>
+      <button type="button" class="gpx" id="gpx">Descargar GPX</button>
       <div class="row" style="margin-top:6px"><span class="k">Altura mínima y máxima</span><span class="v">${num(t.zmin)} a ${num(t.zmax)} m</span></div>
       ${db.agua||db.vadeos||db.sombra?rows([['Agua',db.agua],['Vadeos',db.vadeos],['Sombra',db.sombra]],'a relevar')
         :`<div class="row"><span class="k">Agua, vadeos y sombra</span><span class="v soft">a relevar <b class="mk pe">○</b></span></div>`}
@@ -377,7 +380,6 @@ function tramo(id){
       :'<span class="stamp">OpenStreetMap, sin verificar</span><p style="margin-top:7px">La traza la cargaron voluntarios y puede tener errores o estar desactualizada. Se reemplaza cuando haya un track propio.</p>'}</div>`;
   }
   pin.innerHTML=`
-  <button class="back" id="bk">Volver al inicio</button>
   <p class="kind">Tramo${t.ha?', parte de la Huella Andina':''}</p>
   <h1 class="t">${esc(tName(t))}</h1>
   ${subt(t)?`<p class="subt">${subt(t)}</p>`:''}
@@ -386,17 +388,17 @@ function tramo(id){
     <div style="margin-top:9px">${regBlock(t.reg)}</div>
   </div>
   ${geo}
-  <div class="blk"><h2>Cómo es</h2>${t.d?`<p>${esc(t.d)}</p>${db.descripcion_verificada?'':'<p class="pend" style="font-size:15px">Descripción provisoria, sin verificar en el terreno.</p>'}`:`<p class="pend">Pendiente de escribir.</p>`}</div>
+  <div class="blk"><h2>Cómo es</h2>${t.desc?`<p>${esc(t.desc)}</p>${db.descripcion_verificada?'':'<p class="pend" style="font-size:15px">Descripción provisoria, sin verificar en el terreno.</p>'}`:`<p class="pend">Pendiente de escribir.</p>`}</div>
   ${t.ed||!sen?'':`<div class="blk"><h2>Sendas oficiales que lo incluyen</h2>${sen}</div>`}
   ${tvs.length?`<div class="blk"><h2>Travesías que pasan por acá</h2><ul class="list">${tvs.map(v=>`<li><button data-v="${v.id}"><span><span class="nm">${v.n}</span><span class="ds">${v.s}</span></span><span class="sws">${swatch(tvG(v))}</span></button></li>`).join('')}</ul></div>`:''}
   ${INFO}`;
-  wire(); const r=$('#rv'); if(r)r.onclick=()=>{rev=!rev;tramo(id)};
+  wire(); const r=$('#rv'); if(r)r.onclick=()=>{rev=!rev;tramo(id);guardarUrl()};
+  const g=$('#gpx'); if(g)g.onclick=()=>gpxTramo(t,rev);
 }
 function nodo(id){
   const n=N[id], db=n.db; const ts=T.filter(t=>t.a===id||t.b===id);
   const kind={acc:'Acceso',ref:'Refugio',pto:'Punto de paso',lag:'Laguna',cum:'Cumbre'}[n.t];
   pin.innerHTML=`
-  <button class="back" id="bk">Volver al inicio</button>
   <p class="kind">${kind}</p>
   <h1 class="t">${esc(n.n)}</h1>
   <p class="subt">${n.s&&!/\d/.test(n.s)?esc(n.s)+', ':''}${num(n.ele)} m</p>
@@ -420,17 +422,17 @@ function travesia(id){
   const crit=v.t.map(i=>tById[i]).filter(t=>t.g===g);
   const note=crit.length===v.t.length?'Todos los tramos tienen esta dificultad.':`La define el tramo más exigente: ${crit.map(t=>esc(tName(t))).join(' y ')}.`;
   pin.innerHTML=`
-  <button class="back" id="bk">Volver al inicio</button>
-  <p class="kind">Travesía, senda oficial ${v.sen} <b class="mk of">■</b></p>
+  <p class="kind">Travesía${v.sen?', senda oficial '+v.sen+' <b class="mk of">■</b>':''}</p>
   <h1 class="t">${v.n}</h1>
   <p class="subt">${v.s}</p>
   <div class="blk"><h2>Dificultad</h2>${difBox(g,note)}<div style="margin-top:9px">${regBlock()}</div></div>
-  <div class="blk"><h2>El recorrido completo</h2>${bigNums(km,up,dn,hours(km,up,dn))}<div style="margin-top:10px">${profSvg(z,km,'Perfil de altura de la travesía')}</div></div>
+  <div class="blk"><h2>El recorrido completo</h2>${bigNums(km,up,dn,hours(km,up,dn))}<div style="margin-top:10px">${profSvg(z,km,'Perfil de altura de la travesía')}</div>
+    <button type="button" class="gpx" id="gpxv">Descargar GPX de la travesía</button></div>
   ${v.dd.map((d,n)=>`<div class="blk"><h2>Día ${n+1}</h2>
     <p class="subt" style="margin:0 0 8px">${esc(kn(N[d.from]))} a ${esc(kn(N[d.to]))}</p>
     ${bigNums(d.km,d.up,d.dn,d.h)}
     <ul class="list" style="margin-top:8px">${d.O.map(([t,a,b])=>{const f=t.a===a;return `<li><button data-t="${t.id}" data-rev="${f?0:1}"><span><span class="nm">${kn(N[a])} a ${kn(N[b])}</span><span class="ds">${t.src==='none'?'ruta glaciaria, sin traza':`${f1(t.km)} km, +${num(f?t.up:t.dn)} m, −${num(f?t.dn:t.up)} m`} · ${EST[t.hab]}</span></span><span class="sws">${swatch(t.g)}</span></button></li>`}).join('')}</ul>
-    ${d.O.map(([t])=>t.d?`<p class="fine">${esc(t.d)}</p>`:'').join('')}
+    ${d.O.map(([t])=>t.desc?`<p class="fine">${esc(t.desc)}</p>`:'').join('')}
   </div>`).join('')}
   <div class="blk"><h2>Lo propio de la travesía</h2>
     ${rows([['Días',v.nd+(v.nd===1?' día':' días')]],'')}
@@ -438,21 +440,23 @@ function travesia(id){
     ${rows([['Salidas de escape',v.db.salidas_de_escape],['Cómo volver',v.db.como_volver]],'a relevar')}
   </div>
   ${INFO}`;
-  wire();
+  wire(); $('#gpxv').onclick=()=>gpxTv(v);
 }
 function wire(){
   const b=$('#bk'); if(b)b.onclick=()=>go(null);
   pin.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{rev=b.dataset.rev==='1';go('t',b.dataset.t,true)});
   pin.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>go('v',b.dataset.v));
 }
-function go(k,id,keepRev){
+function go(k,id,keepRev,desde){
   if(!keepRev)rev=false;
   sel=k?[k,id]:null;
-  if(!k)home(); else if(k==='t')tramo(id); else if(k==='n')nodo(id); else travesia(id);
-  paint();
-  if(k){pin.insertAdjacentHTML('afterbegin','<a class="tomap" href="#mapwrap">↑ Volver al mapa</a>');
-    $('#panel').scrollIntoView({behavior:'smooth',block:'start'})}
+  if(!k){pin=pinHome;home();dr.hidden=true;mapwrap.classList.remove('dr-open')}
+  else{pin=drBody;(k==='t'?tramo:k==='n'?nodo:travesia)(id);dr.hidden=false;mapwrap.classList.add('dr-open');dr.scrollTop=0;if(desde!=='mapa')mostrarSel(true)}
+  paint(); guardarUrl();
 }
+$('#drx').onclick=()=>go(null);
+$('#drlink').onclick=()=>{const u=urlActual();
+  (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>hint('Enlace copiado',1200),()=>{try{prompt('Copiá el enlace:',u)}catch(e){}})};
 
 /* ================= PAN / ZOOM ================= */
 /* Mapa real (Leaflet) debajo; el dibujo de trazas, símbolos y nombres sigue siendo este SVG,
@@ -461,7 +465,8 @@ const S_PX=2388;   // píxeles del dibujo por grado
 const mercDeg=l=>Math.log(Math.tan(Math.PI/4+l*Math.PI/360))*180/Math.PI;
 const latDeMerc=m=>(2*Math.atan(Math.exp(m*Math.PI/180))-Math.PI/2)*180/Math.PI;
 const LON_C=-71.601, MERC_C=(mercDeg(-40.412)+mercDeg(-41.607))/2;
-const imgLL=(x,y)=>L.latLng(latDeMerc(MERC_C-(y-H/2)/S_PX),LON_C+(x-W/2)/S_PX);
+const imgLat=(x,y)=>[latDeMerc(MERC_C-(y-H/2)/S_PX),LON_C+(x-W/2)/S_PX];   // [latitud, longitud] de un punto del dibujo
+const imgLL=(x,y)=>L.latLng(...imgLat(x,y));
 const llImg=(lat,lon)=>({x:W/2+(lon-LON_C)*S_PX,y:H/2-(mercDeg(lat)-MERC_C)*S_PX});
 /* límites: al oeste, la frontera con Chile; al este, 50 km después del último sendero (la vista inicial deja 5 km) */
 const nx=Object.values(N).map(n=>n.x), ny=Object.values(N).map(n=>n.y);
@@ -469,6 +474,27 @@ const KM5=5000/D.mpp;
 const VISTA=[Math.min(...nx)-50,Math.min(...ny)-60,Math.max(...nx)+KM5,Math.max(...ny)+60];
 const LIMITES=typeof L!=='undefined'?L.latLngBounds(L.latLng(-41.72,-72.05),imgLL(Math.max(...nx)+50000/D.mpp,VISTA[1]-120)):null;
 const CLAVE=typeof MAPA_CLAVE_MAPTILER==='string'?MAPA_CLAVE_MAPTILER.trim():'';
+/* ---- enlace compartible: los filtros, la ficha elegida, la capa y la vista quedan en la dirección (#...) ---- */
+const HASH=(()=>{try{return new URLSearchParams(location.hash.slice(1))}catch(e){return new URLSearchParams()}})();
+FILT.forEach(f=>{const v=HASH.get(f.id);if(v==null)return;
+  const ok=v==='-'?[]:v.split('~').map(x=>f.op.find(o=>String(o[0])===x)).filter(Boolean).map(o=>o[0]);
+  if(f.uno){if(ok.length)SEL[f.id]=new Set([ok[0]])}else SEL[f.id]=new Set(ok)});
+let urlT=0;
+function urlActual(){
+  const p=[],add=(k,v)=>p.push(k+'='+encodeURIComponent(v));
+  FILT.forEach(f=>{const s=SEL[f.id],d=new Set(DEF[f.id]||f.op.map(o=>o[0]));if(s.size!==d.size||[...s].some(x=>!d.has(x)))add(f.id,[...s].join('~')||'-')});
+  if(sel){add('s',sel[0]+'.'+sel[1]);if(rev)add('rev','1')}
+  if(capaAct!=='topo')add('c',capaAct);
+  if(map){const c=map.getCenter();add('v',c.lat.toFixed(4)+','+c.lng.toFixed(4)+','+map.getZoom().toFixed(1))}
+  return location.href.split('#')[0]+(p.length?'#'+p.join('&'):'')}
+function guardarUrl(){clearTimeout(urlT);urlT=setTimeout(()=>{try{history.replaceState(null,'',urlActual())}catch(e){}},300)}
+/* ---- capas del mapa ---- */
+const CAPAS={
+  topo:{k:'https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © colaboradores de OpenStreetMap',cf:'Esri, USGS, NPS, © colaboradores de OpenStreetMap'},
+  sat:{k:'https://api.maptiler.com/maps/hybrid/256/{z}/{x}/{y}.jpg?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © Maxar y colaboradores de OpenStreetMap',cf:'imágenes © Esri, Maxar, Earthstar Geographics'},
+  calles:{k:'https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}.png?key=',f:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',ck:'© MapTiler © colaboradores de OpenStreetMap',cf:'Esri, HERE, Garmin, © colaboradores de OpenStreetMap'}
+};
+let capaAct=CAPAS[HASH.get('c')]?HASH.get('c'):(()=>{try{const c=localStorage.getItem('pt.capa');return CAPAS[c]?c:'topo'}catch(e){return 'topo'}})(), capaLyr=null;
 /* Capa de baldosas que no pide las que caen enteras del lado chileno (frontera en geo/frontera.js): ahorra datos. */
 const CapaSinChile=LIMITES?L.TileLayer.extend({_isValidTile(c){
   if(!L.TileLayer.prototype._isValidTile.call(this,c))return false;
@@ -481,13 +507,20 @@ let map=null;
 if(LIMITES){
   map=L.map('basemap',{zoomControl:false,attributionControl:false,dragging:false,touchZoom:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,
     zoomSnap:0,zoomAnimation:false,fadeAnimation:false,markerZoomAnimation:false,inertia:false,maxBoundsViscosity:1,maxZoom:17,center:[-41.1,-71.5],zoom:9});
-  (CLAVE?new CapaSinChile(`https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=${encodeURIComponent(CLAVE)}`,{maxZoom:17,maxNativeZoom:17})
-        :new CapaSinChile('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:17,maxNativeZoom:17})).addTo(map);
   map.setMaxBounds(LIMITES); map.setMinZoom(map.getBoundsZoom(LIMITES));
-  $('.attr').innerHTML=CLAVE?'Mapa base: © MapTiler © colaboradores de OpenStreetMap. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).'
-    :'Mapa base: Esri, USGS, NPS, © colaboradores de OpenStreetMap. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).';
   map.on('move zoom resize',()=>apply());
-}else{$('.attr').textContent='No se pudo cargar el mapa base. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).'}
+  map.on('moveend',guardarUrl);
+}else{$('.attr').textContent='No se pudo cargar el mapa base. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).';$('#capas').hidden=true;$('#zloc').hidden=true}
+function ponerCapa(c){
+  if(!map)return; capaAct=c; const d=CAPAS[c];
+  if(capaLyr)map.removeLayer(capaLyr);
+  capaLyr=new CapaSinChile(CLAVE?d.k+encodeURIComponent(CLAVE):d.f,{maxZoom:17,maxNativeZoom:17}).addTo(map);
+  $('.attr').innerHTML='Mapa base: '+(CLAVE?d.ck:d.cf)+'. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).';
+  document.querySelectorAll('#capas button').forEach(b=>{const on=b.dataset.c===c;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+  try{localStorage.setItem('pt.capa',c)}catch(e){}
+  guardarUrl()}
+document.querySelectorAll('#capas button').forEach(b=>b.onclick=()=>ponerCapa(b.dataset.c));
+ponerCapa(capaAct);
 let vb={x:0,y:0,w:W,h:H}, moved=false, fitW=W;
 function fit(){
   if(map){map.fitBounds(L.latLngBounds(imgLL(VISTA[0],VISTA[3]),imgLL(VISTA[2],VISTA[1])),{animate:false,padding:[8,8]});apply();fitW=vb.w}
@@ -513,7 +546,7 @@ function zoom(f,cx,cy){
 /* Zoom solo con Ctrl + rueda (o pellizco en el trackpad). Sin Ctrl la rueda sigue bajando la página. */
 const hintEl=el0('div','maphint');$('#mapwrap').appendChild(hintEl);
 let hintT=0;
-function hint(txt){hintEl.textContent=txt;hintEl.classList.add('on');clearTimeout(hintT);hintT=setTimeout(()=>hintEl.classList.remove('on'),1500)}
+function hint(txt,ms=1500){hintEl.textContent=txt;hintEl.classList.add('on');clearTimeout(hintT);hintT=setTimeout(()=>hintEl.classList.remove('on'),ms)}
 function el0(t,c){const e=document.createElement(t);e.className=c;e.setAttribute('role','status');return e}
 svg.addEventListener('wheel',ev=>{
   if(!(ev.ctrlKey||ev.metaKey)){hint('Usá Ctrl + rueda del mouse para hacer zoom en el mapa');return}
@@ -540,4 +573,113 @@ $('#zin').onclick=()=>zoom(1/1.5);$('#zout').onclick=()=>zoom(1.5);$('#zre').onc
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&sel)go(null)});
 window.addEventListener('resize',()=>{if(map)map.invalidateSize({animate:false});apply()});
 
+/* ================= ENCUADRE: elegir algo, o cambiar filtros ================= */
+function bbT(t){
+  if(t._bb)return t._bb;
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  const nm=typeof t.d==='string'?t.d.match(/-?\d+(?:\.\d+)?/g):null;
+  if(nm){for(let i=0;i+1<nm.length;i+=2){const x=+nm[i],y=+nm[i+1];x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}}
+  else[N[t.a],N[t.b]].forEach(n=>{x0=Math.min(x0,n.x);x1=Math.max(x1,n.x);y0=Math.min(y0,n.y);y1=Math.max(y1,n.y)});
+  return t._bb=[x0,y0,x1,y1]}
+const unir=bs=>bs.reduce((a,b)=>[Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[2],b[2]),Math.max(a[3],b[3])],[1e9,1e9,-1e9,-1e9]);
+/* cuánto del mapa tapa la ficha: a la derecha en pantalla ancha, abajo en el celular */
+function ocupa(){
+  if(dr.hidden)return {r:0,b:0};
+  const m=svg.getBoundingClientRect(),d=dr.getBoundingClientRect();
+  return getComputedStyle(dr).position==='absolute'?{r:Math.max(0,m.right-d.left),b:0}:{r:0,b:Math.max(0,m.bottom-d.top)}}
+function enfocar(bb,maxZoom,libre){
+  if(!map)return; const o=libre?ocupa():{r:0,b:0};
+  map.fitBounds(L.latLngBounds(imgLL(bb[0],bb[3]),imgLL(bb[2],bb[1])),{animate:false,paddingTopLeft:[30,30],paddingBottomRight:[30+o.r,30+o.b],maxZoom})}
+/* al elegir algo: si no se ve entero (o queda bajo la ficha), el mapa se acomoda para mostrarlo */
+function mostrarSel(forzar){
+  if(!map||!sel)return;
+  const bb=sel[0]==='t'?bbT(tById[sel[1]]):sel[0]==='n'?[N[sel[1]].x,N[sel[1]].y,N[sel[1]].x,N[sel[1]].y]:unir(TV.find(v=>v.id===sel[1]).t.map(i=>bbT(tById[i])));
+  const r=svg.getBoundingClientRect(),o=ocupa(),k=r.width/vb.w;
+  const dentro=(bb[0]-vb.x)*k>=20&&(bb[1]-vb.y)*k>=20&&(bb[2]-vb.x)*k<=r.width-o.r-20&&(bb[3]-vb.y)*k<=r.height-o.b-20;
+  if(forzar||!dentro)enfocar(bb,sel[0]==='n'?13:14,true)}
+/* tramos que se ven con los filtros de ahora */
+const visibles=()=>modoTv()?[...new Set(TV.filter(tvPasa).flatMap(v=>v.t))].map(i=>tById[i]):T.filter(pasa);
+/* al cambiar un filtro: el mapa se acerca a lo que quedó visible (si no hay una ficha abierta) */
+function ajustarAFiltros(){
+  if(sel||!map)return; const l=visibles(); if(!l.length)return;
+  enfocar(unir(l.map(bbT)),13,false)}
+function vacioAviso(){
+  const n=visibles().length,v=$('#vacio');
+  v.hidden=n>0;
+  if(!n)v.querySelector('span').textContent=(modoTv()?'Ninguna travesía cumple estos filtros.':'Ningún tramo cumple estos filtros.')+(SEL.hab.has('cerrado')?'':' Probá tildar «Cerrado» en Habilitado.')}
+$('#vreset').onclick=()=>{FILT.forEach(f=>SEL[f.id]=new Set(DEF[f.id]||f.op.map(o=>o[0])));paint();ajustarAFiltros()};
+/* cualquier cambio de filtro llama a ajustarAFiltros (ver paintFiltros) */
+
+/* ================= BÚSQUEDA ================= */
+const sinAcento=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const TIPO_N={ref:'Refugio',acc:'Acceso',pto:'Punto de paso',lag:'Laguna',cum:'Cumbre'};
+const IDX=[
+  ...Object.entries(N).map(([id,n])=>({k:'n',id,txt:sinAcento(n.n+' '+(n.s||'')),n:n.n,s:[TIPO_N[n.t],n.s&&!/\d/.test(n.s)?n.s:''].filter(Boolean).join(' · '),o:n.t==='ref'?0:1})),
+  ...TV.map(v=>({k:'v',id:v.id,txt:sinAcento(v.n+' '+v.s),n:v.n,s:'Travesía de '+v.nd+' días · '+v.s,o:2})),
+  ...T.map(t=>({k:'t',id:t.id,txt:sinAcento(tName(t)+' '+(t.via||'')),n:tName(t),s:'Tramo'+(t.via?' · por '+t.via:''),o:3}))];
+const q=$('#q'),qres=$('#qres'); let qsel=-1,qlist=[];
+function buscar(){
+  const t=sinAcento(q.value.trim()); qsel=-1;
+  if(t.length<2){qlist=[];}else{
+    qlist=IDX.map(it=>{const i=it.txt.indexOf(t);return i<0?null:[it,(i===0||it.txt[i-1]===" "?0:1)*10+it.o]}).filter(Boolean)
+      .sort((a,b)=>a[1]-b[1]||a[0].n.localeCompare(b[0].n,'es')).slice(0,8).map(x=>x[0])}
+  qres.innerHTML=qlist.length?qlist.map((it,i)=>`<li role="option" id="qo${i}" data-i="${i}"><b>${esc(it.n)}</b><span>${esc(it.s)}</span></li>`).join(''):(t.length>=2?'<li class="vacio-q">Sin resultados</li>':'');
+  qres.hidden=!qres.innerHTML; q.setAttribute('aria-expanded',!qres.hidden)}
+function elegirRes(it){
+  qres.hidden=true;q.setAttribute('aria-expanded','false');q.value='';
+  if(it.k==='v'){const v=TV.find(x=>x.id===it.id);SEL.dur=new Set([Math.min(5,v.nd)])}
+  go(it.k,it.id)}
+q.addEventListener('input',buscar);
+q.addEventListener('focus',buscar);
+q.addEventListener('keydown',ev=>{
+  if(ev.key==='ArrowDown'||ev.key==='ArrowUp'){ev.preventDefault();if(!qlist.length)return;qsel=(qsel+(ev.key==='ArrowDown'?1:-1)+qlist.length)%qlist.length;
+    qres.querySelectorAll('li').forEach((li,i)=>li.setAttribute('aria-selected',i===qsel));q.setAttribute('aria-activedescendant','qo'+qsel)}
+  else if(ev.key==='Enter'){const it=qlist[qsel<0?0:qsel];if(it){ev.preventDefault();elegirRes(it)}}
+  else if(ev.key==='Escape'){qres.hidden=true;q.setAttribute('aria-expanded','false')}});
+qres.addEventListener('mousedown',ev=>{const li=ev.target.closest('li[data-i]');if(li){ev.preventDefault();elegirRes(qlist[+li.dataset.i])}});
+document.addEventListener('click',ev=>{if(!ev.target.closest('.buscar')){qres.hidden=true;q.setAttribute('aria-expanded','false')}});
+
+/* ================= MI UBICACIÓN ================= */
+let YO=null;
+$('#zloc').onclick=()=>{
+  if(!navigator.geolocation||!map){hint('Este navegador no puede darte tu ubicación',2500);return}
+  navigator.geolocation.getCurrentPosition(p=>{
+    const ll=L.latLng(p.coords.latitude,p.coords.longitude);
+    if(!LIMITES.contains(ll)){hint('Estás fuera del área del mapa',2500);return}
+    const c=llImg(ll.lat,ll.lng);
+    if(!YO){YO=el('g',{class:'yo'},svg.firstChild);el('circle',{r:16,class:'yo-h'},YO);el('circle',{r:6.5,class:'yo-d'},YO)}
+    YO.style.transform=`translate(${c.x}px,${c.y}px) scale(var(--u))`;
+    map.setView(ll,Math.max(map.getZoom(),12),{animate:false})},
+  e=>hint(e.code===1?'No diste permiso para usar tu ubicación':'No se pudo obtener tu ubicación',2500),
+  {enableHighAccuracy:true,timeout:15000})};
+
+/* ================= DESCARGAR GPX ================= */
+const xml=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+/* puntos [lat, lon, altura] de la traza de un tramo; la altura sale del perfil, repartida a lo largo de la traza */
+function ptsGpx(t,inv){
+  const nm=t.d.match(/-?\d+(?:\.\d+)?/g).map(Number),P=[];
+  for(let i=0;i+1<nm.length;i+=2)P.push([nm[i],nm[i+1]]);
+  const A=[0];for(let i=1;i<P.length;i++)A.push(A[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));
+  const tot=A[A.length-1]||1,pr=t.prof;
+  const out=P.map((p,i)=>{const f=A[i]/tot*(pr.length-1),a=Math.floor(f),b=Math.min(pr.length-1,a+1);return [...imgLat(p[0],p[1]),pr[a]+(pr[b]-pr[a])*(f-a)]});
+  return inv?out.reverse():out}
+function gpxTexto(nombre,trks,wpts){
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Mapu Mapa" xmlns="http://www.topografix.com/GPX/1/1">\n<metadata><name>${xml(nombre)}</name><desc>Traza de OpenStreetMap, sin verificar en el terreno. No la uses como única guía para navegar.</desc></metadata>\n`
+   +wpts.map(n=>{const [la,lo]=imgLat(n.x,n.y);return `<wpt lat="${la.toFixed(6)}" lon="${lo.toFixed(6)}"><ele>${Math.round(n.ele)}</ele><name>${xml(n.n)}</name></wpt>`}).join('\n')+'\n'
+   +trks.map(k=>`<trk><name>${xml(k.n)}</name>${k.segs.map(s=>`<trkseg>${s.map(p=>`<trkpt lat="${p[0].toFixed(6)}" lon="${p[1].toFixed(6)}"><ele>${Math.round(p[2])}</ele></trkpt>`).join('')}</trkseg>`).join('')}</trk>`).join('\n')+'\n</gpx>\n'}
+function bajarGpx(nombre,texto){
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([texto],{type:'application/gpx+xml'}));
+  a.download=sinAcento(nombre).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.gpx';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+const gpxTramo=(t,inv)=>{const A=inv?t.b:t.a,B=inv?t.a:t.b;bajarGpx(tName(t),gpxTexto(tName(t),[{n:tName(t),segs:[ptsGpx(t,inv&&!t.rt)]}],[N[A],N[B]]))};
+const gpxTv=v=>{const O=orient(v);
+  const trks=v.dd.map((d,i)=>({n:`Día ${i+1}: ${kn(N[d.from])} a ${kn(N[d.to])}`,segs:d.O.filter(([t])=>t.d).map(([t,a])=>ptsGpx(t,t.a!==a))}));
+  const ids=[];const w=[];O.forEach(([t,a,b])=>{[a,b].forEach(i=>{if(!ids.includes(i)){ids.push(i);w.push(N[i])}})});
+  bajarGpx(v.n,gpxTexto(v.n,trks,w))};
+
+/* ================= ARRANQUE ================= */
 build(); avisos(); home(); paint(); fit();
+{ const V=(HASH.get('v')||'').split(',').map(Number);   // vista guardada en el enlace
+  if(map&&V.length===3&&V.every(Number.isFinite)){map.setView([V[0],V[1]],V[2],{animate:false});apply()}
+  const S=(HASH.get('s')||'').split('.'),sid=S.slice(1).join('.');
+  if((S[0]==='t'&&tById[sid])||(S[0]==='n'&&N[sid])||(S[0]==='v'&&TV.find(v=>v.id===sid))){rev=HASH.get('rev')==='1';go(S[0],sid,true,'mapa')}}

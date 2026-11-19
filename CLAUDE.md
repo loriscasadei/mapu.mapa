@@ -14,3 +14,7 @@ Mapa de trekking estático (HTML/CSS/JS plano, sin build). Se prueba abriendo in
 - La v1 original está en ../mapa-trekking/ (sin tocar).
 - `geo/` cubre todo el parque (Web Mercator, ~35 m/px). Se generó el 12/11/2026 con OSM (extracto Geofabrik) y elevación terrarium/SRTM; los scripts quedaron fuera del proyecto. Para regenerar hay que reconstruirlos.
 - Los tramos y puntos agregados desde el Anexo I están al final de `datos/tramos.js` y `datos/puntos.js`. Los puntos `E01`, `E02`… son empalmes o accesos automáticos. `INFORME-SENDAS.md` dice qué senda quedó trazada y cuál no.
+- La ficha de lo elegido se abre sobre el mapa (`#dr`: lateral en pantalla ancha, hoja inferior en el celular); `#pin` de abajo es solo el inicio. La dirección (#...) guarda filtros, ficha, capa y vista (`urlActual()` en app.js). Búsqueda (`IDX`), GPX (`gpxTramo`, `gpxTv`) y capas (`CAPAS`) también están en app.js.
+- `geo/geometria.js` ya no trae `ctx` ni `L` (pesaban 900 KB y no se usaban). `geo/frontera.js` también es generado.
+- `.github/workflows/actualizar-estado.yml` lee el registro del Parque cada 3 h y sube `datos/estado.js` a `main`. Corre desde `main`: hay que traer esos cambios a `dev_loris` (`git pull origin main`) antes de subir.
+- El campo de descripción del tramo en app.js es `desc` (`d` es la traza dibujada).

@@ -13,3 +13,11 @@ y agregar, con la ruta real de esta carpeta:
     0 */2 * * * cd /ruta/a/dev_loris && /usr/local/bin/node herramientas/actualizar-estado.mjs >> herramientas/estado.log 2>&1
 
 Con la app publicada en un servidor, conviene programar el mismo comando allí (cron, o una tarea programada de GitHub Actions).
+
+## Automático en GitHub (cada 3 horas)
+
+El archivo `.github/workflows/actualizar-estado.yml` hace lo mismo en los servidores de GitHub, sin que tengas que dejar nada prendido:
+
+- Corre cada 3 horas y también a mano (pestaña **Actions**, **Actualizar estado de los senderos**, **Run workflow**).
+- Solo sube `datos/estado.js` a `main` si el estado de algún sendero cambió. Una vez al día lo sube igual, para que la fecha de lectura no quede vieja.
+- Necesita que el repositorio tenga activadas las Actions (Settings, Actions, General) con permiso de escritura para el flujo (Workflow permissions: Read and write).

@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mapu Mapa — el mapa de las tierras patagónicas</title>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://api.maptiler.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
@@ -29,12 +31,17 @@ addEventListener('error',e=>{
   </div>
 </div>
 <div id="app">
-  <div id="bar"><div class="filtros" id="filtros" role="group" aria-label="Filtros de senderos"></div><div class="tvstrip" id="tvlist" hidden></div></div>
+  <div id="bar">
+    <div class="filtros" id="filtros" role="group" aria-label="Filtros de senderos"></div><div class="tvstrip" id="tvlist" hidden></div></div>
   <div id="mapwrap">
     <div id="basemap" aria-hidden="true"></div>
     <svg id="map" data-z="1" role="img" aria-label="Mapa de senderos del Parque Nacional Nahuel Huapi, de Villa Traful al río Villegas"></svg>
+    <div class="capas" id="capas" role="group" aria-label="Capa del mapa"><button type="button" data-c="topo">Topográfico</button><button type="button" data-c="sat">Satélite</button><button type="button" data-c="calles">Calles</button></div>
+    <div class="buscar"><input id="q" type="search" placeholder="Buscar refugio, sendero o cumbre" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="qres" aria-autocomplete="list" aria-label="Buscar refugio, sendero, travesía o cumbre"><ul id="qres" role="listbox" hidden></ul></div>
+    <div class="vacio" id="vacio" role="status" hidden><span></span> <button type="button" id="vreset">Restablecer filtros</button></div>
+    <aside id="dr" hidden aria-live="polite" aria-label="Ficha"><div class="drh"><button type="button" id="drx">✕ Cerrar</button><button type="button" id="drlink">Copiar enlace</button></div><div class="pin" id="drbody"></div></aside>
     <div class="scale" id="scale"><span></span><i></i></div>
-    <div class="zb"><button id="zin" aria-label="Acercar">+</button><button id="zout" aria-label="Alejar">−</button><button id="zre" aria-label="Ver todo" style="font-size:15px">todo</button></div>
+    <div class="zb"><button id="zin" aria-label="Acercar">+</button><button id="zout" aria-label="Alejar">−</button><button id="zloc" aria-label="Mi ubicación" title="Mi ubicación"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="5.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="10" r="1.9" fill="currentColor"/><path d="M10 0.8v3.4M10 15.8v3.4M0.8 10h3.4M15.8 10h3.4" stroke="currentColor" stroke-width="1.8"/></svg></button><button id="zre" aria-label="Ver todo" style="font-size:15px">todo</button></div>
     <div class="attr">Senderos, lagos y cumbres: © colaboradores de OpenStreetMap (noviembre de 2026). Relieve: SRTM.</div>
   </div>
   <aside id="panel" aria-live="polite"><div id="avisos" role="alert" hidden></div><div class="pin" id="pin"></div></aside>
