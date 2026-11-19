@@ -5,7 +5,7 @@ Mapa de trekking estático (HTML/CSS/JS plano, sin build). Se prueba abriendo in
 - Si se agrega, renombra o quita un campo: actualizar a la vez `CAMPOS` en app.js (el validador), todos los registros del archivo y `datos/LEEME.md`.
 - `geo/` es generado. No editar a mano: `relieve.js` es base64 y `geometria.js` es una línea larga. Modificarlos con scripts.
 - Los ids de tramos y puntos unen `datos/` con `geo/`. No renombrarlos sin cambiar los dos.
-- Orden de carga: Leaflet (cdnjs), mapa-config.js, geo/geometria.js, datos/puntos.js, tramos.js, travesias.js, estado.js, app.js.
+- Orden de carga: Leaflet (cdnjs), mapa-config.js, geo/geometria.js, geo/frontera.js, datos/puntos.js, tramos.js, travesias.js, estado.js, app.js.
 - El mapa de fondo es real (Leaflet + Esri World Topo, o MapTiler si `mapa-config.js` tiene clave). Las trazas, símbolos y nombres siguen siendo un SVG en píxeles de `geo/` que `app.js` acomoda a la vista del mapa (proyección Web Mercator, `S_PX`, `LON_C`, `MERC_C`). `geo/relieve.js` (imagen) y `D.ctx`/`D.L` ya no se usan.
 - Solo temporada de verano: no hay datos ni selector de invierno.
 - `info-utiles.html` es estática (cuidar el lugar, emergencia): no se repite en las fichas.

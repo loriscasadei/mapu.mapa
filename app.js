@@ -463,18 +463,26 @@ const latDeMerc=m=>(2*Math.atan(Math.exp(m*Math.PI/180))-Math.PI/2)*180/Math.PI;
 const LON_C=-71.601, MERC_C=(mercDeg(-40.412)+mercDeg(-41.607))/2;
 const imgLL=(x,y)=>L.latLng(latDeMerc(MERC_C-(y-H/2)/S_PX),LON_C+(x-W/2)/S_PX);
 const llImg=(lat,lon)=>({x:W/2+(lon-LON_C)*S_PX,y:H/2-(mercDeg(lat)-MERC_C)*S_PX});
-/* límites: al oeste, la frontera con Chile; al este, unos 5 km después del último sendero */
+/* límites: al oeste, la frontera con Chile; al este, 50 km después del último sendero (la vista inicial deja 5 km) */
 const nx=Object.values(N).map(n=>n.x), ny=Object.values(N).map(n=>n.y);
 const KM5=5000/D.mpp;
 const VISTA=[Math.min(...nx)-50,Math.min(...ny)-60,Math.max(...nx)+KM5,Math.max(...ny)+60];
-const LIMITES=typeof L!=='undefined'?L.latLngBounds(L.latLng(-41.72,-72.05),imgLL(VISTA[2],VISTA[1]-120)):null;
+const LIMITES=typeof L!=='undefined'?L.latLngBounds(L.latLng(-41.72,-72.05),imgLL(Math.max(...nx)+50000/D.mpp,VISTA[1]-120)):null;
 const CLAVE=typeof MAPA_CLAVE_MAPTILER==='string'?MAPA_CLAVE_MAPTILER.trim():'';
+/* Capa de baldosas que no pide las que caen enteras del lado chileno (frontera en geo/frontera.js): ahorra datos. */
+const CapaSinChile=LIMITES?L.TileLayer.extend({_isValidTile(c){
+  if(!L.TileLayer.prototype._isValidTile.call(this,c))return false;
+  if(typeof FRONTERA==='undefined')return true;
+  const b=this._tileCoordsToBounds(c),F=FRONTERA,L0=F.lon.length-1;
+  const i0=Math.max(0,Math.floor((b.getSouth()-F.lat0)/F.paso)-1),i1=Math.min(L0,Math.floor((b.getNorth()-F.lat0)/F.paso)+1);
+  let w=0;for(let i=i0;i<=i1;i++)w=Math.min(w,F.lon[i]);
+  return b.getEast()>w-0.01}}):null;
 let map=null;
 if(LIMITES){
   map=L.map('basemap',{zoomControl:false,attributionControl:false,dragging:false,touchZoom:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,
     zoomSnap:0,zoomAnimation:false,fadeAnimation:false,markerZoomAnimation:false,inertia:false,maxBoundsViscosity:1,maxZoom:17,center:[-41.1,-71.5],zoom:9});
-  (CLAVE?L.tileLayer(`https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=${encodeURIComponent(CLAVE)}`,{maxZoom:17,maxNativeZoom:17})
-        :L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:17,maxNativeZoom:17})).addTo(map);
+  (CLAVE?new CapaSinChile(`https://api.maptiler.com/maps/outdoor-v2/256/{z}/{x}/{y}.png?key=${encodeURIComponent(CLAVE)}`,{maxZoom:17,maxNativeZoom:17})
+        :new CapaSinChile('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:17,maxNativeZoom:17})).addTo(map);
   map.setMaxBounds(LIMITES); map.setMinZoom(map.getBoundsZoom(LIMITES));
   $('.attr').innerHTML=CLAVE?'Mapa base: © MapTiler © colaboradores de OpenStreetMap. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).'
     :'Mapa base: Esri, USGS, NPS, © colaboradores de OpenStreetMap. Senderos: © colaboradores de OpenStreetMap (noviembre de 2026).';
