@@ -1,12 +1,12 @@
 # Base de datos de senderos
 
-Esta carpeta es lo único que se edita a mano. Hay tres archivos, uno por tipo de objeto:
+Esta carpeta es lo único que se edita a mano, salvo `estado.js` (generado, ver abajo). Hay tres archivos, uno por tipo de objeto:
 
 | Archivo | Qué guarda | Cuántos |
 |---|---|---|
-| `tramos.js` | Senderos entre dos puntos: lo que se dibuja en el mapa | 112 |
-| `puntos.js` | Accesos, refugios, puntos de paso, lagunas y cumbres | 153 |
-| `travesias.js` | Recorridos armados encadenando tramos | 8 |
+| `tramos.js` | Senderos entre dos puntos: lo que se dibuja en el mapa | 110 |
+| `puntos.js` | Accesos, refugios, puntos de paso, lagunas y cumbres | 152 |
+| `travesias.js` | Recorridos armados encadenando tramos | 7 |
 
 Las normas para cuidar el lugar y los contactos de emergencia no están acá: están en la página estática `../info-utiles.html`, que se edita directamente.
 
@@ -57,7 +57,7 @@ Cada campo termina con coma. Cada registro va entre llaves `{ }` y también term
 
 | Campo | Tipo | Qué es | Si está vacío |
 |---|---|---|---|
-| `dificultad` | valor fijo | Dificultad del tramo. Define el color en el mapa y el filtro "Dificultad" | — |
+| `dificultad` | valor fijo | Dificultad del tramo. Define el color en el mapa y el filtro «Dificultad» | — |
 | `nota_dificultad` | texto | Nota bajo la dificultad | Si está fuera de la APN, se aclara. Si no, no se muestra nada |
 | `sendas_apn` | lista de números | Sendas oficiales de la APN que se muestran | No se muestra el bloque |
 | `sendas_apn_total` | número | Total de sendas oficiales que pasan por el tramo. Si es mayor que la lista, se muestra "y N más" | — |
@@ -65,6 +65,16 @@ Cada campo termina con coma. Cada registro va entre llaves `{ }` y también term
 | `administra` | texto | Quién lo administra, si está fuera de la APN | — |
 | `registro` | valor fijo | Registro de trekking | — |
 | `huella_andina` | sí/no | Es parte de la Huella Andina | — |
+
+### Ubicación y estado
+
+Alimentan los filtros «Zona», «Duración» y «Habilitado» de la barra sobre el mapa. El estado **no se escribe a mano**: lo genera `../herramientas/actualizar-estado.mjs` en `estado.js`.
+
+| Campo | Tipo | Qué es | Si está vacío |
+|---|---|---|---|
+| `zona` | texto | Zona del tramo. Cada nombre distinto aparece como una opción del filtro «Zona»: escribirlo siempre igual | Se agrupa en «Sin zona» |
+| `duracion_dias` | número | Días de caminata del tramo, para el filtro «Duración» (5 = más de 4). **Provisorio: calculado con la fórmula de tiempo, a 8 h por día; corregir a mano** | `0`: el tramo no entra en ninguna opción del filtro salvo que estén todas tildadas |
+| `nombres_en_registro` | lista de textos | Nombre(s) del sendero o travesía en el formulario de registro del Parque que recorren este tramo, escritos tal cual figuran allí. El estado (habilitado, cerrado, solo con guía) se toma de ahí. Si hay varios, gana el mejor estado | `[]`: el tramo queda «No verificado» |
 
 Valores de `dificultad`. Salen del Anexo I de la Disposición 150/19, período 1: Baja = fácil, Media = moderada, Alta = difícil. Ver `../INFORME-SENDAS.md`:
 
@@ -133,10 +143,19 @@ Si cambiás el `tipo` de un punto, agregá o borrá estos campos extra. Si no, l
 | `nombre` | texto | Nombre de la travesía | — |
 | `resumen` | texto | Línea bajo el nombre ("De Villa Catedral a…") | — |
 | `senda_apn` | texto | Número de senda oficial. Va como texto porque puede ser `'58 y 63'` | — |
-| `tramos` | lista de ids | Tramos en el orden en que se caminan. El sentido de cada uno se deduce solo | — |
-| `dias` | texto | Cuántos días | "a definir" |
+| `etapas` | lista de listas de ids | Una lista por día, con los tramos de ese día en el orden en que se caminan. El sentido de cada tramo se deduce solo. **La cantidad de listas es la cantidad de días**, y define en qué opción del filtro «Duración» aparece. Provisorio: la división en días es una propuesta, corregir a mano | — |
 | `donde_dormir` | texto | Dónde se duerme | "a definir" |
 | `salidas_de_escape` | texto | Por dónde salir si hay que abandonar | "a relevar" |
 | `como_volver` | texto | Cómo se vuelve desde el final | "a relevar" |
 
-La dificultad (la del tramo más exigente), la distancia, el desnivel y el perfil de una travesía no se escriben: se calculan con sus tramos.
+La dificultad (la del tramo más exigente), la distancia, el desnivel y el perfil de una travesía no se escriben: se calculan con sus tramos. Cada día de la ficha reúne la información de sus tramos.
+
+Las travesías no se dibujan como líneas propias: son combinaciones de tramos ya existentes. Aparecen al elegir 2, 3, 4 o más de 4 días en el filtro «Duración» (con 1 día se ven los tramos). En ese modo, los filtros de distancia y desnivel se aplican al día más largo o más exigente de cada travesía.
+
+---
+
+## Estado de los senderos (`estado.js`, generado)
+
+`estado.js` no se edita: lo escribe `herramientas/actualizar-estado.mjs`, que lee el formulario de registro de trekking del Parque (el mismo enlace de la web del parque) y anota si cada sendero está **habilitado** o **cerrado** (los de «sólo con guía» cuentan como habilitados y conservan esa aclaración). Se corre con `node herramientas/actualizar-estado.mjs` (hace falta Node 18 o más nuevo) y conviene repetirlo cada pocas horas (ver `herramientas/LEEME.md`).
+
+Cada tramo toma su estado de los nombres que tiene en `nombres_en_registro`. Si ninguno aparece en el formulario, el tramo queda **No verificado**. Por defecto el mapa muestra los habilitados y los no verificados.

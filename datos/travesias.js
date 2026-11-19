@@ -1,7 +1,9 @@
 /* ======================================================================
    TRAVESÍAS · base de datos editable
-   Recorridos de varios días armados con tramos. "tramos" es la lista de ids
-   de datos/tramos.js en el orden en que se caminan.
+   Recorridos de varios días armados con tramos de datos/tramos.js (que son de 1 día).
+   "etapas" tiene una lista por día, con los ids de los tramos de ese día en el orden
+   en que se caminan. La cantidad de listas es la cantidad de días de la travesía.
+   Una travesía no se dibuja aparte: usa las trazas de sus tramos.
    
    Cómo editar sin romper nada:
      · Los textos van entre comillas simples: 'así'. Si el texto lleva un
@@ -21,17 +23,13 @@ const TRAVESIAS = [
   nombre:             'Frey y Jakob',
   resumen:            'De Villa Catedral al Tambo de Báez',
   senda_apn:          '64',
-  tramos:             [
-    'cat-vt',
-    'vt-fre',
-    'fre-cdf',
-    'cdf-ruc',
-    'ruc-jak',
-    'jak-tam',
+  etapas:             [
+    ['cat-vt', 'vt-fre'],   // día 1
+    ['fre-cdf', 'cdf-ruc', 'ruc-jak'],   // día 2
+    ['jak-tam'],   // día 3
   ],
 
   // lo propio de la travesía
-  dias:               '',
   donde_dormir:       '',
   salidas_de_escape:  '',
   como_volver:        '',
@@ -42,18 +40,14 @@ const TRAVESIAS = [
   nombre:             'Frey, Jakob y laguna Negra',
   resumen:            'De Villa Catedral a Colonia Suiza',
   senda_apn:          '65',
-  tramos:             [
-    'cat-vt',
-    'vt-fre',
-    'fre-cdf',
-    'cdf-ruc',
-    'ruc-jak',
-    'jak-neg',
-    'col-neg',
+  etapas:             [
+    ['cat-vt', 'vt-fre'],   // día 1
+    ['fre-cdf', 'cdf-ruc', 'ruc-jak'],   // día 2
+    ['jak-neg'],   // día 3
+    ['col-neg'],   // día 4
   ],
 
   // lo propio de la travesía
-  dias:               '',
   donde_dormir:       '',
   salidas_de_escape:  '',
   como_volver:        '',
@@ -64,19 +58,15 @@ const TRAVESIAS = [
   nombre:             'Cuatro refugios',
   resumen:            'Frey, Jakob, Italia y López',
   senda_apn:          '66',
-  tramos:             [
-    'cat-vt',
-    'vt-fre',
-    'fre-cdf',
-    'cdf-ruc',
-    'ruc-jak',
-    'jak-neg',
-    'lop-neg',
-    'alo-lop',
+  etapas:             [
+    ['cat-vt', 'vt-fre'],   // día 1
+    ['fre-cdf', 'cdf-ruc', 'ruc-jak'],   // día 2
+    ['jak-neg'],   // día 3
+    ['lop-neg'],   // día 4
+    ['alo-lop'],   // día 5
   ],
 
   // lo propio de la travesía
-  dias:               '',
   donde_dormir:       '',
   salidas_de_escape:  '',
   como_volver:        '',
@@ -87,14 +77,12 @@ const TRAVESIAS = [
   nombre:             'Laguna Negra y López',
   resumen:            'De Colonia Suiza al Circuito Chico',
   senda_apn:          '103',
-  tramos:             [
-    'col-neg',
-    'lop-neg',
-    'alo-lop',
+  etapas:             [
+    ['col-neg'],   // día 1
+    ['lop-neg', 'alo-lop'],   // día 2
   ],
 
   // lo propio de la travesía
-  dias:               '',
   donde_dormir:       '',
   salidas_de_escape:  '',
   como_volver:        '',
@@ -105,15 +93,12 @@ const TRAVESIAS = [
   nombre:             'Frey por el filo',
   resumen:            'De Punta Princesa a Villa Catedral',
   senda_apn:          '58 y 63',
-  tramos:             [
-    'pri-cdf',
-    'fre-cdf',
-    'vt-fre',
-    'cat-vt',
+  etapas:             [
+    ['pri-cdf', 'fre-cdf'],   // día 1
+    ['vt-fre', 'cat-vt'],   // día 2
   ],
 
   // lo propio de la travesía
-  dias:               '',
   donde_dormir:       '',
   salidas_de_escape:  '',
   como_volver:        '',
@@ -124,13 +109,12 @@ const TRAVESIAS = [
   nombre:             'Jakob por la Huella Andina',
   resumen:            'Del Tambo de Báez a Los Césares',
   senda_apn:          '162',
-  tramos:             [
-    'jak-tam',
-    'jak-ces',
+  etapas:             [
+    ['jak-tam'],   // día 1
+    ['jak-ces'],   // día 2
   ],
 
   // lo propio de la travesía
-  dias:               '',
   donde_dormir:       '',
   salidas_de_escape:  '',
   como_volver:        '',
@@ -138,20 +122,18 @@ const TRAVESIAS = [
 
 {
   id:                 'tv7',
-  nombre:             'Las lagunas',
+  nombre:             'Cinco lagunas',
   resumen:            'De Colonia Suiza a Pampa Linda',
   senda_apn:          '106',
-  tramos:             [
-    'col-neg',
-    'neg-cab',
-    'cab-cre',
-    'cre-juj',
-    'juj-ilo',
-    'ilo-pli',
+  etapas:             [
+    ['col-neg'],   // día 1
+    ['neg-cab'],   // día 2
+    ['cab-cre'],   // día 3
+    ['cre-juj', 'juj-ilo'],   // día 4
+    ['ilo-pli'],   // día 5
   ],
 
   // lo propio de la travesía
-  dias:               '',
   donde_dormir:       '',
   salidas_de_escape:  '',
   como_volver:        '',
@@ -159,17 +141,31 @@ const TRAVESIAS = [
 
 {
   id:                 'tv8',
-  nombre:             'Refugios del Tronador',
-  resumen:            'Meiling, glaciar Frías, Roca y Puerto Frías',
-  senda_apn:          '127',
-  tramos:             [
-    'pli-mei',
-    'mei-roc',
-    'roc-pfr',
+  nombre:             'Frey y Jakob en dos días',
+  resumen:            'De Villa Catedral al refugio Jakob',
+  senda_apn:          '',
+  etapas:             [
+    ['cat-vt', 'vt-fre'],   // día 1
+    ['fre-cdf', 'cdf-ruc', 'ruc-jak'],   // día 2
   ],
 
   // lo propio de la travesía
-  dias:               '',
+  donde_dormir:       '',
+  salidas_de_escape:  '',
+  como_volver:        '',
+},
+
+{
+  id:                 'tv9',
+  nombre:             'Jakob y laguna Negra',
+  resumen:            'Del refugio Jakob a Colonia Suiza',
+  senda_apn:          '',
+  etapas:             [
+    ['jak-neg'],   // día 1
+    ['col-neg'],   // día 2
+  ],
+
+  // lo propio de la travesía
   donde_dormir:       '',
   salidas_de_escape:  '',
   como_volver:        '',

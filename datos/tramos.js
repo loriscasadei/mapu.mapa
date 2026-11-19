@@ -35,6 +35,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Refugio Piedritas desde Catedral', 'Refugio Frey desde Catedral'],
+
   // cómo es
   descripcion:              'Sale de la base del cerro Catedral y faldea hacia el sur, con el lago Gutiérrez abajo, hasta el empalme con la senda que sube desde el lago.',
   descripcion_verificada:   false,
@@ -62,6 +67,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Refugio Frey desde Catedral', 'Refugio Frey desde Gutiérrez', 'Refugio Piedritas desde Catedral', 'Refugio Piedritas desde lago Gutiérrez'],
 
   // cómo es
   descripcion:              'Sube por el valle del arroyo Van Titter entre lengas, pasa por el refugio Piedritas y termina en la laguna Toncek. El final es lo más empinado.',
@@ -91,6 +101,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Refugio Piedritas desde lago Gutiérrez', 'Refugio Frey desde Gutiérrez'],
+
   // cómo es
   descripcion:              'Sale del extremo norte del lago Gutiérrez y sube faldeando por bosque hasta el empalme con la senda de Villa Catedral.',
   descripcion_verificada:   false,
@@ -118,6 +133,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -147,6 +167,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              'Paseo corto por bosque hasta la cascada.',
   descripcion_verificada:   false,
@@ -174,6 +199,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              'Subida corta y empinada hasta un balcón sobre el lago.',
@@ -203,6 +233,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Frey- Jakob'],
+
   // cómo es
   descripcion:              'Sube de Frey a la laguna Schmoll y sigue por pedrero hasta la Cancha de Fútbol, donde se juntan la senda a Jakob y la del filo.',
   descripcion_verificada:   false,
@@ -230,6 +265,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Filo de Catedral-V° Rucaco- Jakob'],
 
   // cómo es
   descripcion:              'Recorre el filo del Catedral casi sin desnivel, por alto y expuesto al viento, desde la zona de los medios de elevación.',
@@ -259,6 +299,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Frey- Jakob', 'Filo de Catedral-V° Rucaco- Jakob', 'Lag. Jakob- Refugio San Martín (Huella Andina)'],
+
   // cómo es
   descripcion:              'Bajada fuerte por pedrero desde la Cancha de Fútbol hasta el fondo del valle del Rucaco.',
   descripcion_verificada:   false,
@@ -286,6 +331,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Frey- Jakob', 'Filo de Catedral-V° Rucaco- Jakob', 'Lag. Jakob- Refugio San Martín (Huella Andina)'],
 
   // cómo es
   descripcion:              'Cruza el valle del Rucaco y sube al paso Brecha Negra, desde donde se baja a la laguna Jakob.',
@@ -315,6 +365,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Casa de Piedra Stream (Tambo de Baez)- Los Césares (Huella Andina)', 'Los Césares- Arroyo Casa de Piedra'],
+
   // cómo es
   descripcion:              'Baja por el valle del arroyo Casa de Piedra hasta el Tambo de Báez, sobre el camino a Colonia Suiza. La parte alta es una bajada empinada en zigzag.',
   descripcion_verificada:   false,
@@ -343,6 +398,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            true,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Los Césares- Ref. San Martín (Jakob)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -362,7 +422,7 @@ const TRAMOS = [
   ida_y_vuelta:             false,
 
   // dificultad y norma
-  dificultad:               'sin_dato',
+  dificultad:               'dificil',
   nota_dificultad:          '',
   sendas_apn:               [65, 66, 16, 17, 158, 159],
   sendas_apn_total:         46,
@@ -370,6 +430,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Jackob - Laguna Negra'],
 
   // cómo es
   descripcion:              'Es el tramo más técnico del circuito. Va por filos y pedreros, con trepadas y poca marcación, y con mal tiempo la orientación se complica.',
@@ -399,6 +464,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Lag. Negra- Refugio Italia'],
+
   // cómo es
   descripcion:              'Sube por el valle del arroyo Goye, largo y parejo por bosque, y termina con una subida empinada hasta la laguna Negra.',
   descripcion_verificada:   false,
@@ -426,6 +496,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['López - Laguna Negra'],
 
   // cómo es
   descripcion:              'Une los dos refugios por alto, con sectores de pedrero y trepada. Con nieve o mal tiempo cambia mucho.',
@@ -455,6 +530,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Refugio López'],
+
   // cómo es
   descripcion:              'Subida corta y empinada desde el Circuito Chico hasta el refugio, con vista al Nahuel Huapi.',
   descripcion_verificada:   false,
@@ -482,6 +562,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['López por Palotinos'],
 
   // cómo es
   descripcion:              '',
@@ -511,6 +596,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['5 Lagunas (Colonia Suiza- Pampa Linda)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -538,6 +628,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -567,6 +662,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['5 Lagunas (Colonia Suiza- Pampa Linda)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -594,6 +694,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Los Césares - Pampa Linda (Lagunas Azul e Ilón)'],
 
   // cómo es
   descripcion:              '',
@@ -623,6 +728,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Laguna Azul (desde Los Césares)', 'Los Césares - Pampa Linda (Lagunas Azul e Ilón)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -650,6 +760,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['5 Lagunas (Colonia Suiza- Pampa Linda)', 'Laguna Ilón- Laguna Cretón'],
 
   // cómo es
   descripcion:              '',
@@ -679,6 +794,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['5 Lagunas (Colonia Suiza- Pampa Linda)', 'Laguna Ilón- Laguna Cretón'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -706,6 +826,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Travesía López–Cretón',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Los Césares - Pampa Linda (Lagunas Azul e Ilón)'],
 
   // cómo es
   descripcion:              '',
@@ -735,6 +860,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Laguna Ilón', '5 Lagunas (Colonia Suiza- Pampa Linda)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -762,6 +892,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Refugio Otto Meiling'],
 
   // cómo es
   descripcion:              'Desde Pampa Linda sube por bosque hasta La Almohadilla y sigue por el filo hasta el refugio, entre los glaciares Castaño Overa y Alerce.',
@@ -791,6 +926,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Refugio Viejo Tronador'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -818,6 +958,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            0,
+  nombres_en_registro:      ['Refugio Viejo Tronador'],
 
   // cómo es
   descripcion:              'Travesía entre los dos refugios del Tronador por terreno glaciario.',
@@ -847,6 +992,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Refugio Rocca- Paso de las Nubes', 'Pampa Linda por Paso de las Nubes'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -875,36 +1025,13 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Lago Frías - Refugio Rocca (Paso de las Nubes)', 'Pampa Linda- lago Frías', 'Lago Frías - Pampa Linda'],
+
   // cómo es
   descripcion:              '',
-  descripcion_verificada:   false,
-  agua:                     '',
-  vadeos:                   '',
-  sombra:                   '',
-  tiempo_medido:            '',
-},
-
-{
-  // identidad
-  id:                       'mei-roc',
-  desde:                    'MEI',
-  hasta:                    'ROC',
-  nombre:                   '',
-  via:                      'Glaciar Frías',
-  ida_y_vuelta:             false,
-
-  // dificultad y norma
-  dificultad:               'sin_dato',
-  nota_dificultad:          '',
-  sendas_apn:               [127],
-  sendas_apn_total:         1,
-  fuera_de_apn:             false,
-  administra:               '',
-  registro:                 'obligatorio',
-  huella_andina:            false,
-
-  // cómo es
-  descripcion:              'Baja del Meiling hacia el refugio Roca por la zona del glaciar Frías. Exige equipo y técnica de alta montaña.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -930,6 +1057,11 @@ const TRAMOS = [
   administra:               'Parque Municipal Llao Llao',
   registro:                 'a_confirmar',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Llao Llao y Bariloche',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              'Camina por bosque de coihues, pasa por el lago Escondido y sube hasta un mirador sobre el Nahuel Huapi y el brazo Tristeza.',
@@ -959,6 +1091,11 @@ const TRAMOS = [
   registro:                 'a_confirmar',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Llao Llao y Bariloche',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              'Sendero casi plano por bosque, pasando por el lago Escondido, hasta la costa en Villa Tacul.',
   descripcion_verificada:   false,
@@ -986,6 +1123,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'a_confirmar',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Llao Llao y Bariloche',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              'Subida corta y directa. Arranca empinada y gana casi todo el desnivel en los primeros 250 metros, con sectores al 38 %. La bajada repite casi la misma traza.',
@@ -1017,6 +1159,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villarino y Espejo',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Falkner'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1044,6 +1191,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villarino y Espejo',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cascada Ñivinco'],
 
   // cómo es
   descripcion:              '',
@@ -1073,6 +1225,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villarino y Espejo',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro La Mona'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1100,6 +1257,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -1129,6 +1291,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Traful',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Lagunas las Mellizas'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1156,6 +1323,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -1185,6 +1357,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Traful',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1212,6 +1389,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Traful',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Mirador del Naso'],
 
   // cómo es
   descripcion:              '',
@@ -1241,6 +1423,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Aguada del Burro'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1268,6 +1455,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Traful',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Negro'],
 
   // cómo es
   descripcion:              '',
@@ -1297,6 +1489,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1324,6 +1521,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -1353,6 +1555,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            true,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1380,6 +1587,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            true,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -1409,6 +1621,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1436,6 +1653,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -1465,6 +1687,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            true,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1492,6 +1719,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            true,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Arroyo Cataratas'],
 
   // cómo es
   descripcion:              '',
@@ -1521,6 +1753,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Traful',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Huella Andina Angostura- Traful', 'Mallín de las Nieblas'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1548,6 +1785,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Panguinal'],
 
   // cómo es
   descripcion:              '',
@@ -1577,6 +1819,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            true,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cajón Negro'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1604,6 +1851,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Inacayal'],
 
   // cómo es
   descripcion:              '',
@@ -1633,6 +1885,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Falso Belvedere', 'Cajón Negro'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1660,6 +1917,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Arroyo Voruco/ Bonito'],
 
   // cómo es
   descripcion:              '',
@@ -1689,6 +1951,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cascadas Dora y Santa Ana'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1716,6 +1983,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cascada Dora', 'Cascadas Dora y Santa Ana'],
 
   // cómo es
   descripcion:              '',
@@ -1745,6 +2017,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cascada Santa Ana', 'Cascadas Dora y Santa Ana'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1772,6 +2049,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Inacayal'],
 
   // cómo es
   descripcion:              '',
@@ -1801,6 +2083,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            true,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1828,6 +2115,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            true,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -1857,6 +2149,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            true,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Bayo: Ujenjo- Traful'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1884,6 +2181,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Dormilón'],
 
   // cómo es
   descripcion:              '',
@@ -1913,6 +2215,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro O´Connor'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1940,6 +2247,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Traful',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Huella Andina Angostura- Traful'],
 
   // cómo es
   descripcion:              '',
@@ -1969,6 +2281,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Mireadores Península de Quetrihue'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -1996,6 +2313,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            true,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Peninsula de Quetrihue - Parque Nacional Los Arrayanes'],
 
   // cómo es
   descripcion:              '',
@@ -2025,6 +2347,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Arroyo Voruco/ Bonito'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2052,6 +2379,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Arroyo Voruco/ Bonito'],
 
   // cómo es
   descripcion:              '',
@@ -2081,6 +2413,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Arroyo Voruco/ Bonito'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2108,6 +2445,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            true,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Villa La Angostura',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Peninsula de Quetrihue - Parque Nacional Los Arrayanes'],
 
   // cómo es
   descripcion:              '',
@@ -2137,6 +2479,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Centinela y Colorado',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Centinela'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2164,6 +2511,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Centinela y Colorado',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Colorado'],
 
   // cómo es
   descripcion:              '',
@@ -2193,6 +2545,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Isla Victoria y Anchorena',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Piedras Blancas (Isla Victoria)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2220,6 +2577,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Isla Victoria y Anchorena',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Totoras (Isla Victoria)'],
 
   // cómo es
   descripcion:              '',
@@ -2249,6 +2611,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Isla Victoria y Anchorena',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Totoras (Isla Victoria)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2276,6 +2643,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Puerto Blest',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Laguna Ortíz Basualdo'],
 
   // cómo es
   descripcion:              '',
@@ -2305,6 +2677,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Puerto Blest',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2332,6 +2709,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Puerto Blest',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -2361,6 +2743,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Puerto Blest',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2389,33 +2776,10 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
-  // cómo es
-  descripcion:              '',
-  descripcion_verificada:   false,
-  agua:                     '',
-  vadeos:                   '',
-  sombra:                   '',
-  tiempo_medido:            '',
-},
-
-{
-  // identidad
-  id:                       'gal-e14',
-  desde:                    'GAL',
-  hasta:                    'E14',
-  nombre:                   '',
-  via:                      '',
-  ida_y_vuelta:             false,
-
-  // dificultad y norma
-  dificultad:               'dificil',
-  nota_dificultad:          '',
-  sendas_apn:               [139],
-  sendas_apn_total:         1,
-  fuera_de_apn:             false,
-  administra:               '',
-  registro:                 'obligatorio',
-  huella_andina:            false,
+  // ubicación, duración y registro del Parque
+  zona:                     'Puerto Blest',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -2445,6 +2809,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Catedral',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2472,6 +2841,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Laguna Ilón'],
 
   // cómo es
   descripcion:              '',
@@ -2501,6 +2875,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Piedra Pérez'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2528,6 +2907,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -2557,6 +2941,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Mirador Glaciar Castaño Overo'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2584,6 +2973,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Paso Vuriloches'],
 
   // cómo es
   descripcion:              '',
@@ -2613,6 +3007,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Mirador del Valle'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2640,6 +3039,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Tronador y Pampa Linda',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Volcanico'],
 
   // cómo es
   descripcion:              '',
@@ -2669,6 +3073,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Volcanico'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2696,6 +3105,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
 
   // cómo es
   descripcion:              '',
@@ -2725,6 +3139,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2752,6 +3171,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Challhuaco',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Refugio Velco'],
 
   // cómo es
   descripcion:              '',
@@ -2781,6 +3205,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Playa Leones (lago Mascardi)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2808,6 +3237,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Challhuaco',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Challhuaco'],
 
   // cómo es
   descripcion:              '',
@@ -2837,6 +3271,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Cerro Challhuaco',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2864,6 +3303,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Lago los Césares'],
 
   // cómo es
   descripcion:              '',
@@ -2893,6 +3337,11 @@ const TRAMOS = [
   registro:                 'no_requiere',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      [],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2920,6 +3369,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Lago los Césares'],
 
   // cómo es
   descripcion:              '',
@@ -2949,6 +3403,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Laguna Llum'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -2976,6 +3435,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'no_requiere',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Laguna Llum'],
 
   // cómo es
   descripcion:              '',
@@ -3005,6 +3469,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Falso Granítico'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -3032,6 +3501,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Laguna Juventus'],
 
   // cómo es
   descripcion:              '',
@@ -3061,6 +3535,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            true,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Mascardi-Steffen (Huella Andina)'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -3088,6 +3567,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            false,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Cerro Huinca'],
 
   // cómo es
   descripcion:              '',
@@ -3117,6 +3601,11 @@ const TRAMOS = [
   registro:                 'obligatorio',
   huella_andina:            false,
 
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Mascardi y Los Césares',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Bicisenda Lago Guillelmo'],
+
   // cómo es
   descripcion:              '',
   descripcion_verificada:   false,
@@ -3144,6 +3633,11 @@ const TRAMOS = [
   administra:               '',
   registro:                 'obligatorio',
   huella_andina:            true,
+
+  // ubicación, duración y registro del Parque
+  zona:                     'Lago Steffen',
+  duracion_dias:            1,
+  nombres_en_registro:      ['Steffen- Villegas (Huella Andina)', 'Mascardi-Steffen (Huella Andina)'],
 
   // cómo es
   descripcion:              '',

@@ -2157,22 +2157,6 @@ const PUNTOS = [
 
 {
   // identidad
-  id:                 'GAL',
-  nombre:             'Glaciar Alerce',
-  nombre_en_tramos:   '',
-  detalle:            '',
-  tipo:               'paso',
-  descripcion:        '',
-
-  // etiqueta en el mapa
-  etiqueta_x:         10,
-  etiqueta_y:         -7,
-  etiqueta_lado:      'derecha',
-  solo_con_zoom:      true,
-},
-
-{
-  // identidad
   id:                 'MDO',
   nombre:             'Mirada del Doctor',
   nombre_en_tramos:   '',
