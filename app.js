@@ -19,7 +19,7 @@ const CAMPOS={
   tramo:{id:'t',desde:'t',hasta:'t',nombre:'t',via:'t',ida_y_vuelta:'b',
     dificultad:Object.keys(DIF),nota_dificultad:'t',sendas_apn:'l',sendas_apn_total:'n',
     fuera_de_apn:'b',administra:'t',registro:REGISTRO,huella_andina:'b',zona:'t',duracion_dias:'n',nombres_en_registro:'l',
-    descripcion:'t',descripcion_verificada:'b',agua:'t',vadeos:'t',sombra:'t',tiempo_medido:'t'},
+    descripcion:'t',descripcion_verificada:'b',agua:'t',vadeos:'t',sombra:'t'},
   punto:{id:'t',nombre:'t',nombre_en_tramos:'t',detalle:'t',tipo:Object.keys(TIPO),descripcion:'t',
     etiqueta_x:'n',etiqueta_y:'n',etiqueta_lado:Object.keys(LADO),solo_con_zoom:'b'},
   refugio:{capacidad:'t',reserva:'t',que_se_compra:'t',agua:'t',acampe:'t',si_esta_lleno:'t'},
@@ -112,8 +112,6 @@ const kn=n=>n.k||n.n;
 const tName=t=>t.nm||`${kn(N[t.a])} a ${kn(N[t.b])}`;
 const f1=x=>String(x.toFixed(1)).replace('.',',');
 const num=x=>String(Math.round(x));
-function hours(km,up,dn){const h=km/4,v=up/400+dn/800;return Math.max(h,v)+Math.min(h,v)/2}
-function hTxt(t){const r=x=>Math.max(.5,Math.round(x*2)/2);const a=r(t*.85),b=r(t*1.15);const f=x=>String(x).replace('.5',' y media').replace(/^0 y media/,'media');return a===b?`${f(a)} h`:`${f(a)} a ${f(b)} h`}
 function orient(v){const ts=v.t.map(i=>tById[i]);const out=[];let cur=null;
   ts.forEach((t,i)=>{if(cur===null){const nx=ts[i+1];cur=(nx&&(t.a===nx.a||t.a===nx.b))?t.b:t.a}
     const to=t.a===cur?t.b:t.a;out.push([t,cur,to]);cur=to});return out}
@@ -122,7 +120,7 @@ TV.forEach(v=>{
   const O=orient(v);let i=0;
   v.dd=v.et.map(e=>{const part=O.slice(i,i+e.length);i+=e.length;
     let km=0,up=0,dn=0;part.forEach(([t,a])=>{if(t.src==='none')return;const f=t.a===a;km+=t.km;up+=f?t.up:t.dn;dn+=f?t.dn:t.up});
-    return {O:part,km,up,dn,h:hours(km,up,dn),from:part[0][1],to:part[part.length-1][2]}});
+    return {O:part,km,up,dn,from:part[0][1],to:part[part.length-1][2]}});
   v.nd=v.et.length;
   v.zonas=new Set(v.t.map(id=>tById[id].zona));
   const hs=v.t.map(id=>tById[id].hab);
@@ -140,7 +138,7 @@ function build(){
   T.forEach(tr=>{
     const g=el('g',{class:'e','data-id':tr.id,tabindex:0,role:'button','aria-label':'Tramo '+tName(tr)},E);
     el('path',{d:tr.d,class:'ecase'},g);el('path',{d:tr.d,class:'eline'},g);el('path',{d:tr.d,class:'ehit'},g);
-    g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('t',tr.id,false,'mapa')});
+    g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('t',tr.id)});
     g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go('t',tr.id)}});
   });
   for(const id in N){
@@ -157,7 +155,7 @@ function build(){
      LBL.push({g,id,x:n.x,y:n.y,node:true,pri:/^(acceso|empalme|inicio)$/i.test(n.n.trim())?20:({ref:100,acc:85,cum:60,lag:55,pto:40}[n.t]||40)-(n.min?10:0),min:n.min,t:n.t,
        b:[x0,n.ly-13,x1,n.ly+4],bs:n.s?[Math.min(x0,sx0),n.ly-13,Math.max(x1,sx1),n.ly+17]:null,sym:[-8,-8,8,8]})}
     if(n.s){const sx=el('text',{class:'sub',x:n.lx,y:n.ly+13,'text-anchor':n.an||'start'},g);sx.textContent=n.s}
-    g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('n',id,false,'mapa')});
+    g.addEventListener('click',ev=>{if(moved)return;ev.stopPropagation();go('n',id)});
     g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go('n',id)}});
   }
 }
@@ -321,11 +319,7 @@ function profSvg(z,km,label){
     <text x="${x0}" y="17" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${num(hi)} m</text>
     <text x="${x0}" y="${h-4}" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${num(lo)} m</text>
     <text x="${x1}" y="${h-4}" text-anchor="end" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${f1(km)} km</text></svg>`}
-function bigNums(km,up,dn,t,med,medOtro){return `<div class="big"><div><b>${f1(km)} km</b><span>distancia</span></div><div><b>+${num(up)} m</b><span>subida</span></div><div><b>−${num(dn)} m</b><span>bajada</span></div></div>
-  ${med?`<div class="row" style="margin-top:7px"><span class="k">Tiempo de marcha</span><span class="v">${esc(med)}</span></div>
-  <p class="fine">Tiempo medido, sin paradas.</p>`
-  :`<div class="row" style="margin-top:7px"><span class="k">Tiempo de marcha</span><span class="v">${hTxt(t)} <b class="mk pe">○</b></span></div>
-  <p class="fine">Estimado por fórmula según distancia y desnivel, sin paradas.${medOtro?` En el otro sentido hay un tiempo medido: ${esc(medOtro)}.`:' No reemplaza un tiempo medido.'}</p>`}`}
+function bigNums(km,up,dn){return `<div class="big"><div><b>${f1(km)} km</b><span>distancia</span></div><div><b>+${num(up)} m</b><span>subida</span></div><div><b>−${num(dn)} m</b><span>bajada</span></div></div>`}
 function rows(pares,vacio){return pares.map(([k,v])=>`<div class="row"><span class="k">${k}</span>${v?`<span class="v">${esc(v)}</span>`:`<span class="v soft">${vacio} <b class="mk pe">○</b></span>`}</div>`).join('')}
 function subt(t){return [t.via?'por '+esc(t.via):'',t.rt?'ida y vuelta':''].filter(Boolean).join(', ')}
 function home(){
@@ -352,7 +346,7 @@ function home(){
   <div class="blk"><h2>Qué tiene y qué no tiene esta versión</h2>
     <p>Tiene ${T.length} tramos sobre un mapa real. Distancia, desnivel y perfil salen de la traza de OpenStreetMap y del modelo de alturas.</p>
     <p>La dificultad viene del Anexo I de la Disposición 150/19 del parque, temporada de noviembre a abril. Cada tramo toma la dificultad más baja de las sendas oficiales que lo recorren.</p>
-    <p>Ninguna traza está verificada en el terreno todavía. Agua, vadeos, sombra y tiempos medidos siguen pendientes.</p>
+    <p>Ninguna traza está verificada en el terreno todavía. Agua, vadeos y sombra siguen pendientes.</p>
     <p>Quedaron afuera las sendas oficiales que no tienen traza en OpenStreetMap, como las bajadas por el arroyo Fresco al lago Mascardi, el refugio Velco, el lago Fonck y la mayor parte de isla Victoria. La travesía glaciaria entre Meiling y Refugio Viejo figura como línea recta.</p>
   </div>`;
   pin.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>go('v',b.dataset.v));
@@ -368,7 +362,7 @@ function tramo(id){
   }else{
     const up=rev&&!t.rt?t.dn:t.up, dn=rev&&!t.rt?t.up:t.dn, z=rev&&!t.rt?[...t.prof].reverse():t.prof;
     geo=`<div class="blk"><h2><span>${t.rt?'Ida y vuelta':`De ${kn(N[A])} a ${kn(N[B])}`}</span>${t.rt?'':'<button id="rv">Ver al revés</button>'}</h2>
-      ${bigNums(t.km,up,dn,hours(t.km,up,dn),(!rev||t.rt)?db.tiempo_medido:'',(rev&&!t.rt)?db.tiempo_medido:'')}
+      ${bigNums(t.km,up,dn)}
       <div style="margin-top:10px">${profSvg(z,t.km,'Perfil de altura del tramo')}</div>
       <button type="button" class="gpx" id="gpx">Descargar GPX</button>
       <div class="row" style="margin-top:6px"><span class="k">Altura mínima y máxima</span><span class="v">${num(t.zmin)} a ${num(t.zmax)} m</span></div>
@@ -426,11 +420,11 @@ function travesia(id){
   <h1 class="t">${v.n}</h1>
   <p class="subt">${v.s}</p>
   <div class="blk"><h2>Dificultad</h2>${difBox(g,note)}<div style="margin-top:9px">${regBlock()}</div></div>
-  <div class="blk"><h2>El recorrido completo</h2>${bigNums(km,up,dn,hours(km,up,dn))}<div style="margin-top:10px">${profSvg(z,km,'Perfil de altura de la travesía')}</div>
+  <div class="blk"><h2>El recorrido completo</h2>${bigNums(km,up,dn)}<div style="margin-top:10px">${profSvg(z,km,'Perfil de altura de la travesía')}</div>
     <button type="button" class="gpx" id="gpxv">Descargar GPX de la travesía</button></div>
   ${v.dd.map((d,n)=>`<div class="blk"><h2>Día ${n+1}</h2>
     <p class="subt" style="margin:0 0 8px">${esc(kn(N[d.from]))} a ${esc(kn(N[d.to]))}</p>
-    ${bigNums(d.km,d.up,d.dn,d.h)}
+    ${bigNums(d.km,d.up,d.dn)}
     <ul class="list" style="margin-top:8px">${d.O.map(([t,a,b])=>{const f=t.a===a;return `<li><button data-t="${t.id}" data-rev="${f?0:1}"><span><span class="nm">${kn(N[a])} a ${kn(N[b])}</span><span class="ds">${t.src==='none'?'ruta glaciaria, sin traza':`${f1(t.km)} km, +${num(f?t.up:t.dn)} m, −${num(f?t.dn:t.up)} m`} · ${EST[t.hab]}</span></span><span class="sws">${swatch(t.g)}</span></button></li>`}).join('')}</ul>
     ${d.O.map(([t])=>t.desc?`<p class="fine">${esc(t.desc)}</p>`:'').join('')}
   </div>`).join('')}
@@ -451,7 +445,7 @@ function go(k,id,keepRev,desde){
   if(!keepRev)rev=false;
   sel=k?[k,id]:null;
   if(!k){pin=pinHome;home();dr.hidden=true;mapwrap.classList.remove('dr-open')}
-  else{pin=drBody;(k==='t'?tramo:k==='n'?nodo:travesia)(id);dr.hidden=false;mapwrap.classList.add('dr-open');dr.scrollTop=0;if(desde!=='mapa')mostrarSel(true)}
+  else{pin=drBody;(k==='t'?tramo:k==='n'?nodo:travesia)(id);dr.hidden=false;mapwrap.classList.add('dr-open');dr.scrollTop=0;if(desde!=='mapa')mostrarSel(k!=='n')}
   paint(); guardarUrl();
 }
 $('#drx').onclick=()=>go(null);

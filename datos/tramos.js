@@ -46,7 +46,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -79,7 +78,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -112,7 +110,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -145,7 +142,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -178,7 +174,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -211,7 +206,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -244,7 +238,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -277,7 +270,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -310,7 +302,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -343,7 +334,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -376,7 +366,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -409,7 +398,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -442,7 +430,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -475,7 +462,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -508,7 +494,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -541,7 +526,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -574,7 +558,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -607,7 +590,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -640,7 +622,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -673,7 +654,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -706,7 +686,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -739,7 +718,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -772,7 +750,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -805,7 +782,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -838,7 +814,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -871,7 +846,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -904,7 +878,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -937,7 +910,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -970,7 +942,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1003,7 +974,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1036,7 +1006,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1069,7 +1038,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1102,7 +1070,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1135,7 +1102,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 // ===== Tramos agregados desde el Anexo I (Disp. 150/19) y OpenStreetMap =====
@@ -1170,7 +1136,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1203,7 +1168,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1236,7 +1200,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1269,7 +1232,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1302,7 +1264,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1335,7 +1296,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1368,7 +1328,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1401,7 +1360,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1434,7 +1392,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1467,7 +1424,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1500,7 +1456,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1533,7 +1488,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1566,7 +1520,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1599,7 +1552,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1632,7 +1584,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1665,7 +1616,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1698,7 +1648,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1731,7 +1680,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1764,7 +1712,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1797,7 +1744,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1830,7 +1776,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1863,7 +1808,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1896,7 +1840,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1929,7 +1872,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1962,7 +1904,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -1995,7 +1936,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2028,7 +1968,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2061,7 +2000,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2094,7 +2032,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2127,7 +2064,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2160,7 +2096,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2193,7 +2128,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2226,7 +2160,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2259,7 +2192,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2292,7 +2224,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2325,7 +2256,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2358,7 +2288,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2391,7 +2320,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2424,7 +2352,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2457,7 +2384,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2490,7 +2416,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2523,7 +2448,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2556,7 +2480,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2589,7 +2512,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2622,7 +2544,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2655,7 +2576,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2688,7 +2608,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2721,7 +2640,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2754,7 +2672,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2787,7 +2704,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2820,7 +2736,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2853,7 +2768,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2886,7 +2800,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2919,7 +2832,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2952,7 +2864,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -2985,7 +2896,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3018,7 +2928,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3051,7 +2960,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3084,7 +2992,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3117,7 +3024,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3150,7 +3056,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3183,7 +3088,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3216,7 +3120,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3249,7 +3152,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3282,7 +3184,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3315,7 +3216,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3348,7 +3248,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3381,7 +3280,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3414,7 +3312,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3447,7 +3344,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3480,7 +3376,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3513,7 +3408,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3546,7 +3440,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3579,7 +3472,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3612,7 +3504,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 {
@@ -3645,7 +3536,6 @@ const TRAMOS = [
   agua:                     '',
   vadeos:                   '',
   sombra:                   '',
-  tiempo_medido:            '',
 },
 
 ];

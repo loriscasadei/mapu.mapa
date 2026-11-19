@@ -16,7 +16,7 @@
   /* ---------- encabezado ---------- */
   const h=document.getElementById('site-header');
   if(h){
-    h.innerHTML='<div class="brand"><b>Mapu Mapa</b><span>El mapa de las tierras patagónicas</span></div>'+
+    h.innerHTML='<a class="brand" href="index.html" aria-label="Mapu Mapa, ir al mapa"><b>Mapu Mapa</b><span>El mapa de las tierras patagónicas</span></a>'+
       '<button class="burger" id="burger" type="button" aria-label="Menú" aria-expanded="false" aria-controls="site-menu"><span></span><span></span><span></span></button>'+
       '<div class="menu" id="site-menu"><nav class="mainnav" aria-label="Principal">'+nav+'</nav><div class="userbox" id="userbox"></div></div>';
   }

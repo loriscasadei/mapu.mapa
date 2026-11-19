@@ -103,7 +103,6 @@ Valores de `registro`:
 | `agua` | texto | Dónde hay agua | "a relevar" |
 | `vadeos` | texto | Cruces de arroyo | "a relevar" |
 | `sombra` | texto | Cuánto tramo va a la sombra o expuesto | "a relevar" |
-| `tiempo_medido` | texto | Tiempo real caminando de `desde` a `hasta`, por ejemplo `'2 h 30'` | Se muestra el estimado por fórmula. Al ver el tramo al revés, se muestra el estimado y se aclara el tiempo medido en el otro sentido |
 
 ---
 
