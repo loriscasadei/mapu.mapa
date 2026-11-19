@@ -1,4 +1,5 @@
 # Contexto del proyecto
+Estado, pendientes y reglas de trabajo con el usuario: ver `HANDOFF.md`.
 Mapa de trekking estático (HTML/CSS/JS plano, sin build). Se prueba abriendo index.html (funciona con file://, así que no se puede usar fetch: los datos son archivos .js con `const`).
 
 - `datos/` es la base de datos que el usuario edita a mano. Formato: un campo por línea, alineados, todos los campos presentes en cada registro (vacíos como '' o false), comentarios `//` de sección. Respetar ese formato al editar.
