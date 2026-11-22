@@ -192,7 +192,7 @@ Desde el 22/11/2026 todo lo que se puede editar a mano vive en la planilla de Go
 
 Acá quedan solo los vínculos y lo técnico: los `id`, qué puntos une cada tramo (`desde`, `hasta`), las sendas oficiales que lo incluyen (`sendas_apn`), los nombres con que figura en el formulario del Parque (`nombres_en_registro`), el registro, las etapas de cada travesía, la posición de las etiquetas del mapa, y en `sendas.js` los `tramos` y la `fuente`. **No volver a escribir en estos archivos los campos de la tabla**: la planilla gana cuando tiene texto y dejaría dos copias distintas.
 
-Si la planilla no se puede leer la primera vez que alguien abre la página (sin internet y sin copia guardada), los tramos se ven grises («sin dato») y sin zonas. Después de la primera lectura el navegador guarda una copia.
+Un robot de GitHub (`.github/workflows/copiar-planilla.yml`, una vez por día) guarda una copia de la planilla en `planilla.js`. **No se edita a mano**: lo genera `herramientas/copiar-planilla.mjs`. La página la usa de respaldo cuando no puede leer la planilla en vivo, y se pueden pedir a mano en la pestaña Actions de GitHub («Copiar la planilla de Google» > Run workflow). Un cambio en la planilla se ve en la página en un par de minutos; la copia del robot se actualiza hasta 24 horas después.
 
 ## Textos en inglés
 

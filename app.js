@@ -967,7 +967,14 @@ function aplicarHojas(H){
     ['','_en'].forEach(sf=>{const k='precauciones'+sf;if(!ORIG.get(r)['__'+k])ORIG.get(r)['__'+k]=r[k];const l=listaDeTexto(f[k]);r[k]=l.length?l:ORIG.get(r)['__'+k]})});
   recalcularEstructura()}
 function repintarFicha(){if(sel)go(sel[0],sel[1],true,'mapa');else home()}
-try{const c=JSON.parse(localStorage.getItem('pt.hojas')||'null');if(c&&c.d)aplicarHojas(c.d)}catch(e){}
+/* Al arrancar: lo más nuevo entre la copia que guardó el robot (datos/planilla.js) y la que guardó este navegador.
+   Después cargarHojas() lee la planilla en vivo. */
+try{
+  let c=null;try{c=JSON.parse(localStorage.getItem('pt.hojas')||'null')}catch(e){}
+  const copia=typeof PLANILLA!=='undefined'&&PLANILLA&&PLANILLA.hojas?PLANILLA:null;
+  if(copia&&(Date.parse(copia.actualizado)||0)>((c&&c.d&&c.t)||0))aplicarHojas(copia.hojas);
+  else if(c&&c.d)aplicarHojas(c.d);
+}catch(e){}
 async function cargarHojas(){
   if(!HOJA_ID)return;
   try{

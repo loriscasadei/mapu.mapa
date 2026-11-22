@@ -1,0 +1,43 @@
+# Guarda en datos/planilla.js, una vez por día, una copia de la planilla de Google «Mapu Mapa - datos para completar».
+# La página la usa de respaldo si no puede leer la planilla en vivo. Solo guarda si algo cambió.
+# También se puede correr a mano: pestaña Actions > Copiar la planilla de Google > Run workflow.
+name: Copiar la planilla de Google
+
+on:
+  schedule:
+    - cron: '15 8 * * *'   # 08:15 UTC, 05:15 en Argentina
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: copiar-planilla
+  cancel-in-progress: false
+
+jobs:
+  copiar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Leer la planilla
+        run: node herramientas/copiar-planilla.mjs
+      - name: Guardar si hubo cambios
+        run: |
+          # si el archivo ya existe: sin contar la línea de la fecha, ¿cambió algo?
+          if git ls-files --error-unmatch datos/planilla.js >/dev/null 2>&1 && git diff --quiet -I'"actualizado"' -- datos/planilla.js; then
+            echo "La planilla no cambió."
+            git checkout -- datos/planilla.js
+            exit 0
+          fi
+          git config user.name "copia-planilla"
+          git config user.email "copia-planilla@users.noreply.github.com"
+          git add datos/planilla.js
+          git commit -m "Copia de la planilla de Google"
+          git pull --rebase origin main
+          git push origin HEAD:main
