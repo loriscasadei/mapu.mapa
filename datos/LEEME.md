@@ -178,6 +178,10 @@ Una senda es un recorrido del Anexo I del Parque o un sendero municipal de Llao 
 
 Para sumar una senda hacen falta su traza (los tramos) en `geo/`: lo que se agrega acá es solo la información.
 
+## Qué se escribe en la planilla y qué en estos archivos
+
+Desde el 22/11/2026 los textos que se completan a mano viven en la planilla de Google «Mapu Mapa - datos para completar» (Drive, carpeta Bariloche > WirinMapu) y los campos equivalentes de estos archivos quedan **vacíos a propósito**: la descripción, el agua, los vadeos y la sombra de los tramos; los datos de refugios y de accesos (descripción, colectivo, parada, frecuencia, último regreso, estacionamiento, capacidad, reserva, qué se compra, agua, acampe, si está lleno); y dónde dormir, salidas de escape y cómo volver de las travesías. La página los lee de la planilla. Acá quedan las identidades, los vínculos entre tramos y puntos, la dificultad, las zonas, las etiquetas del mapa y toda la información de `sendas.js`.
+
 ## Textos en inglés
 
 Los campos de texto de `puntos.js` y `travesias.js` aceptan una versión en inglés con el mismo nombre y `_en` al final (`colectivo_en`). Es **opcional**: si falta, en la versión en inglés se muestra el español. La planilla de Google usa las mismas columnas `_en` y, si una celda tiene texto, gana sobre `datos/`.
