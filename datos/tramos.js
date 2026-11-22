@@ -43,6 +43,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Sale de la base del cerro Catedral y faldea hacia el sur, con el lago Gutiérrez abajo, hasta el empalme con la senda que sube desde el lago.',
+  descripcion_en:           'Leaves from the base of Cerro Catedral and contours south, with Lake Gutiérrez below, to the junction with the trail climbing from the lake.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -76,6 +77,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Sube por el valle del arroyo Van Titter entre lengas, pasa por el refugio Piedritas y termina en la laguna Toncek. El final es lo más empinado.',
+  descripcion_en:           'Climbs the Van Titter stream valley among lenga trees, passes Piedritas hut and ends at Laguna Toncek. The last stretch is the steepest.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -109,6 +111,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Sale del extremo norte del lago Gutiérrez y sube faldeando por bosque hasta el empalme con la senda de Villa Catedral.',
+  descripcion_en:           'Leaves from the north end of Lake Gutiérrez and climbs through forest along the slope to the junction with the Villa Catedral trail.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -175,6 +178,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Paseo corto por bosque hasta la cascada.',
+  descripcion_en:           'Short walk through forest to the waterfall.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -208,6 +212,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Subida corta y empinada hasta un balcón sobre el lago.',
+  descripcion_en:           'Short, steep climb to a lookout over the lake.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -241,6 +246,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Sube de Frey a la laguna Schmoll y sigue por pedrero hasta la Cancha de Fútbol, donde se juntan la senda a Jakob y la del filo.',
+  descripcion_en:           'Climbs from Frey to Laguna Schmoll and continues over scree to the Cancha de Fútbol, where the trail to Jakob and the ridge trail meet.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -274,6 +280,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Recorre el filo del Catedral casi sin desnivel, por alto y expuesto al viento, desde la zona de los medios de elevación.',
+  descripcion_en:           'Follows the Catedral ridge with almost no elevation change, high up and exposed to the wind, from the area of the ski lifts.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -307,6 +314,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Bajada fuerte por pedrero desde la Cancha de Fútbol hasta el fondo del valle del Rucaco.',
+  descripcion_en:           'Steep descent over scree from the Cancha de Fútbol to the bottom of the Rucaco valley.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -340,6 +348,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Cruza el valle del Rucaco y sube al paso Brecha Negra, desde donde se baja a la laguna Jakob.',
+  descripcion_en:           'Crosses the Rucaco valley and climbs to Paso Brecha Negra, from where it drops to Laguna Jakob.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -373,6 +382,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Baja por el valle del arroyo Casa de Piedra hasta el Tambo de Báez, sobre el camino a Colonia Suiza. La parte alta es una bajada empinada en zigzag.',
+  descripcion_en:           'Descends the Casa de Piedra stream valley to Tambo de Báez, on the road to Colonia Suiza. The upper part is a steep zigzag descent.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -439,6 +449,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Es el tramo más técnico del circuito. Va por filos y pedreros, con trepadas y poca marcación, y con mal tiempo la orientación se complica.',
+  descripcion_en:           'The most technical section of the circuit. It runs along ridges and scree, with scrambling and little marking, and in bad weather route-finding gets difficult.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -472,6 +483,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Sube por el valle del arroyo Goye, largo y parejo por bosque, y termina con una subida empinada hasta la laguna Negra.',
+  descripcion_en:           'Climbs the Goye stream valley, long and even through forest, and ends with a steep climb to Laguna Negra.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -505,6 +517,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Une los dos refugios por alto, con sectores de pedrero y trepada. Con nieve o mal tiempo cambia mucho.',
+  descripcion_en:           'Links the two huts along the high ground, with scree and scrambling sections. With snow or bad weather it changes a lot.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -538,6 +551,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Subida corta y empinada desde el Circuito Chico hasta el refugio, con vista al Nahuel Huapi.',
+  descripcion_en:           'Short, steep climb from the Circuito Chico to the hut, with a view of Nahuel Huapi.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -901,6 +915,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Desde Pampa Linda sube por bosque hasta La Almohadilla y sigue por el filo hasta el refugio, entre los glaciares Castaño Overa y Alerce.',
+  descripcion_en:           'From Pampa Linda it climbs through forest to La Almohadilla and follows the ridge to the hut, between the Castaño Overa and Alerce glaciers.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -967,6 +982,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Travesía entre los dos refugios del Tronador por terreno glaciario.',
+  descripcion_en:           'Traverse between the two Tronador huts over glacier terrain.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -1066,6 +1082,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Camina por bosque de coihues, pasa por el lago Escondido y sube hasta un mirador sobre el Nahuel Huapi y el brazo Tristeza.',
+  descripcion_en:           'Walks through coihue forest, passes Lago Escondido and climbs to a lookout over Nahuel Huapi and the Brazo Tristeza.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -1099,6 +1116,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Sendero casi plano por bosque, pasando por el lago Escondido, hasta la costa en Villa Tacul.',
+  descripcion_en:           'Almost flat trail through forest, passing Lago Escondido, to the shore at Villa Tacul.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
@@ -1132,6 +1150,7 @@ const TRAMOS = [
 
   // cómo es
   descripcion:              'Subida corta y directa. Arranca empinada y gana casi todo el desnivel en los primeros 250 metros, con sectores al 38 %. La bajada repite casi la misma traza.',
+  descripcion_en:           'Short, direct climb. It starts steep and gains almost all its elevation in the first 250 metres, with sections at 38 %. The descent follows almost the same route.',
   descripcion_verificada:   false,
   agua:                     '',
   vadeos:                   '',
