@@ -180,7 +180,19 @@ Para sumar una senda hacen falta su traza (los tramos) en `geo/`: lo que se agre
 
 ## Qué se escribe en la planilla y qué en estos archivos
 
-Desde el 22/11/2026 los textos que se completan a mano viven en la planilla de Google «Mapu Mapa - datos para completar» (Drive, carpeta Bariloche > WirinMapu) y los campos equivalentes de estos archivos quedan **vacíos a propósito**: la descripción, el agua, los vadeos y la sombra de los tramos; los datos de refugios y de accesos (descripción, colectivo, parada, frecuencia, último regreso, estacionamiento, capacidad, reserva, qué se compra, agua, acampe, si está lleno); y dónde dormir, salidas de escape y cómo volver de las travesías. La página los lee de la planilla. Acá quedan las identidades, los vínculos entre tramos y puntos, la dificultad, las zonas, las etiquetas del mapa y toda la información de `sendas.js`.
+Desde el 22/11/2026 todo lo que se puede editar a mano vive en la planilla de Google «Mapu Mapa - datos para completar» (Drive, carpeta Bariloche > WirinMapu), y los campos equivalentes de estos archivos quedan **vacíos a propósito** (`''`, `[]` o `0`). La página los lee de la planilla:
+
+| Hoja | Qué hay ahí | Campos que quedan vacíos acá |
+|---|---|---|
+| Tramos | descripción, agua, vadeos, sombra, dificultad (define el color), zona, duración, nota de dificultad, vía, nombre propio | `descripcion`, `agua`, `vadeos`, `sombra`, `dificultad`, `zona`, `duracion_dias`, `nota_dificultad`, `via`, `nombre` |
+| Refugios | descripción, capacidad, reserva, qué se compra, agua, acampe, si está lleno | los mismos campos de `puntos.js` |
+| Accesos | descripción, colectivo, parada, frecuencia, último regreso, estacionamiento | los mismos campos de `puntos.js` |
+| Travesías | nombre, resumen, dónde dormir, salidas de escape, cómo volver (todo con su `_en`) | `nombre`, `nombre_en`, `resumen`, `resumen_en`, `donde_dormir`, `salidas_de_escape`, `como_volver` |
+| Sendas | nombre, dificultad por estación, registro, precauciones, servicios, descripción | todos esos campos de `sendas.js` |
+
+Acá quedan solo los vínculos y lo técnico: los `id`, qué puntos une cada tramo (`desde`, `hasta`), las sendas oficiales que lo incluyen (`sendas_apn`), los nombres con que figura en el formulario del Parque (`nombres_en_registro`), el registro, las etapas de cada travesía, la posición de las etiquetas del mapa, y en `sendas.js` los `tramos` y la `fuente`. **No volver a escribir en estos archivos los campos de la tabla**: la planilla gana cuando tiene texto y dejaría dos copias distintas.
+
+Si la planilla no se puede leer la primera vez que alguien abre la página (sin internet y sin copia guardada), los tramos se ven grises («sin dato») y sin zonas. Después de la primera lectura el navegador guarda una copia.
 
 ## Textos en inglés
 

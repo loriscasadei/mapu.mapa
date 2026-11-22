@@ -27,7 +27,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [12, 27, 44, 59, 62, 63],
   sendas_apn_total:         12,
@@ -37,8 +37,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Refugio Piedritas desde Catedral', 'Refugio Frey desde Catedral'],
 
   // cómo es
@@ -55,12 +55,12 @@ const TRAMOS = [
   desde:                    'VT',
   hasta:                    'FRE',
   nombre:                   '',
-  via:                      'Refugio Piedritas',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [10, 14, 15, 19, 20, 24],
   sendas_apn_total:         25,
@@ -70,8 +70,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Refugio Frey desde Catedral', 'Refugio Frey desde Gutiérrez', 'Refugio Piedritas desde Catedral', 'Refugio Piedritas desde lago Gutiérrez'],
 
   // cómo es
@@ -88,12 +88,12 @@ const TRAMOS = [
   desde:                    'GUT',
   hasta:                    'VT',
   nombre:                   '',
-  via:                      'Playa Muñoz',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [10, 11, 12, 13, 14, 15],
   sendas_apn_total:         13,
@@ -103,8 +103,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Refugio Piedritas desde lago Gutiérrez', 'Refugio Frey desde Gutiérrez'],
 
   // cómo es
@@ -126,7 +126,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [13, 23, 24, 25, 26, 27],
   sendas_apn_total:         14,
@@ -136,8 +136,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -159,7 +159,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [8, 11, 12, 13, 25, 70],
   sendas_apn_total:         6,
@@ -169,8 +169,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -192,7 +192,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [9],
   sendas_apn_total:         1,
@@ -202,8 +202,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -220,12 +220,12 @@ const TRAMOS = [
   desde:                    'FRE',
   hasta:                    'CDF',
   nombre:                   '',
-  via:                      'Laguna Schmoll',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [14, 15, 20, 26, 28, 32],
   sendas_apn_total:         24,
@@ -235,8 +235,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Frey- Jakob'],
 
   // cómo es
@@ -253,12 +253,12 @@ const TRAMOS = [
   desde:                    'PRI',
   hasta:                    'CDF',
   nombre:                   '',
-  via:                      'el filo',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [14, 26, 45, 52, 56, 57],
   sendas_apn_total:         14,
@@ -268,8 +268,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Filo de Catedral-V° Rucaco- Jakob'],
 
   // cómo es
@@ -291,7 +291,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [15, 20, 28, 32, 35, 44],
   sendas_apn_total:         22,
@@ -301,8 +301,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Frey- Jakob', 'Filo de Catedral-V° Rucaco- Jakob', 'Lag. Jakob- Refugio San Martín (Huella Andina)'],
 
   // cómo es
@@ -319,12 +319,12 @@ const TRAMOS = [
   desde:                    'RUC',
   hasta:                    'JAK',
   nombre:                   '',
-  via:                      'Paso Brecha Negra',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [15, 20, 28, 32, 35, 44],
   sendas_apn_total:         22,
@@ -334,8 +334,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Frey- Jakob', 'Filo de Catedral-V° Rucaco- Jakob', 'Lag. Jakob- Refugio San Martín (Huella Andina)'],
 
   // cómo es
@@ -352,12 +352,12 @@ const TRAMOS = [
   desde:                    'JAK',
   hasta:                    'TAM',
   nombre:                   '',
-  via:                      'Arroyo Casa de Piedra',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [15, 28, 40, 52, 64, 153],
   sendas_apn_total:         13,
@@ -367,8 +367,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Casa de Piedra Stream (Tambo de Baez)- Los Césares (Huella Andina)', 'Los Césares- Arroyo Casa de Piedra'],
 
   // cómo es
@@ -385,12 +385,12 @@ const TRAMOS = [
   desde:                    'JAK',
   hasta:                    'CES',
   nombre:                   '',
-  via:                      'Arroyo Casalata',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [20, 32, 57, 69, 162, 175],
   sendas_apn_total:         11,
@@ -400,8 +400,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Los Césares- Ref. San Martín (Jakob)'],
 
   // cómo es
@@ -423,7 +423,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [65, 66, 16, 17, 158, 159],
   sendas_apn_total:         46,
@@ -433,8 +433,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Jackob - Laguna Negra'],
 
   // cómo es
@@ -451,12 +451,12 @@ const TRAMOS = [
   desde:                    'COL',
   hasta:                    'NEG',
   nombre:                   '',
-  via:                      'Arroyo Goye',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [90, 101, 102, 103, 104, 106],
   sendas_apn_total:         9,
@@ -466,8 +466,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Lag. Negra- Refugio Italia'],
 
   // cómo es
@@ -489,7 +489,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [90, 91, 92, 102, 103, 114],
   sendas_apn_total:         8,
@@ -499,8 +499,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['López - Laguna Negra'],
 
   // cómo es
@@ -522,7 +522,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [90, 91, 92, 100, 103, 113],
   sendas_apn_total:         8,
@@ -532,8 +532,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Refugio López'],
 
   // cómo es
@@ -550,12 +550,12 @@ const TRAMOS = [
   desde:                    'BLO',
   hasta:                    'LOP',
   nombre:                   '',
-  via:                      'Palotinos y cerro López',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [100, 102, 113, 114, 115, 116],
   sendas_apn_total:         8,
@@ -565,8 +565,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['López por Palotinos'],
 
   // cómo es
@@ -588,7 +588,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [91, 92, 104, 106, 115, 116],
   sendas_apn_total:         8,
@@ -598,8 +598,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['5 Lagunas (Colonia Suiza- Pampa Linda)'],
 
   // cómo es
@@ -621,7 +621,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [132, 142, 172, 174],
   sendas_apn_total:         4,
@@ -631,8 +631,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -654,7 +654,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [91, 92, 104, 106, 115, 116],
   sendas_apn_total:         12,
@@ -664,8 +664,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['5 Lagunas (Colonia Suiza- Pampa Linda)'],
 
   // cómo es
@@ -687,7 +687,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [92, 104, 116, 131, 132, 142],
   sendas_apn_total:         9,
@@ -697,8 +697,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Los Césares - Pampa Linda (Lagunas Azul e Ilón)'],
 
   // cómo es
@@ -720,7 +720,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [92, 104, 116, 130, 170, 171],
   sendas_apn_total:         9,
@@ -730,8 +730,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Laguna Azul (desde Los Césares)', 'Los Césares - Pampa Linda (Lagunas Azul e Ilón)'],
 
   // cómo es
@@ -753,7 +753,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [91, 106, 115],
   sendas_apn_total:         3,
@@ -763,8 +763,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['5 Lagunas (Colonia Suiza- Pampa Linda)', 'Laguna Ilón- Laguna Cretón'],
 
   // cómo es
@@ -781,12 +781,12 @@ const TRAMOS = [
   desde:                    'JUJ',
   hasta:                    'ILO',
   nombre:                   '',
-  via:                      'Mirada del Doctor',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [91, 106, 115],
   sendas_apn_total:         3,
@@ -796,8 +796,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['5 Lagunas (Colonia Suiza- Pampa Linda)', 'Laguna Ilón- Laguna Cretón'],
 
   // cómo es
@@ -819,7 +819,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [130, 131, 132, 142, 171],
   sendas_apn_total:         5,
@@ -829,8 +829,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Travesía López–Cretón',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Los Césares - Pampa Linda (Lagunas Azul e Ilón)'],
 
   // cómo es
@@ -852,7 +852,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [91, 106, 115, 128, 129, 130],
   sendas_apn_total:         10,
@@ -862,8 +862,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Laguna Ilón', '5 Lagunas (Colonia Suiza- Pampa Linda)'],
 
   // cómo es
@@ -880,12 +880,12 @@ const TRAMOS = [
   desde:                    'PLI',
   hasta:                    'MEI',
   nombre:                   '',
-  via:                      'La Almohadilla',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [124, 139],
   sendas_apn_total:         2,
@@ -895,8 +895,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Refugio Otto Meiling'],
 
   // cómo es
@@ -913,12 +913,12 @@ const TRAMOS = [
   desde:                    'PLI',
   hasta:                    'RVI',
   nombre:                   '',
-  via:                      'Mallín Chileno',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [133],
   sendas_apn_total:         1,
@@ -928,8 +928,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Refugio Viejo Tronador'],
 
   // cómo es
@@ -951,7 +951,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'sin_dato',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [148, 149],
   sendas_apn_total:         2,
@@ -961,7 +961,7 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
+  zona:                     '',
   duracion_dias:            0,
   nombres_en_registro:      ['Refugio Viejo Tronador'],
 
@@ -979,12 +979,12 @@ const TRAMOS = [
   desde:                    'PLI',
   hasta:                    'ROC',
   nombre:                   '',
-  via:                      'Paso de las Nubes',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [78, 125, 126],
   sendas_apn_total:         3,
@@ -994,8 +994,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Refugio Rocca- Paso de las Nubes', 'Pampa Linda por Paso de las Nubes'],
 
   // cómo es
@@ -1017,7 +1017,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [77, 78, 126],
   sendas_apn_total:         3,
@@ -1027,8 +1027,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Lago Frías - Refugio Rocca (Paso de las Nubes)', 'Pampa Linda- lago Frías', 'Lago Frías - Pampa Linda'],
 
   // cómo es
@@ -1045,12 +1045,12 @@ const TRAMOS = [
   desde:                    'LLA',
   hasta:                    'CLL',
   nombre:                   '',
-  via:                      'Lago Escondido',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'sin_dato',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [],
   sendas_apn_total:         0,
@@ -1060,8 +1060,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Llao Llao y Bariloche',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1078,12 +1078,12 @@ const TRAMOS = [
   desde:                    'LLA',
   hasta:                    'TAC',
   nombre:                   '',
-  via:                      'Lago Escondido',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'sin_dato',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [],
   sendas_apn_total:         0,
@@ -1093,8 +1093,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Llao Llao y Bariloche',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1110,13 +1110,13 @@ const TRAMOS = [
   id:                       'csm',
   desde:                    'SMI',
   hasta:                    'CSM',
-  nombre:                   'Cerro San Martín',
+  nombre:                   '',
   via:                      '',
   ida_y_vuelta:             true,
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'sin_dato',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [],
   sendas_apn_total:         0,
@@ -1126,8 +1126,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Llao Llao y Bariloche',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1151,7 +1151,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [225],
   sendas_apn_total:         1,
@@ -1161,8 +1161,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villarino y Espejo',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Falkner'],
 
   // cómo es
@@ -1184,7 +1184,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [224],
   sendas_apn_total:         1,
@@ -1194,8 +1194,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villarino y Espejo',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cascada Ñivinco'],
 
   // cómo es
@@ -1217,7 +1217,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [221],
   sendas_apn_total:         1,
@@ -1227,8 +1227,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villarino y Espejo',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro La Mona'],
 
   // cómo es
@@ -1250,7 +1250,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [220],
   sendas_apn_total:         1,
@@ -1260,8 +1260,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1283,7 +1283,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [229],
   sendas_apn_total:         1,
@@ -1293,8 +1293,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Traful',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Lagunas las Mellizas'],
 
   // cómo es
@@ -1316,7 +1316,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [219],
   sendas_apn_total:         1,
@@ -1326,8 +1326,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1349,7 +1349,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [226],
   sendas_apn_total:         1,
@@ -1359,8 +1359,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Traful',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1382,7 +1382,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [226],
   sendas_apn_total:         1,
@@ -1392,8 +1392,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Traful',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Mirador del Naso'],
 
   // cómo es
@@ -1415,7 +1415,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [192],
   sendas_apn_total:         1,
@@ -1425,8 +1425,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Aguada del Burro'],
 
   // cómo es
@@ -1448,7 +1448,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [226],
   sendas_apn_total:         1,
@@ -1458,8 +1458,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Traful',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Negro'],
 
   // cómo es
@@ -1481,7 +1481,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [194],
   sendas_apn_total:         1,
@@ -1491,8 +1491,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1514,7 +1514,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [194, 195],
   sendas_apn_total:         2,
@@ -1524,8 +1524,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1547,7 +1547,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [203, 227],
   sendas_apn_total:         2,
@@ -1557,8 +1557,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1580,7 +1580,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [202],
   sendas_apn_total:         1,
@@ -1590,8 +1590,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1613,7 +1613,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [193],
   sendas_apn_total:         1,
@@ -1623,8 +1623,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1646,7 +1646,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [195],
   sendas_apn_total:         1,
@@ -1656,8 +1656,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1679,7 +1679,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [202, 203, 227],
   sendas_apn_total:         3,
@@ -1689,8 +1689,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -1712,7 +1712,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [202, 203, 227],
   sendas_apn_total:         3,
@@ -1722,8 +1722,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Arroyo Cataratas'],
 
   // cómo es
@@ -1745,7 +1745,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [214],
   sendas_apn_total:         1,
@@ -1755,8 +1755,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Traful',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Huella Andina Angostura- Traful', 'Mallín de las Nieblas'],
 
   // cómo es
@@ -1778,7 +1778,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [198],
   sendas_apn_total:         1,
@@ -1788,8 +1788,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Panguinal'],
 
   // cómo es
@@ -1811,7 +1811,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [202],
   sendas_apn_total:         1,
@@ -1821,8 +1821,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cajón Negro'],
 
   // cómo es
@@ -1844,7 +1844,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [196, 197],
   sendas_apn_total:         2,
@@ -1854,8 +1854,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Inacayal'],
 
   // cómo es
@@ -1877,7 +1877,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [196],
   sendas_apn_total:         1,
@@ -1887,8 +1887,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Falso Belvedere', 'Cajón Negro'],
 
   // cómo es
@@ -1910,7 +1910,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [207],
   sendas_apn_total:         1,
@@ -1920,8 +1920,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Arroyo Voruco/ Bonito'],
 
   // cómo es
@@ -1943,7 +1943,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [201],
   sendas_apn_total:         1,
@@ -1953,8 +1953,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cascadas Dora y Santa Ana'],
 
   // cómo es
@@ -1976,7 +1976,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [201],
   sendas_apn_total:         1,
@@ -1986,8 +1986,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cascada Dora', 'Cascadas Dora y Santa Ana'],
 
   // cómo es
@@ -2009,7 +2009,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [201],
   sendas_apn_total:         1,
@@ -2019,8 +2019,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cascada Santa Ana', 'Cascadas Dora y Santa Ana'],
 
   // cómo es
@@ -2042,7 +2042,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [196, 197],
   sendas_apn_total:         2,
@@ -2052,8 +2052,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Inacayal'],
 
   // cómo es
@@ -2075,7 +2075,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [227],
   sendas_apn_total:         1,
@@ -2085,8 +2085,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -2108,7 +2108,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [227],
   sendas_apn_total:         1,
@@ -2118,8 +2118,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -2141,7 +2141,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [203],
   sendas_apn_total:         1,
@@ -2151,8 +2151,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Bayo: Ujenjo- Traful'],
 
   // cómo es
@@ -2174,7 +2174,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [211],
   sendas_apn_total:         1,
@@ -2184,8 +2184,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Dormilón'],
 
   // cómo es
@@ -2207,7 +2207,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [206],
   sendas_apn_total:         1,
@@ -2217,8 +2217,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro O´Connor'],
 
   // cómo es
@@ -2240,7 +2240,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [213, 214],
   sendas_apn_total:         2,
@@ -2250,8 +2250,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Traful',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Huella Andina Angostura- Traful'],
 
   // cómo es
@@ -2273,7 +2273,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [204],
   sendas_apn_total:         1,
@@ -2283,8 +2283,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Mireadores Península de Quetrihue'],
 
   // cómo es
@@ -2306,7 +2306,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [204, 205],
   sendas_apn_total:         2,
@@ -2316,8 +2316,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Peninsula de Quetrihue - Parque Nacional Los Arrayanes'],
 
   // cómo es
@@ -2339,7 +2339,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [207],
   sendas_apn_total:         1,
@@ -2349,8 +2349,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Arroyo Voruco/ Bonito'],
 
   // cómo es
@@ -2372,7 +2372,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [208],
   sendas_apn_total:         1,
@@ -2382,8 +2382,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Arroyo Voruco/ Bonito'],
 
   // cómo es
@@ -2405,7 +2405,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [207, 208],
   sendas_apn_total:         2,
@@ -2415,8 +2415,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Arroyo Voruco/ Bonito'],
 
   // cómo es
@@ -2438,7 +2438,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [205],
   sendas_apn_total:         1,
@@ -2448,8 +2448,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Villa La Angostura',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Peninsula de Quetrihue - Parque Nacional Los Arrayanes'],
 
   // cómo es
@@ -2471,7 +2471,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [216],
   sendas_apn_total:         1,
@@ -2481,8 +2481,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Centinela y Colorado',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Centinela'],
 
   // cómo es
@@ -2504,7 +2504,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [212],
   sendas_apn_total:         1,
@@ -2514,8 +2514,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Centinela y Colorado',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Colorado'],
 
   // cómo es
@@ -2537,7 +2537,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [81, 87],
   sendas_apn_total:         2,
@@ -2547,8 +2547,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Isla Victoria y Anchorena',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Piedras Blancas (Isla Victoria)'],
 
   // cómo es
@@ -2570,7 +2570,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [82],
   sendas_apn_total:         1,
@@ -2580,8 +2580,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Isla Victoria y Anchorena',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Totoras (Isla Victoria)'],
 
   // cómo es
@@ -2603,7 +2603,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [81, 82, 87],
   sendas_apn_total:         3,
@@ -2613,8 +2613,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Isla Victoria y Anchorena',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Totoras (Isla Victoria)'],
 
   // cómo es
@@ -2636,7 +2636,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [75],
   sendas_apn_total:         1,
@@ -2646,8 +2646,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Puerto Blest',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Laguna Ortíz Basualdo'],
 
   // cómo es
@@ -2669,7 +2669,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [74, 75],
   sendas_apn_total:         2,
@@ -2679,8 +2679,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Puerto Blest',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -2702,7 +2702,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [73],
   sendas_apn_total:         1,
@@ -2712,8 +2712,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Puerto Blest',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -2735,7 +2735,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [73, 74, 75],
   sendas_apn_total:         3,
@@ -2745,8 +2745,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Puerto Blest',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -2768,7 +2768,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [76],
   sendas_apn_total:         1,
@@ -2778,8 +2778,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Puerto Blest',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -2801,7 +2801,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [157],
   sendas_apn_total:         1,
@@ -2811,8 +2811,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Catedral',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -2834,7 +2834,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [128, 129],
   sendas_apn_total:         2,
@@ -2844,8 +2844,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Laguna Ilón'],
 
   // cómo es
@@ -2867,7 +2867,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [137],
   sendas_apn_total:         1,
@@ -2877,8 +2877,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Piedra Pérez'],
 
   // cómo es
@@ -2900,7 +2900,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [141],
   sendas_apn_total:         1,
@@ -2910,8 +2910,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -2933,7 +2933,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [152],
   sendas_apn_total:         1,
@@ -2943,8 +2943,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Mirador Glaciar Castaño Overo'],
 
   // cómo es
@@ -2966,7 +2966,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [134],
   sendas_apn_total:         1,
@@ -2976,8 +2976,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Paso Vuriloches'],
 
   // cómo es
@@ -2999,7 +2999,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [151],
   sendas_apn_total:         1,
@@ -3009,8 +3009,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Mirador del Valle'],
 
   // cómo es
@@ -3032,7 +3032,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [135, 136],
   sendas_apn_total:         2,
@@ -3042,8 +3042,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Volcanico'],
 
   // cómo es
@@ -3065,7 +3065,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [135],
   sendas_apn_total:         1,
@@ -3075,8 +3075,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Volcanico'],
 
   // cómo es
@@ -3098,7 +3098,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [164, 165],
   sendas_apn_total:         2,
@@ -3108,8 +3108,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -3131,7 +3131,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [38, 39, 184],
   sendas_apn_total:         3,
@@ -3141,8 +3141,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -3164,7 +3164,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [4, 5],
   sendas_apn_total:         2,
@@ -3174,8 +3174,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Challhuaco',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Refugio Velco'],
 
   // cómo es
@@ -3197,7 +3197,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [38, 39, 184],
   sendas_apn_total:         3,
@@ -3207,8 +3207,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Playa Leones (lago Mascardi)'],
 
   // cómo es
@@ -3230,7 +3230,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [5],
   sendas_apn_total:         1,
@@ -3240,8 +3240,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Challhuaco',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Challhuaco'],
 
   // cómo es
@@ -3263,7 +3263,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [4],
   sendas_apn_total:         1,
@@ -3273,8 +3273,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Cerro Challhuaco',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -3296,7 +3296,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [164, 165],
   sendas_apn_total:         2,
@@ -3306,8 +3306,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Lago los Césares'],
 
   // cómo es
@@ -3329,7 +3329,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [164, 165],
   sendas_apn_total:         2,
@@ -3339,8 +3339,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      [],
 
   // cómo es
@@ -3362,7 +3362,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [165],
   sendas_apn_total:         1,
@@ -3372,8 +3372,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Lago los Césares'],
 
   // cómo es
@@ -3395,7 +3395,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [39, 184],
   sendas_apn_total:         2,
@@ -3405,8 +3405,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Laguna Llum'],
 
   // cómo es
@@ -3428,7 +3428,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'facil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [38, 39, 184],
   sendas_apn_total:         3,
@@ -3438,8 +3438,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Laguna Llum'],
 
   // cómo es
@@ -3461,7 +3461,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [47],
   sendas_apn_total:         1,
@@ -3471,8 +3471,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Falso Granítico'],
 
   // cómo es
@@ -3494,7 +3494,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [49],
   sendas_apn_total:         1,
@@ -3504,8 +3504,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Laguna Juventus'],
 
   // cómo es
@@ -3527,7 +3527,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [48],
   sendas_apn_total:         1,
@@ -3537,8 +3537,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Mascardi-Steffen (Huella Andina)'],
 
   // cómo es
@@ -3560,7 +3560,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [50],
   sendas_apn_total:         1,
@@ -3570,8 +3570,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Cerro Huinca'],
 
   // cómo es
@@ -3593,7 +3593,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [51],
   sendas_apn_total:         1,
@@ -3603,8 +3603,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Mascardi y Los Césares',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Bicisenda Lago Guillelmo'],
 
   // cómo es
@@ -3626,7 +3626,7 @@ const TRAMOS = [
   solo_travesia:            false,
 
   // dificultad y norma
-  dificultad:               'moderada',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [188],
   sendas_apn_total:         1,
@@ -3636,8 +3636,8 @@ const TRAMOS = [
   huella_andina:            true,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Lago Steffen',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Steffen- Villegas (Huella Andina)', 'Mascardi-Steffen (Huella Andina)'],
 
   // cómo es
@@ -3654,12 +3654,12 @@ const TRAMOS = [
   desde:                    'ILO',
   hasta:                    'ROC',
   nombre:                   '',
-  via:                      'Mirador del Doctor y paso La Marca',
+  via:                      '',
   ida_y_vuelta:             false,
   solo_travesia:            true,
 
   // dificultad y norma
-  dificultad:               'dificil',
+  dificultad:               '',
   nota_dificultad:          '',
   sendas_apn:               [129],
   sendas_apn_total:         1,
@@ -3669,8 +3669,8 @@ const TRAMOS = [
   huella_andina:            false,
 
   // ubicación, duración y registro del Parque
-  zona:                     'Tronador y Pampa Linda',
-  duracion_dias:            1,
+  zona:                     '',
+  duracion_dias:            0,
   nombres_en_registro:      ['Laguna Ilón - Refugio Rocca (por paso La Marca)'],
 
   // cómo es

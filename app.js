@@ -18,7 +18,7 @@ const DB_S=typeof SENDAS!=='undefined'?SENDAS:(aviso('datos/sendas.js','No se pu
 /* tipo de cada campo: t texto, n número, b sí/no, l lista, o una lista de valores permitidos */
 const CAMPOS={
   tramo:{id:'t',desde:'t',hasta:'t',nombre:'t',via:'t',ida_y_vuelta:'b',solo_travesia:'b',
-    dificultad:Object.keys(DIF),nota_dificultad:'t',sendas_apn:'l',sendas_apn_total:'n',
+    dificultad:['',...Object.keys(DIF)],nota_dificultad:'t',sendas_apn:'l',sendas_apn_total:'n',
     fuera_de_apn:'b',administra:'t',registro:REGISTRO,huella_andina:'b',zona:'t',duracion_dias:'n',nombres_en_registro:'l',
     descripcion:'t',descripcion_verificada:'b',agua:'t',vadeos:'t',sombra:'t'},
   punto:{id:'t',nombre:'t',nombre_en_tramos:'t',detalle:'t',tipo:Object.keys(TIPO),descripcion:'t',
@@ -26,9 +26,9 @@ const CAMPOS={
   refugio:{capacidad:'t',reserva:'t',que_se_compra:'t',agua:'t',acampe:'t',si_esta_lleno:'t'},
   acceso:{colectivo:'t',parada:'t',frecuencia:'t',ultimo_regreso:'t',estacionamiento:'t'},
   travesia:{id:'t',nombre:'t',nombre_en:'t',resumen:'t',resumen_en:'t',senda_apn:'t',etapas:'e',donde_dormir:'t',salidas_de_escape:'t',como_volver:'t'},
-  senda:{id:'t',nombre:'t',tramos:'l',fuente:'t',dificultad:['Baja','Media','Alta','Muy Alta','Extrema'],
+  senda:{id:'t',nombre:'t',tramos:'l',fuente:'t',dificultad:['','Baja','Media','Alta','Muy Alta','Extrema'],
     temporada:'t',temporada_en:'t',dificultad_otra:['','Baja','Media','Alta','Muy Alta','Extrema'],temporada_otra:'t',temporada_otra_en:'t',
-    registro:['obligatorio','no_requiere'],precauciones:'l',precauciones_en:'l',servicios:'t',servicios_en:'t',descripcion:'t',descripcion_en:'t'}
+    registro:['','obligatorio','no_requiere'],precauciones:'l',precauciones_en:'l',servicios:'t',servicios_en:'t',descripcion:'t',descripcion_en:'t'}
 };
 const VACIO={t:'',n:0,b:false,l:[],e:[]};
 function revisar(r,campos,donde){
@@ -64,7 +64,7 @@ DB_T.forEach((r,i)=>{
   if(!revisar(r,CAMPOS.tramo,donde)||!idUnico(r.id,'T'))return;
   if(!D.T[r.id]){aviso(donde,'No tiene traza dibujada en geo/geometria.js. No se muestra.');return}
   for(const k of ['desde','hasta']) if(!NM[r[k]]){aviso(donde,`«${k}» es '${r[k]}', que no es un punto de datos/puntos.js. No se muestra.`);return}
-  T.push({id:r.id,a:r.desde,b:r.hasta,nm:r.nombre,via:r.via,rt:r.ida_y_vuelta,g:DIF[r.dificultad],
+  T.push({id:r.id,a:r.desde,b:r.hasta,nm:r.nombre,via:r.via,rt:r.ida_y_vuelta,g:DIF[r.dificultad]||'g0',
     nota:r.nota_dificultad,sen:r.sendas_apn,nsen:Math.max(r.sendas_apn_total,r.sendas_apn.length),ed:r.fuera_de_apn,muni:r.administra,st:r.solo_travesia,
     reg:r.registro,ha:r.huella_andina,zona:r.zona||'Sin zona',dias:r.duracion_dias,reg_nombres:r.nombres_en_registro,db:r});
 });
@@ -100,12 +100,14 @@ DB_V.forEach((r,i)=>{
 });
 /* Sendas oficiales (datos/sendas.js): cada una se muestra en la ficha de los tramos que la componen */
 const SD=new Map();   // id de tramo -> sendas que lo incluyen
+const SDR=new Map();  // id de senda -> su registro (la planilla completa sus textos)
 DB_S.forEach((r,i)=>{
   const donde=`Senda ${r&&r.id?`'${r.id}'`:'nº '+(i+1)}`;
   if(!revisar(r,CAMPOS.senda,donde)||!idUnico(r.id,'S'))return;
   if(r.precauciones.length!==r.precauciones_en.length)aviso(donde,'«precauciones» y «precauciones_en» tienen distinta cantidad de líneas.');
   r.tramos=r.tramos.filter(id=>tIds.has(id)||(aviso(donde,`Usa el tramo '${id}', que no existe o no se muestra. Se ignora.`),false));
   r.tramos.forEach(id=>{if(!SD.has(id))SD.set(id,[]);SD.get(id).push(r)});
+  SDR.set(r.id,r);
 });
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function avisos(){
@@ -115,7 +117,7 @@ function avisos(){
 }
 
 /* ================= ESTADO ================= */
-let sel=null, rev=false;
+let sel=null, rev=false, listo=false;
 const $=s=>document.querySelector(s);
 const svg=$('#map'), pinHome=$('#pin'), dr=$('#dr'), drBody=$('#drbody'), mapwrap=$('#mapwrap');
 let pin=pinHome;   // dónde se escribe la ficha: abajo (inicio) o en el panel sobre el mapa (lo elegido)
@@ -562,13 +564,13 @@ const DIFL={'Baja':['Baja','Low'],'Media':['Media','Medium'],'Alta':['Alta','Hig
 const difN=d=>{const x=DIFL[d];return x?tt(x[0],x[1]):d};
 const sendaEt=s=>/^\d/.test(s.id)?tt('Senda ','Trail ')+esc(s.id):tt('Sendero municipal','Municipal trail');
 function sendaBox(s,conDesc,abierta){
-  const dif=difN(s.dificultad)+(fv(s,'temporada')?` (${esc(fv(s,'temporada'))})`:'')
-    +(s.dificultad_otra?` · ${difN(s.dificultad_otra)}${fv(s,'temporada_otra')?` (${esc(fv(s,'temporada_otra'))})`:''}`:'');
-  const prec=LANG==='en'?s.precauciones_en:s.precauciones, serv=fv(s,'servicios'), desc=fv(s,'descripcion');
+  const dif=s.dificultad?difN(s.dificultad)+(fv(s,'temporada')?` (${esc(fv(s,'temporada'))})`:'')
+    +(s.dificultad_otra?` · ${difN(s.dificultad_otra)}${fv(s,'temporada_otra')?` (${esc(fv(s,'temporada_otra'))})`:''}`:''):'';
+  const prec=LANG==='en'&&s.precauciones_en.length?s.precauciones_en:s.precauciones, serv=fv(s,'servicios'), desc=fv(s,'descripcion');
   const ok=/^https:\/\//.test(s.fuente);
-  return `<details class="sd"${abierta?' open':''}><summary><b>${sendaEt(s)}</b> · ${esc(s.nombre)}</summary><div class="sdb">
-    <div class="row"><span class="k">${tt('Dificultad','Difficulty')}</span><span class="v">${dif}</span></div>
-    <div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v">${s.registro==='obligatorio'?tt('Obligatorio y gratuito','Mandatory and free'):tt('No hace falta','Not required')}</span></div>
+  return `<details class="sd"${abierta?' open':''}><summary><b>${sendaEt(s)}</b>${s.nombre?' · '+esc(s.nombre):''}</summary><div class="sdb">
+    ${dif?`<div class="row"><span class="k">${tt('Dificultad','Difficulty')}</span><span class="v">${dif}</span></div>`:''}
+    ${s.registro?`<div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v">${s.registro==='obligatorio'?tt('Obligatorio y gratuito','Mandatory and free'):tt('No hace falta','Not required')}</span></div>`:''}
     ${serv?`<h3>${tt('Servicios','Services')}</h3><p>${esc(serv)}</p>`:''}
     ${prec.length?`<h3>${tt('Precauciones','Precautions')}</h3><ul class="prec">${prec.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
     ${conDesc&&desc?`<h3>${tt('Cómo es','What it is like')}</h3><p>${esc(desc)}</p>`:''}
@@ -604,7 +606,7 @@ function tramo(id){
   ${subt(t)?`<p class="subt">${subt(t)}</p>`:''}
   ${t.st?`<p class="fine" style="margin-top:6px"><b>${tt('Este tramo solo se recorre como parte de una travesía.','This trail is only walked as part of a multi-day route.')}</b></p>`:''}
   <div class="blk"><h2>${tt('Estado en el registro del Parque','Status in the Park registry')}</h2>${estBox(t)}</div>
-  <div class="blk"><h2>${tt('Dificultad','Difficulty')}</h2>${difBox(t.g, esc(t.nota)|| (t.ed?(t.muni?tt('Es ','It is ')+esc(t.muni)+tt(', no figura en el listado de la APN.',', not in the APN list.'):tt('No figura en el listado de la APN.','Not in the APN list.')):''))}
+  <div class="blk"><h2>${tt('Dificultad','Difficulty')}</h2>${difBox(t.g, esc(LANG==='en'&&t.db.nota_dificultad_en?t.db.nota_dificultad_en:t.nota)|| (t.ed?(t.muni?tt('Es ','It is ')+esc(t.muni)+tt(', no figura en el listado de la APN.',', not in the APN list.'):tt('No figura en el listado de la APN.','Not in the APN list.')):''))}
     <div style="margin-top:9px">${regBlock(t.reg,true)}</div>
   </div>
   ${geo}
@@ -701,7 +703,8 @@ const LIMITES=typeof L!=='undefined'?L.latLngBounds(L.latLng(-41.72,-72.05),imgL
 const CLAVE=typeof MAPA_CLAVE_MAPTILER==='string'?MAPA_CLAVE_MAPTILER.trim():'';
 /* ---- enlace compartible: los filtros, la ficha elegida, la capa y la vista quedan en la dirección (#...) ---- */
 const HASH=(()=>{try{return new URLSearchParams(location.hash.slice(1))}catch(e){return new URLSearchParams()}})();
-FILT.forEach(f=>{const v=HASH.get(f.id);if(v==null)return;
+FILT.forEach(f=>{const v=HASH.get(f.id);if(v==null||(f.id==='zona'&&ZONAS.length<2))return;   // las zonas llegan con la planilla: se aplica entonces
+ 
   const ok=v==='-'?[]:v.split('~').map(x=>f.op.find(o=>String(o[0])===x)).filter(Boolean).map(o=>o[0]);
   if(f.uno){if(ok.length)SEL[f.id]=new Set([ok[0]])}else SEL[f.id]=new Set(ok)});
 let urlT=0;
@@ -909,7 +912,7 @@ const gpxTv=v=>{const O=orient(v);
    · Si no se puede leer la planilla (sin internet, o no está compartida), se usa la última copia guardada o datos/.
    El id de la planilla va en mapa-config.js (HOJA_GOOGLE_ID). */
 const HOJA_ID=typeof HOJA_GOOGLE_ID==='string'?HOJA_GOOGLE_ID.trim():'';
-const HOJAS=[['tramos','Tramos'],['refugios','Refugios'],['accesos','Accesos'],['puntos','Otros puntos'],['travesias','Travesías']];
+const HOJAS=[['tramos','Tramos'],['refugios','Refugios'],['accesos','Accesos'],['puntos','Otros puntos'],['travesias','Travesías'],['sendas','Sendas']];
 function csvFilas(t){
   const r=[];let f='',row=[],q=false;
   for(let i=0;i<t.length;i++){const c=t[i];
@@ -929,16 +932,40 @@ function pisar(db,claves,fila){
   if(!ORIG.has(db))ORIG.set(db,{...db});
   const o=ORIG.get(db);
   claves.forEach(k=>[k,k+'_en'].forEach(kk=>{db[kk]=fila[kk]||o[kk]||''}))}
+/* De la planilla salen también el color (dificultad), la zona, la duración y el nombre de cada tramo, y los nombres de las travesías:
+   al llegar hay que volver a calcular todo lo que depende de eso (zonas del filtro, colores, filtros). */
+function derivarTramo(t){
+  const d=t.db;
+  t.g=DIF[String(d.dificultad||'').trim()]||'g0';
+  t.zona=String(d.zona||'').trim()||'Sin zona';
+  t.dias=Number(String(d.duracion_dias??'').replace(',','.'))||0;
+  t.nm=d.nombre; t.via=d.via; t.nota=d.nota_dificultad}
+function recalcularEstructura(){
+  const antes=ZONAS.join('|');
+  ZONAS.length=0; ZONAS.push(...[...new Set(T.map(t=>t.zona))].sort((a,b)=>a.localeCompare(b,'es')));
+  TV.forEach(v=>{v.zonas=new Set(v.t.map(id=>tById[id].zona))});
+  if(ZONAS.join('|')!==antes){   // cambiaron las zonas: el filtro vuelve a empezar con todas (o con lo que pide el enlace)
+    const f=FILT.find(x=>x.id==='zona'),h=typeof HASH!=='undefined'?HASH.get('zona'):null;
+    SEL.zona=new Set(h==null?ZONAS:(h==='-'?[]:h.split('~').filter(z=>ZONAS.includes(z))))}}
+const listaDeTexto=t=>String(t||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
 function aplicarHojas(H){
   (H.tramos||[]).forEach(f=>{const t=tById[f.id];if(!t)return;
-    pisar(t.db,['descripcion','agua','vadeos','sombra'],f);
+    pisar(t.db,['descripcion','agua','vadeos','sombra','dificultad','nota_dificultad','duracion_dias','via','zona'],f);
+    t.db.nombre=f.nombre_propio||ORIG.get(t.db).nombre||'';
+    derivarTramo(t);
     if(f.verificada)t.db.descripcion_verificada=/^(s[ií]|x|true|1|yes|ok)$/i.test(f.verificada)||ORIG.get(t.db).descripcion_verificada;
     else t.db.descripcion_verificada=ORIG.get(t.db).descripcion_verificada});
   const puntos=(rows,claves)=>(rows||[]).forEach(f=>{const n=N[f.id];if(n&&n.db)pisar(n.db,claves,f)});
   puntos(H.refugios,['descripcion','capacidad','reserva','que_se_compra','agua','acampe','si_esta_lleno']);
   puntos(H.accesos,['descripcion','colectivo','parada','frecuencia','ultimo_regreso','estacionamiento']);
   puntos(H.puntos,['descripcion']);
-  (H.travesias||[]).forEach(f=>{const v=TV.find(x=>x.id===f.id);if(v)pisar(v.db,['donde_dormir','salidas_de_escape','como_volver'],f)})}
+  (H.travesias||[]).forEach(f=>{const v=TV.find(x=>x.id===f.id);if(!v)return;
+    pisar(v.db,['donde_dormir','salidas_de_escape','como_volver','nombre','resumen'],f);
+    v.n=v.db.nombre;v.ne=v.db.nombre_en;v.s=v.db.resumen;v.se=v.db.resumen_en});
+  (H.sendas||[]).forEach(f=>{const r=SDR.get(f.id);if(!r)return;
+    pisar(r,['nombre','dificultad','temporada','dificultad_otra','temporada_otra','registro','servicios','descripcion'],f);
+    ['','_en'].forEach(sf=>{const k='precauciones'+sf;if(!ORIG.get(r)['__'+k])ORIG.get(r)['__'+k]=r[k];const l=listaDeTexto(f[k]);r[k]=l.length?l:ORIG.get(r)['__'+k]})});
+  recalcularEstructura()}
 function repintarFicha(){if(sel)go(sel[0],sel[1],true,'mapa');else home()}
 try{const c=JSON.parse(localStorage.getItem('pt.hojas')||'null');if(c&&c.d)aplicarHojas(c.d)}catch(e){}
 async function cargarHojas(){
@@ -946,14 +973,15 @@ async function cargarHojas(){
   try{
     const filas=await Promise.all(HOJAS.map(([k,n])=>
       fetch(`https://docs.google.com/spreadsheets/d/${HOJA_ID}/gviz/tq?tqx=out:csv&headers=1&sheet=${encodeURIComponent(n)}`)
-        .then(r=>{if(!r.ok)throw new Error(r.status);return r.text()}).then(csvFilas)));
+        .then(r=>{if(!r.ok)throw new Error(r.status);return r.text()}).then(csvFilas)
+        .catch(e=>{if(k==='sendas')return [];throw e})));   // la hoja Sendas es opcional
     const H=Object.fromEntries(HOJAS.map(([k],i)=>[k,filas[i]]));
     if(!H.tramos.length)return;   // respuesta rara: se queda con lo que había
     const nuevo=JSON.stringify(H);
     let viejo='';try{viejo=JSON.stringify((JSON.parse(localStorage.getItem('pt.hojas')||'null')||{}).d||'')}catch(e){}
     aplicarHojas(H);
     try{localStorage.setItem('pt.hojas',JSON.stringify({t:Date.now(),d:H}))}catch(e){}
-    if(nuevo!==viejo)repintarFicha();
+    if(nuevo!==viejo){if(listo)paint();repintarFicha()}
   }catch(e){/* sin hoja: se usan los datos de datos/ */}}
 
 /* ================= CAMBIO DE IDIOMA ================= */
@@ -966,7 +994,7 @@ alCambiarIdioma(()=>{
 });
 
 /* ================= ARRANQUE ================= */
-build(); avisos(); home(); paint(); fit();
+build(); avisos(); home(); paint(); fit(); listo=true;
 { const V=(HASH.get('v')||'').split(',').map(Number);   // vista guardada en el enlace
   if(map&&V.length===3&&V.every(Number.isFinite)){map.setView([V[0],V[1]],V[2],{animate:false});apply()}
   const S=(HASH.get('s')||'').split('.'),sid=S.slice(1).join('.');

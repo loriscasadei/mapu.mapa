@@ -21,10 +21,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv1',
-  nombre:             'Frey y Jakob',
-  nombre_en:          'Frey and Jakob',
-  resumen:            'De Villa Catedral al Tambo de Báez',
-  resumen_en:         'From Villa Catedral to Tambo de Báez',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '64',
   etapas:             [
     ['cat-vt', 'vt-fre'],   // día 1
@@ -40,10 +40,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv2',
-  nombre:             'Frey, Jakob y laguna Negra',
-  nombre_en:          'Frey, Jakob and Laguna Negra',
-  resumen:            'De Villa Catedral a Colonia Suiza',
-  resumen_en:         'From Villa Catedral to Colonia Suiza',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '65',
   etapas:             [
     ['cat-vt', 'vt-fre'],   // día 1
@@ -60,10 +60,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv3',
-  nombre:             'Cuatro refugios',
-  nombre_en:          'Four huts',
-  resumen:            'Frey, Jakob, Italia y López',
-  resumen_en:         'Frey, Jakob, Italia and López',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '66',
   etapas:             [
     ['cat-vt', 'vt-fre'],   // día 1
@@ -81,10 +81,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv4',
-  nombre:             'Laguna Negra y López',
-  nombre_en:          'Laguna Negra and López',
-  resumen:            'De Colonia Suiza al Circuito Chico',
-  resumen_en:         'From Colonia Suiza to Circuito Chico',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '103',
   etapas:             [
     ['col-neg'],   // día 1
@@ -99,10 +99,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv5',
-  nombre:             'Frey por el filo',
-  nombre_en:          'Frey along the ridge',
-  resumen:            'De Punta Princesa a Villa Catedral',
-  resumen_en:         'From Punta Princesa to Villa Catedral',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '58 y 63',
   etapas:             [
     ['pri-cdf', 'fre-cdf'],   // día 1
@@ -117,10 +117,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv6',
-  nombre:             'Jakob por la Huella Andina',
-  nombre_en:          'Jakob on the Huella Andina',
-  resumen:            'Del Tambo de Báez a Los Césares',
-  resumen_en:         'From Tambo de Báez to Los Césares',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '162',
   etapas:             [
     ['jak-tam'],   // día 1
@@ -135,10 +135,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv7',
-  nombre:             'Cinco lagunas',
-  nombre_en:          'Five lagoons',
-  resumen:            'De Colonia Suiza a Pampa Linda',
-  resumen_en:         'From Colonia Suiza to Pampa Linda',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '106',
   etapas:             [
     ['col-neg'],   // día 1
@@ -156,10 +156,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv8',
-  nombre:             'Frey y Jakob en dos días',
-  nombre_en:          'Frey and Jakob in two days',
-  resumen:            'De Villa Catedral al refugio Jakob',
-  resumen_en:         'From Villa Catedral to Jakob hut',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '',
   etapas:             [
     ['cat-vt', 'vt-fre'],   // día 1
@@ -174,10 +174,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv9',
-  nombre:             'Jakob y laguna Negra',
-  nombre_en:          'Jakob and Laguna Negra',
-  resumen:            'Del refugio Jakob a Colonia Suiza',
-  resumen_en:         'From Jakob hut to Colonia Suiza',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '',
   etapas:             [
     ['jak-neg'],   // día 1
@@ -192,10 +192,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv10',
-  nombre:             'Pampa Linda, Roca y Frías',
-  nombre_en:          'Pampa Linda, Roca and Frías',
-  resumen:            'De Pampa Linda a Puerto Frías por el refugio Roca',
-  resumen_en:         'From Pampa Linda to Puerto Frías via Roca hut',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '',
   etapas:             [
     ['pli-roc'],   // día 1
@@ -210,10 +210,10 @@ const TRAVESIAS = [
 
 {
   id:                 'tv11',
-  nombre:             'Pampa Linda, Ilón y Roca',
-  nombre_en:          'Pampa Linda, Ilón and Roca',
-  resumen:            'Circuito por la laguna Ilón y el refugio Roca',
-  resumen_en:         'Loop via Laguna Ilón and Roca hut',
+  nombre:             '',
+  nombre_en:          '',
+  resumen:            '',
+  resumen_en:         '',
   senda_apn:          '',
   etapas:             [
     ['ilo-pli'],   // día 1
