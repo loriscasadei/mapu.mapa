@@ -383,3 +383,10 @@ label.rgsw{display:flex;align-items:center;gap:7px;color:var(--ink);font-size:16
 .rga{padding:8px 11px;margin:8px 0;font-size:15.5px;border-left:4px solid}
 .rga.err{background:#f7e3e0;border-color:#a3231a}.rga.warn{background:#f8f0d8;border-color:#a67c00}
 @media (max-width:520px){.rg2{grid-template-columns:1fr}.rgac li{grid-template-columns:1fr auto auto}.rgac li input[data-k=dni]{grid-column:1 / -1;grid-row:2}}
+
+/* botones de cuenta apagados: «Coming soon» */
+.ubtn-wrap{display:inline-flex;flex:none}
+.ubtn[aria-disabled="true"],.ubtn.pri[aria-disabled="true"]{background:none;color:#8C9A9E;border-color:#3E515A;cursor:not-allowed}
+.ubtn[aria-disabled="true"]:hover{border-color:#3E515A}
+.ubtn-wrap .soon{top:calc(100% + 8px);left:auto;right:0;transform:none;background:#EEF2EF;color:var(--ink);font-size:15px}
+.ubtn-wrap .soon::before{left:auto;right:18px;margin-left:0;border-bottom-color:#EEF2EF}

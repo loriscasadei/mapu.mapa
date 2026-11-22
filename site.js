@@ -71,13 +71,10 @@
   document.body.appendChild(dlg);
   function pintarUsuario(){
     if(!box)return;
-    const u=window.Auth&&Auth.usuario();
-    box.innerHTML=u
-      ?'<span class="uemail" title="'+esc(u.email)+'">'+esc(u.email)+'</span><button type="button" class="ubtn" id="usalir">'+bi('Salir','Sign out')+'</button>'
-      :'<button type="button" class="ubtn" id="uentrar">'+bi('Ingresar','Sign in')+'</button><button type="button" class="ubtn pri" id="ureg">'+bi('Registrarse','Sign up')+'</button>';
-    const q=id=>document.getElementById(id);
-    if(u)q('usalir').onclick=()=>{Auth.salir();pintarUsuario();abrirMenu(false)};
-    else{q('uentrar').onclick=()=>abrirDialogo('ingresar');q('ureg').onclick=()=>abrirDialogo('registrar')}
+    /* Cuentas de usuario: por ahora no hay. Los botones quedan grises, como Montañismo.
+       Para activarlas, volver a poner abrirDialogo('ingresar') / abrirDialogo('registrar') en estos botones. */
+    const soon=(id,t,pri)=>'<span class="soon-wrap ubtn-wrap"><button type="button" class="ubtn'+(pri?' pri':'')+'" id="'+id+'" aria-disabled="true" aria-describedby="'+id+'-tip">'+t+'</button><span class="soon" id="'+id+'-tip" role="tooltip">Coming soon</span></span>';
+    box.innerHTML=soon('uentrar',bi('Ingresar','Sign in'),false)+soon('ureg',bi('Registrarse','Sign up'),true);
   }
   function abrirDialogo(m){
     modo=m;abrirMenu(false);pintarDialogo();
