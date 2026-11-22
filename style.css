@@ -331,3 +331,55 @@ a{color:var(--g1)}
 html[lang="en"] .bi>.es,html:not([lang="en"]) .bi>.en{visibility:hidden}
 .brand span.bi,.brand>span>.bi{display:inline-grid}
 .mainnav .bi>span,.ubtn .bi>span{justify-self:center;text-align:center}
+
+/* información de las sendas oficiales */
+details.sd{border:1px solid var(--hair);background:#fff;margin:0 0 8px}
+details.sd>summary{cursor:pointer;padding:9px 11px;font-family:var(--sans);font-size:16px;line-height:1.25;list-style:none}
+details.sd>summary::-webkit-details-marker{display:none}
+details.sd>summary::before{content:'\25B8';display:inline-block;margin-right:7px;color:var(--g1)}
+details.sd[open]>summary::before{content:'\25BE'}
+details.sd>summary:focus-visible{outline:2px solid var(--g1);outline-offset:2px}
+.sdb{padding:2px 12px 12px;border-top:1px solid var(--hair)}
+.sdb h3{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--granite);margin:12px 0 3px}
+.sdb p{margin:0 0 6px}
+.sdb ul.prec{margin:4px 0 6px;padding-left:19px;font-family:var(--sans);font-size:16px;line-height:1.35}
+.sdb ul.prec li{margin:0 0 4px}
+.sdb .fine a{color:var(--g1)}
+.row.long{flex-direction:column;gap:1px;padding:5px 0}
+.row.long .v{text-align:left;font-weight:400;font-size:16px;line-height:1.35}
+
+/* perfil de altura interactivo */
+.prof{touch-action:pan-y;cursor:crosshair;user-select:none;-webkit-user-select:none}
+.prof:focus-visible{outline:2px solid var(--g1);outline-offset:2px}
+.pf-hint{margin:5px 0 0}
+.pm{pointer-events:none}
+.pm .pm-h{fill:rgba(27,42,48,.18)}
+.pm .pm-d{fill:var(--ink);stroke:#fff;stroke-width:2.5px}
+
+/* registro de trekking ya completado */
+.regbtn{font-family:var(--sans);font-weight:600;font-size:17px;background:var(--ink);color:#fff;border:0;padding:9px 16px;cursor:pointer;border-radius:2px}
+.regbtn:hover{background:#2a3d45}.regbtn:focus-visible{outline:2px solid var(--g1);outline-offset:2px}
+dialog.regdlg{width:min(600px,calc(100% - 20px));max-height:92vh;padding:0;border:2px solid var(--ink);background:var(--card);color:var(--ink);box-shadow:0 10px 40px rgba(0,0,0,.4)}
+dialog.regdlg::backdrop{background:rgba(20,30,34,.55)}
+.rg{padding:16px 18px 18px;font-family:var(--sans);font-size:16px;overflow:auto;max-height:90vh}
+.rg h2{margin:0 0 6px;font-size:24px}
+.rg fieldset{border:1px solid var(--hair);background:#fff;margin:12px 0;padding:6px 12px 12px}
+.rg legend{font-weight:600;padding:0 6px;color:var(--granite)}
+.rg label{display:block;margin:9px 0 0;color:var(--granite);font-size:15px}
+.rg input:not([type=checkbox]),.rg select,.rg textarea{display:block;width:100%;box-sizing:border-box;margin-top:3px;font:inherit;font-size:17px;padding:7px 9px;border:1px solid #9aa6a3;background:#fff;color:var(--ink);border-radius:2px}
+.rg input:focus-visible,.rg select:focus-visible,.rg textarea:focus-visible{outline:2px solid var(--g1);outline-offset:1px}
+.rg2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rgnm{margin:6px 0 0}
+.rgh{margin:12px 0 2px;font-weight:600;color:var(--granite)}
+label.rgsw{display:flex;align-items:center;gap:7px;color:var(--ink);font-size:16px}
+.rgsw input[type=checkbox]{width:18px;height:18px;margin:0}
+.rgac{list-style:none;margin:4px 0 6px;padding:0}
+.rgac li{display:grid;grid-template-columns:1fr 110px auto auto;gap:6px;align-items:center;margin:6px 0}
+.rgac li input:not([type=checkbox]){margin:0}
+.rgb{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-top:12px}
+.rgsec,.rgpri{font:inherit;font-weight:600;font-size:16px;padding:8px 14px;border-radius:2px;cursor:pointer}
+.rgsec{background:#fff;color:var(--ink);border:1px solid var(--ink)}
+.rgpri{background:var(--ink);color:#fff;border:1px solid var(--ink)}
+.rga{padding:8px 11px;margin:8px 0;font-size:15.5px;border-left:4px solid}
+.rga.err{background:#f7e3e0;border-color:#a3231a}.rga.warn{background:#f8f0d8;border-color:#a67c00}
+@media (max-width:520px){.rg2{grid-template-columns:1fr}.rgac li{grid-template-columns:1fr auto auto}.rgac li input[data-k=dni]{grid-column:1 / -1;grid-row:2}}

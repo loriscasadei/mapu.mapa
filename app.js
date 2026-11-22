@@ -13,6 +13,7 @@ const aviso=(donde,msg)=>AVISOS.push([donde,msg]);
 const DB_T=typeof TRAMOS!=='undefined'?TRAMOS:(aviso('datos/tramos.js','No se pudo leer el archivo. No se muestra ningún tramo.'),[]);
 const DB_P=typeof PUNTOS!=='undefined'?PUNTOS:(aviso('datos/puntos.js','No se pudo leer el archivo. No se muestra ningún punto ni tramo.'),[]);
 const DB_V=typeof TRAVESIAS!=='undefined'?TRAVESIAS:(aviso('datos/travesias.js','No se pudo leer el archivo. No se muestran travesías.'),[]);
+const DB_S=typeof SENDAS!=='undefined'?SENDAS:(aviso('datos/sendas.js','No se pudo leer el archivo. No se muestra la información de las sendas oficiales.'),[]);
 
 /* tipo de cada campo: t texto, n número, b sí/no, l lista, o una lista de valores permitidos */
 const CAMPOS={
@@ -24,7 +25,10 @@ const CAMPOS={
     etiqueta_x:'n',etiqueta_y:'n',etiqueta_lado:Object.keys(LADO),solo_con_zoom:'b'},
   refugio:{capacidad:'t',reserva:'t',que_se_compra:'t',agua:'t',acampe:'t',si_esta_lleno:'t'},
   acceso:{colectivo:'t',parada:'t',frecuencia:'t',ultimo_regreso:'t',estacionamiento:'t'},
-  travesia:{id:'t',nombre:'t',nombre_en:'t',resumen:'t',resumen_en:'t',senda_apn:'t',etapas:'e',donde_dormir:'t',salidas_de_escape:'t',como_volver:'t'}
+  travesia:{id:'t',nombre:'t',nombre_en:'t',resumen:'t',resumen_en:'t',senda_apn:'t',etapas:'e',donde_dormir:'t',salidas_de_escape:'t',como_volver:'t'},
+  senda:{id:'t',nombre:'t',tramos:'l',fuente:'t',dificultad:['Baja','Media','Alta','Muy Alta','Extrema'],
+    temporada:'t',temporada_en:'t',dificultad_otra:['','Baja','Media','Alta','Muy Alta','Extrema'],temporada_otra:'t',temporada_otra_en:'t',
+    registro:['obligatorio','no_requiere'],precauciones:'l',precauciones_en:'l',servicios:'t',servicios_en:'t',descripcion:'t',descripcion_en:'t'}
 };
 const VACIO={t:'',n:0,b:false,l:[],e:[]};
 function revisar(r,campos,donde){
@@ -40,7 +44,7 @@ function revisar(r,campos,donde){
     else if(tp==='l'&&!Array.isArray(v)){aviso(donde,`«${k}» tiene que ser una lista entre corchetes [ ].`);r[k]=[]}
     else if(tp==='e'&&!(Array.isArray(v)&&v.length&&v.every(d=>Array.isArray(d)&&d.length&&d.every(x=>typeof x==='string')))){aviso(donde,`«${k}» tiene que ser una lista de días, y cada día una lista de ids de tramos: [ ['a','b'], ['c'] ].`);r[k]=[]}
   }
-  for(const k in r) if(!(k in campos)) aviso(donde,`Campo desconocido «${k}». ¿Está mal escrito?`);
+  for(const k in r) if(!(k in campos)&&!(k.endsWith('_en')&&campos[k.slice(0,-3)]==='t')) aviso(donde,`Campo desconocido «${k}». ¿Está mal escrito?`);   // «campo_en» (inglés) es opcional
   return true;
 }
 const dup=new Set();
@@ -93,6 +97,15 @@ DB_V.forEach((r,i)=>{
   if(falta.length){aviso(donde,`Usa tramos que no existen o no se muestran: ${falta.join(', ')}. No se muestra.`);return}
   if(!flat.length){aviso(donde,'No tiene tramos. No se muestra.');return}
   TV.push({id:r.id,n:r.nombre,ne:r.nombre_en,s:r.resumen,se:r.resumen_en,sen:r.senda_apn,t:flat,et:r.etapas,db:r});
+});
+/* Sendas oficiales (datos/sendas.js): cada una se muestra en la ficha de los tramos que la componen */
+const SD=new Map();   // id de tramo -> sendas que lo incluyen
+DB_S.forEach((r,i)=>{
+  const donde=`Senda ${r&&r.id?`'${r.id}'`:'nº '+(i+1)}`;
+  if(!revisar(r,CAMPOS.senda,donde)||!idUnico(r.id,'S'))return;
+  if(r.precauciones.length!==r.precauciones_en.length)aviso(donde,'«precauciones» y «precauciones_en» tienen distinta cantidad de líneas.');
+  r.tramos=r.tramos.filter(id=>tIds.has(id)||(aviso(donde,`Usa el tramo '${id}', que no existe o no se muestra. Se ignora.`),false));
+  r.tramos.forEach(id=>{if(!SD.has(id))SD.set(id,[]);SD.get(id).push(r)});
 });
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 function avisos(){
@@ -316,21 +329,205 @@ function estBox(t){
   const det=t.regHall.map(h=>`<li>${esc(h.n)}: ${EST[h.e]}${h.m?' ('+esc(motivoN(h.m).toLowerCase())+')':''}</li>`).join('');
   return `<div class="row"><span class="k">${tt('Estado','Status')}</span><span class="v">${EST[t.hab]}</span></div><ul class="plain fine">${det}</ul><p class="fine">${tt('Según el formulario de registro de trekking del Parque.','According to the Park trekking registration form.')}${cuando}</p>`;
 }
-function regBlock(reg='obligatorio'){
+/* ================= REGISTRO DE TREKKING YA COMPLETADO =================
+   El registro oficial es un formulario de Google. Acá la persona carga sus datos una vez; quedan guardados SOLO
+   en su navegador (localStorage, «pt.perfil»), no se envían a ningún servidor de esta página. Al tocar
+   «Abrir el registro» se abre el formulario oficial con esos datos ya puestos (van en el enlace a Google Forms).
+   La estructura del formulario (códigos de campos, opciones) la lee herramientas/actualizar-estado.mjs y queda en datos/estado.js.
+   No se completan solas las preguntas de autoevaluación ni las de pernocte y reserva: las responde la persona. */
+const FORMREG=typeof FORMULARIO!=='undefined'&&FORMULARIO&&FORMULARIO.senderos?FORMULARIO:null;
+const perfilVacio=()=>({email:'',nombre:'',dni:'',residencia:'',telefono:'',contacto:'',vehiculo:'',acomp:[]});
+function perfilLeer(){try{const p=JSON.parse(localStorage.getItem('pt.perfil')||'{}');return {...perfilVacio(),...p,acomp:Array.isArray(p.acomp)?p.acomp.filter(a=>a&&typeof a==='object'):[]}}catch(e){return perfilVacio()}}
+function perfilGuardar(p){try{localStorage.setItem('pt.perfil',JSON.stringify(p));return true}catch(e){return false}}
+let REGCTX=null;   // lo que se registra: nombre de la ficha y nombres del formulario del Parque que le corresponden
+function regCandidatos(nombres,tipo){
+  const vistos=new Set(),r=nombres.filter(n=>!vistos.has(n)&&vistos.add(n)).map(n=>{const e=REG.entradas[n]||{};return {n,e:e.estado||'',m:e.motivo||'',p:FORMREG&&FORMREG.senderos[n]}}).filter(c=>c.p);
+  const t=tipo?r.filter(c=>c.p.tipo===tipo):[];
+  return (t.length?t:r).sort((a,b)=>(a.e==='habilitado'?0:1)-(b.e==='habilitado'?0:1))}
+const fechaP=s=>{const m=String(s).match(/(\d+)\/(\d+)\/(\d+)/);return m?new Date(+m[3],+m[2]-1,+m[1]):null};
+function fechasValidas(ops){const hoy=new Date();hoy.setHours(0,0,0,0);const v=ops.filter(x=>{const d=fechaP(x);return d&&d>=hoy});return v.length?v:ops}
+function regUrl(c,perfil,sal){
+  const F=FORMREG.campos,SN=FORMREG.sino,O=FORMREG.opciones,P=new URLSearchParams({usp:'pp_url'});
+  const put=(k,v)=>{if(k!=null&&v!=null&&String(v).trim()!=='')P.append('entry.'+k,String(v).trim())};
+  if(perfil.email.trim())P.append('emailAddress',perfil.email.trim());
+  put(F.nombre,perfil.nombre);put(F.dni,perfil.dni);put(F.residencia,perfil.residencia);put(F.telefono,perfil.telefono);
+  Object.entries(c.p.prefill).forEach(([k,v])=>put(k,v));
+  put(F.fechaInicio,sal.inicio);put(F.fechaRegreso,sal.regreso);
+  if(perfil.contacto.trim()){put(F.alguienSabe,SN.alguienSabe.si);put(F.contacto,perfil.contacto)}
+  const ac=sal.acomp;
+  put(F.vasAcompanado,ac.length?SN.vasAcompanado.si:SN.vasAcompanado.no);
+  if(ac.length){
+    const may=ac.filter(a=>!a.menor).length,men=ac.length-may;
+    const cant=(campo,n,exacta)=>{if(n>=10){put(campo,O.mayores[O.mayores.length-1]);put(exacta,n)}else put(campo,String(n))};
+    cant(F.mayores,may,F.masDe10[0]);cant(F.menores,men,F.masDe10[1]);
+    put(F.acompanantes,ac.map(a=>`${String(a.nombre).trim()}${a.dni?` (DNI ${String(a.dni).trim()})`:''}${a.menor?' – menor':''}`).join(', '));
+  }
+  put(F.hayObservaciones,sal.obs?SN.hayObservaciones.si:SN.hayObservaciones.no);put(F.observaciones,sal.obs);
+  const veh=sal.vehiculo&&perfil.vehiculo.trim();
+  put(F.vehiculoSi,veh?SN.vehiculoSi.si:SN.vehiculoSi.no);if(veh)put(F.vehiculo,perfil.vehiculo);
+  return FORMREG.viewUrl+'?'+P.toString()}
+function abrirRegistro(){
+  const ctx=REGCTX; if(!ctx||!FORMREG||!ctx.cand.length)return;
+  const perfil=perfilLeer(), sel=new Set(perfil.acomp.map((a,i)=>i));
+  document.getElementById('regdlg')?.remove();
+  const dlg=document.createElement('dialog'); dlg.id='regdlg'; dlg.className='regdlg';
+  const iO=fechasValidas(FORMREG.opciones.fechaInicio), rO=fechasValidas(FORMREG.opciones.fechaRegreso);
+  const ESTN={habilitado:tt('habilitado','open'),cerrado:tt('cerrado','closed')};
+  const opt=(v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t??v;return o};
+  dlg.innerHTML=`<form method="dialog" class="rg">
+    <h2>${tt('Hacer el registro de trekking','Trekking registration')}</h2>
+    <p class="fine">${tt('Es el formulario oficial del Parque Nacional Nahuel Huapi. Acá cargás tus datos una vez y se abre el formulario ya completado.','This is the official Nahuel Huapi National Park form. You enter your details once here and the form opens already filled in.')}</p>
+    <div id="rgal"></div>
+    <fieldset><legend>${tt('Tu salida','Your trip')}</legend>
+      <p class="rgnm"><b></b></p>
+      <label id="rgcl">${tt('Cómo figura en el formulario del Parque','How it appears in the Park form')}<select name="cand"></select></label>
+      <div class="rg2"><label>${tt('Fecha de inicio','Start date')}<select name="inicio"></select></label><label>${tt('Fecha de regreso','Return date')}<select name="regreso"></select></label></div>
+      <div id="rgpick"></div>
+      <label class="rgsw"><input type="checkbox" name="veh"> <span id="rgvl"></span></label>
+      <label>${tt('Observaciones (opcional)','Notes (optional)')}<textarea name="obs" rows="2" placeholder="${tt('Ej.: pernocte en el refugio con reserva confirmada','E.g. overnight at the hut with a confirmed booking')}"></textarea></label>
+    </fieldset>
+    <fieldset><legend>${tt('Tus datos','Your details')}</legend>
+      <p class="fine">${tt('Se guardan solo en este navegador. No se envían a este sitio ni a ningún servidor nuestro: viajan únicamente en el enlace al formulario de Google que vos abrís.','They are saved only in this browser. They are not sent to this site or to any server of ours: they only travel in the link to the Google form that you open.')}</p>
+      <label>${tt('Email','Email')}<input name="email" type="email" autocomplete="email"></label>
+      <label>${tt('Nombre y apellido del responsable del grupo','Full name of the group leader')}<input name="nombre" autocomplete="name"></label>
+      <div class="rg2"><label>${tt('DNI o pasaporte','ID or passport number')}<input name="dni" autocomplete="off"></label><label>${tt('Teléfono','Phone')}<input name="telefono" type="tel" autocomplete="tel"></label></div>
+      <label>${tt('Lugar de residencia','Place of residence')}<input name="residencia" autocomplete="address-level2"></label>
+      <label>${tt('Contacto de alguien que no hace la salida (nombre y teléfono)','Contact of someone who is not on the trip (name and phone)')}<input name="contacto" autocomplete="off"></label>
+      <label>${tt('Vehículo (opcional: marca, modelo y patente)','Vehicle (optional: make, model and plate)')}<input name="vehiculo" autocomplete="off"></label>
+      <div class="rgh">${tt('Acompañantes que suelen ir con vos','People who usually go with you')}</div>
+      <ul id="rgac" class="rgac"></ul>
+      <button type="button" id="rgadd" class="rgsec">+ ${tt('Agregar acompañante','Add companion')}</button>
+    </fieldset>
+    <p class="fine">${tt('El registro es una declaración jurada: revisá cada dato en el formulario antes de enviarlo. Las preguntas sobre tu preparación, la pernocte y las reservas las respondés vos ahí.','The registration is a sworn statement: check every item on the form before submitting. Questions about your preparation, overnight stays and bookings are answered by you there.')}</p>
+    <div class="rgb"><button type="button" id="rgx" class="rgsec">${tt('Cerrar','Close')}</button><button type="button" id="rgdel" class="rgsec">${tt('Borrar mis datos','Delete my details')}</button><button type="button" id="rgcp" class="rgsec">${tt('Copiar enlace','Copy link')}</button><button type="button" id="rggo" class="rgpri">${tt('Abrir el registro','Open the registration')}</button></div>
+  </form>`;
+  document.body.appendChild(dlg);
+  const f=dlg.querySelector('form'), E=n=>f.elements[n];
+  dlg.querySelector('.rgnm b').textContent=ctx.nombre;
+  ctx.cand.forEach((c,i)=>E('cand').appendChild(opt(i,`${c.n} (${c.p.zona}, ${ESTN[c.e]||tt('sin estado','no status')})`)));
+  if(ctx.cand.length<2)dlg.querySelector('#rgcl').hidden=true;
+  iO.forEach(x=>E('inicio').appendChild(opt(x))); rO.forEach(x=>E('regreso').appendChild(opt(x)));
+  const sincFechas=()=>{const a=fechaP(E('inicio').value),b=fechaP(E('regreso').value);if(a&&b&&b<a)E('regreso').value=E('inicio').value};
+  E('inicio').onchange=sincFechas; sincFechas();
+  ['email','nombre','dni','telefono','residencia','contacto','vehiculo'].forEach(k=>{E(k).value=perfil[k]||'';E(k).addEventListener('input',()=>{perfil[k]=E(k).value;perfilGuardar(perfil);alertas();veh()})});
+  function veh(){const t=perfil.vehiculo.trim();E('veh').disabled=!t;if(!t)E('veh').checked=false;dlg.querySelector('#rgvl').textContent=t?`${tt('Llego en vehículo propio','I arrive in my own vehicle')} (${t})`:tt('Llego en vehículo propio (cargá el vehículo en «Tus datos»)','I arrive in my own vehicle (enter it in "Your details")')}
+  function pick(){
+    const box=dlg.querySelector('#rgpick'); box.innerHTML='';
+    const con=perfil.acomp.map((a,i)=>[a,i]).filter(([a])=>String(a.nombre||'').trim());
+    if(!con.length){box.innerHTML=`<p class="fine">${tt('Si vas con acompañantes, cargalos en «Tus datos» para elegirlos acá.','If you go with companions, add them in "Your details" to choose them here.')}</p>`;return}
+    const g=document.createElement('div');g.className='rgcks';g.innerHTML=`<div class="rgh">${tt('Quiénes van en esta salida','Who is on this trip')}</div>`;
+    con.forEach(([a,i])=>{const l=document.createElement('label');l.className='rgsw';const c=document.createElement('input');c.type='checkbox';c.checked=sel.has(i);
+      c.onchange=()=>{c.checked?sel.add(i):sel.delete(i)};l.append(c,' ',document.createTextNode(a.nombre+(a.menor?` (${tt('menor','minor')})`:'')));g.appendChild(l)});
+    box.appendChild(g)}
+  function filas(){
+    const ul=dlg.querySelector('#rgac');ul.innerHTML='';
+    perfil.acomp.forEach((a,i)=>{
+      const li=document.createElement('li');
+      li.innerHTML=`<input data-k="nombre" placeholder="${tt('Nombre y apellido','Full name')}" aria-label="${tt('Nombre y apellido del acompañante','Companion full name')}"><input data-k="dni" placeholder="${tt('DNI (opcional)','ID (optional)')}" aria-label="${tt('DNI del acompañante','Companion ID')}"><label class="rgsw"><input type="checkbox" data-k="menor"> ${tt('menor','minor')}</label><button type="button" class="rgsec" aria-label="${tt('Quitar','Remove')}">✕</button>`;
+      li.querySelectorAll('[data-k]').forEach(inp=>{const k=inp.dataset.k;if(k==='menor')inp.checked=!!a.menor;else inp.value=a[k]||'';
+        inp.addEventListener(k==='menor'?'change':'input',()=>{a[k]=k==='menor'?inp.checked:inp.value;perfilGuardar(perfil);if(k!=='dni')pick()})});
+      li.querySelector('button').onclick=()=>{perfil.acomp.splice(i,1);sel.clear();perfil.acomp.forEach((x,j)=>sel.add(j));perfilGuardar(perfil);filas();pick()};
+      ul.appendChild(li)});
+  }
+  dlg.querySelector('#rgadd').onclick=()=>{perfil.acomp.push({nombre:'',dni:'',menor:false});sel.add(perfil.acomp.length-1);perfilGuardar(perfil);filas();pick();dlg.querySelector('#rgac li:last-child input')?.focus()};
+  function salida(){return {inicio:E('inicio').value,regreso:E('regreso').value,obs:E('obs').value.trim(),vehiculo:E('veh').checked,
+    acomp:perfil.acomp.filter((a,i)=>sel.has(i)&&String(a.nombre||'').trim())}}
+  const url=()=>regUrl(ctx.cand[+E('cand').value||0],perfil,salida());
+  function alertas(){
+    const c=ctx.cand[+E('cand').value||0],m=[];
+    if(c.e==='cerrado')m.push(['err',tt('Este sendero figura CERRADO en el registro del Parque: el registro no tendría validez.','This trail is listed as CLOSED in the Park registry: a registration would not be valid.')]);
+    else if(/solo con guia/.test(regKey(c.m)))m.push(['warn',tt('Sendero solo con guía habilitado: el registro lo completa tu guía.','Licensed guide only: your guide fills in the registration.')]);
+    const falta=[['email',tt('email','email')],['nombre',tt('nombre','name')],['dni',tt('DNI','ID')],['telefono',tt('teléfono','phone')],['residencia',tt('residencia','residence')]].filter(([k])=>!String(perfil[k]||'').trim()).map(x=>x[1]);
+    if(falta.length)m.push(['warn',tt('Faltan datos del responsable: ','Missing details of the group leader: ')+falta.join(', ')+tt('. Podés completarlos en el formulario.','. You can fill them in on the form.')]);
+    dlg.querySelector('#rgal').innerHTML=m.map(([k,t])=>`<div class="rga ${k}">${esc(t)}</div>`).join('')}
+  E('cand').onchange=alertas;
+  dlg.querySelector('#rggo').onclick=()=>{window.open(url(),'_blank','noopener');dlg.close()};
+  dlg.querySelector('#rgcp').onclick=async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(url());b.textContent=tt('Copiado','Copied')}catch(x){prompt(tt('Copiá el enlace:','Copy the link:'),url())}};
+  dlg.querySelector('#rgx').onclick=()=>dlg.close();
+  dlg.querySelector('#rgdel').onclick=()=>{if(!confirm(tt('¿Borrar tus datos guardados en este navegador?','Delete your details saved in this browser?')))return;
+    try{localStorage.removeItem('pt.perfil')}catch(x){}
+    Object.assign(perfil,perfilVacio());['email','nombre','dni','telefono','residencia','contacto','vehiculo'].forEach(k=>E(k).value='');sel.clear();filas();pick();veh();alertas()};
+  dlg.addEventListener('close',()=>dlg.remove());
+  filas();pick();veh();alertas();
+  dlg.showModal();
+}
+function regBlock(reg='obligatorio',conBoton){
   if(reg==='no_requiere') return `<div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v">${tt('No hace falta','Not required')}</span></div>`;
   if(reg==='a_confirmar'||reg==='dificultad_baja') return `<div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v soft">${tt('a confirmar','to be confirmed')} <b class="mk pe">○</b></span></div>${reg==='dificultad_baja'?`<p class="pend" style="font-size:15px;margin-top:4px">${tt('Los senderos de dificultad baja están exceptuados; falta el anexo de clasificación para confirmarlo.','Low-difficulty trails are exempt; the classification annex is still missing to confirm it.')}</p>`:''}`;
-  return `<div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v">${tt('Obligatorio','Required')} <b class="mk of">■</b></span></div><p class="reg" style="margin-top:4px"><a href="https://www.nahuelhuapi.gov.ar/trekking-y-actividades-de-montana/" target="_blank" rel="noopener">${tt('Hacer el registro en la web del parque','Register on the park website')}</a></p>`}
-function profSvg(z,km,label){
-  const lo=Math.min(...z),hi=Math.max(...z),w=560,h=120,x0=14,x1=546,y0=24,y1=100;
-  const pts=z.map((v,i)=>`${(x0+(x1-x0)*i/(z.length-1)).toFixed(1)},${(y1-(y1-y0)*(v-lo)/Math.max(1,hi-lo)).toFixed(1)}`).join(' ');
-  return `<svg class="prof" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">
-    <line x1="${x0}" y1="${y1}" x2="${x1}" y2="${y1}" stroke="var(--hair)"/><line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y0}" stroke="var(--hair)" stroke-dasharray="2 4"/>
+  return `<div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v">${tt('Obligatorio','Required')} <b class="mk of">■</b></span></div>${conBoton&&FORMREG&&REGCTX&&REGCTX.cand.length?`<p class="reg" style="margin-top:6px"><button type="button" class="regbtn" data-reg>${tt('Hacer el registro','Do the registration')}</button></p><p class="fine" style="margin-top:4px">${tt('Se abre el formulario oficial con tus datos ya puestos, guardados solo en tu navegador.','Opens the official form with your details already filled in, saved only in your browser.')} <a href="https://www.nahuelhuapi.gov.ar/trekking-y-actividades-de-montana/" target="_blank" rel="noopener">${tt('O registrate en la web del parque','Or register on the park website')}</a></p>`:`<p class="reg" style="margin-top:4px"><a href="https://www.nahuelhuapi.gov.ar/trekking-y-actividades-de-montana/" target="_blank" rel="noopener">${tt('Hacer el registro en la web del parque','Register on the park website')}</a></p>`}`}
+/* ---- perfil de altura interactivo ----
+   Al tocar o pasar el mouse por el perfil se ve el kilómetro, la altura y la pendiente de ese punto,
+   y el punto se marca en el mapa (mismo dibujo SVG que las trazas). Con el teclado: flechas, Inicio y Fin. */
+const PFD=new Map(); let pfN=0, PM=null;
+const pfQuitar=()=>{if(PM)PM.style.display='none'};
+const fk=x=>new Intl.NumberFormat(tt('es-AR','en-GB'),{maximumFractionDigits:2}).format(x);
+const pfTrazas=new Map();
+function pfTraza(t,inv){   // puntos [x,y] del dibujo y su distancia acumulada, en el sentido de la marcha
+  const k=t.id+(inv?'r':'f'); if(pfTrazas.has(k))return pfTrazas.get(k);
+  const nm=t.d.match(/-?\d+(?:\.\d+)?/g).map(Number),P=[],A=[0];
+  for(let i=0;i+1<nm.length;i+=2)P.push([nm[i],nm[i+1]]);
+  if(inv)P.reverse();
+  for(let i=1;i<P.length;i++)A.push(A[i-1]+Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]));
+  const r={P,A,tot:A[A.length-1]||1};pfTrazas.set(k,r);return r}
+function pfPos(segs,f){   // [x,y] del dibujo a la fracción f (0 a 1) del recorrido
+  const tot=segs.reduce((m,[t])=>m+t.km,0)||1;let d=f*tot;
+  for(let j=0;j<segs.length;j++){const [t,inv]=segs[j];
+    if(d<=t.km||j===segs.length-1){
+      const z=pfTraza(t,inv),g=Math.max(0,Math.min(1,d/(t.km||1)))*z.tot;let i=1;
+      while(i<z.A.length-1&&z.A[i]<g)i++;
+      const u=Math.max(0,Math.min(1,(g-z.A[i-1])/((z.A[i]-z.A[i-1])||1)));
+      return [z.P[i-1][0]+(z.P[i][0]-z.P[i-1][0])*u,z.P[i-1][1]+(z.P[i][1]-z.P[i-1][1])*u]}
+    d-=t.km}
+  return null}
+function pfTicks(max,n){const raw=max/n,mag=Math.pow(10,Math.floor(Math.log10(raw))),st=[1,2,5,10].map(m=>m*mag).find(x=>x>=raw)||raw,o=[];for(let v=0;v<=max+1e-9;v+=st)o.push(+v.toFixed(4));return o}
+function profSvg(z,km,label,segs){
+  let lo=Math.min(...z),hi=Math.max(...z);if(hi-lo<20){const m=(hi+lo)/2;lo=m-10;hi=m+10}
+  const w=560,h=182,x0=66,x1=546,y0=30,y1=140,id='pf'+(++pfN);
+  PFD.set(id,{z,km,segs:(segs||[]).filter(([t])=>t.d),x0,x1,y0,y1,lo,hi});
+  const X=i=>x0+(x1-x0)*i/(z.length-1),Y=v=>y1-(y1-y0)*(v-lo)/(hi-lo);
+  const pts=z.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+  const F='font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="20" fill="#5C6E77"';
+  const ys=[lo,(lo+hi)/2,hi];
+  const xt=pfTicks(km,5).filter(v=>v<=km+1e-9);
+  return `<svg class="prof" viewBox="0 0 ${w} ${h}" role="img" tabindex="0" data-pf="${id}" aria-label="${label}. ${tt('Con las flechas del teclado se recorre.','Use the arrow keys to move along it.')}">
+    ${ys.map((v,i)=>`<line x1="${x0}" y1="${Y(v).toFixed(1)}" x2="${x1}" y2="${Y(v).toFixed(1)}" stroke="var(--hair)"${i===0?'':' stroke-dasharray="2 4"'}/><text x="${x0-7}" y="${(Y(v)+5).toFixed(1)}" text-anchor="end" ${F}>${num(v)} m</text>`).join('')}
+    ${xt.map(v=>{const x=x0+(x1-x0)*v/km;return `<line x1="${x.toFixed(1)}" y1="${y1}" x2="${x.toFixed(1)}" y2="${y1+5}" stroke="#9aa6a3"/><text x="${x.toFixed(1)}" y="${y1+23}" text-anchor="${v===0?'start':(km-v<km/12?'end':'middle')}" ${F}>${fk(v)}${v===xt[xt.length-1]?' km':''}</text>`}).join('')}
     <polygon points="${x0},${y1} ${pts} ${x1},${y1}" fill="var(--g0)" opacity=".14"/><polyline points="${pts}" fill="none" stroke="var(--g0)" stroke-width="2.6" stroke-linejoin="round"/>
-    <text x="${x0}" y="17" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${num(hi)} m</text>
-    <text x="${x0}" y="${h-4}" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${num(lo)} m</text>
-    <text x="${x1}" y="${h-4}" text-anchor="end" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="19" fill="#5C6E77">${f1(km)} km</text></svg>`}
-function bigNums(km,up,dn){return `<div class="big"><div><b>${f1(km)} km</b><span>${tt('distancia','distance')}</span></div><div><b>+${num(up)} m</b><span>${tt('subida','ascent')}</span></div><div><b>−${num(dn)} m</b><span>${tt('bajada','descent')}</span></div></div>`}
-function rows(pares,vacio){return pares.map(([k,v])=>`<div class="row"><span class="k">${k}</span>${v?`<span class="v">${esc(v)}</span>`:`<span class="v soft">${vacio} <b class="mk pe">○</b></span>`}</div>`).join('')}
+    <g class="pf-cur" style="display:none;pointer-events:none"><line y1="${y0-4}" y2="${y1}" stroke="var(--ink)" stroke-width="1.5"/><circle r="5.5" fill="var(--ink)" stroke="#fff" stroke-width="2"/>
+      <g class="tip"><rect height="28" fill="var(--ink)" rx="2"/><text x="8" y="20" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-size="21" fill="#fff"></text></g></g></svg>
+    <p class="fine pf-hint">${tt('Tocá o pasá el mouse por el perfil para ver la altura y la pendiente de cada punto, que se marca en el mapa.','Touch or hover over the profile to see the elevation and slope at each point, which is marked on the map.')}</p>`}
+function pfInit(root){
+  root.querySelectorAll('svg.prof[data-pf]').forEach(sv=>{
+    const d=PFD.get(sv.dataset.pf); if(!d)return;
+    const {z,km,segs,x0,x1,y0,y1,lo,hi}=d, cur=sv.querySelector('.pf-cur'), ln=cur.querySelector('line'), dot=cur.querySelector('circle'),
+          tip=cur.querySelector('.tip'), bg=tip.querySelector('rect'), tx=tip.querySelector('text');
+    let fAct=0;
+    function poner(f){
+      fAct=f=Math.max(0,Math.min(1,f));
+      const i=f*(z.length-1),a=Math.floor(i),b=Math.min(z.length-1,a+1),alt=z[a]+(z[b]-z[a])*(i-a);
+      const k=Math.max(1,Math.round(z.length*.05)),i0=Math.max(0,Math.round(i)-k),i1=Math.min(z.length-1,Math.round(i)+k);
+      const dist=(i1-i0)*km*1000/(z.length-1),pend=dist>0?(z[i1]-z[i0])/dist*100:0;
+      const x=x0+(x1-x0)*f,y=y1-(y1-y0)*(alt-lo)/(hi-lo);
+      cur.style.display='';ln.setAttribute('x1',x);ln.setAttribute('x2',x);dot.setAttribute('cx',x);dot.setAttribute('cy',y);
+      tx.textContent=`${fk(km*f)} km · ${num(alt)} m · ${pend<0?'−':'+'}${Math.abs(pend).toFixed(0)} %`;
+      const wd=tx.getBBox().width+16;bg.setAttribute('width',wd);
+      tip.setAttribute('transform',`translate(${Math.max(x0,Math.min(x1-wd,x-wd/2))},0)`);
+      if(svg&&segs.length){const q=pfPos(segs,f);
+        if(q){if(!PM){PM=el('g',{class:'pm'},svg.firstChild);el('circle',{r:13,class:'pm-h'},PM);el('circle',{r:6.5,class:'pm-d'},PM)}
+          PM.style.display='';PM.style.transform=`translate(${q[0]}px,${q[1]}px) scale(var(--u))`}}}
+    const frac=e=>{const r=sv.getBoundingClientRect();return ((e.clientX-r.left)/r.width*560-x0)/(x1-x0)};
+    sv.addEventListener('pointerdown',e=>{poner(frac(e))});
+    sv.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'&&!e.buttons&&e.pressure===0)return;poner(frac(e))});
+    sv.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse'){cur.style.display='none';pfQuitar()}});
+    sv.addEventListener('keydown',e=>{
+      const st={ArrowLeft:-.02,ArrowRight:.02,ArrowDown:-.02,ArrowUp:.02,PageDown:-.1,PageUp:.1}[e.key];
+      if(st!==undefined){e.preventDefault();poner(fAct+st)}
+      else if(e.key==='Home'){e.preventDefault();poner(0)} else if(e.key==='End'){e.preventDefault();poner(1)}
+      else if(e.key==='Escape'){cur.style.display='none';pfQuitar()}});
+    sv.addEventListener('blur',()=>{cur.style.display='none';pfQuitar()});
+  })}
+function bigNums(km,up,dn){return `<div class="big"><div><b>${f1(km)} km</b><span>${tt('distancia','distance')}</span></div><div><b>${Math.round(up)>0?'+':''}${num(up)} m</b><span>${tt('subida','ascent')}</span></div><div><b>${Math.round(dn)>0?'−':''}${num(dn)} m</b><span>${tt('bajada','descent')}</span></div></div>`}
+function rows(pares,vacio){return pares.map(([k,v])=>`<div class="row${v&&v.length>46?' long':''}"><span class="k">${k}</span>${v?`<span class="v">${esc(v)}</span>`:`<span class="v soft">${vacio} <b class="mk pe">○</b></span>`}</div>`).join('')}
 function subt(t){return [t.via?tt('por ','via ')+esc(t.via):'',t.rt?tt('ida y vuelta','round trip'):''].filter(Boolean).join(', ')}
 function home(){
   pin.innerHTML=`
@@ -360,8 +557,27 @@ function home(){
   </div>`;
   pin.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>go('v',b.dataset.v));
 }
+/* ---- información de las sendas oficiales (datos/sendas.js) ---- */
+const DIFL={'Baja':['Baja','Low'],'Media':['Media','Medium'],'Alta':['Alta','High'],'Muy Alta':['Muy alta','Very high'],'Extrema':['Extrema','Extreme']};
+const difN=d=>{const x=DIFL[d];return x?tt(x[0],x[1]):d};
+const sendaEt=s=>/^\d/.test(s.id)?tt('Senda ','Trail ')+esc(s.id):tt('Sendero municipal','Municipal trail');
+function sendaBox(s,conDesc,abierta){
+  const dif=difN(s.dificultad)+(fv(s,'temporada')?` (${esc(fv(s,'temporada'))})`:'')
+    +(s.dificultad_otra?` · ${difN(s.dificultad_otra)}${fv(s,'temporada_otra')?` (${esc(fv(s,'temporada_otra'))})`:''}`:'');
+  const prec=LANG==='en'?s.precauciones_en:s.precauciones, serv=fv(s,'servicios'), desc=fv(s,'descripcion');
+  const ok=/^https:\/\//.test(s.fuente);
+  return `<details class="sd"${abierta?' open':''}><summary><b>${sendaEt(s)}</b> · ${esc(s.nombre)}</summary><div class="sdb">
+    <div class="row"><span class="k">${tt('Dificultad','Difficulty')}</span><span class="v">${dif}</span></div>
+    <div class="row"><span class="k">${tt('Registro de trekking','Trekking registration')}</span><span class="v">${s.registro==='obligatorio'?tt('Obligatorio y gratuito','Mandatory and free'):tt('No hace falta','Not required')}</span></div>
+    ${serv?`<h3>${tt('Servicios','Services')}</h3><p>${esc(serv)}</p>`:''}
+    ${prec.length?`<h3>${tt('Precauciones','Precautions')}</h3><ul class="prec">${prec.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
+    ${conDesc&&desc?`<h3>${tt('Cómo es','What it is like')}</h3><p>${esc(desc)}</p>`:''}
+    <p class="fine">${tt('Fuente: ','Source: ')}${ok?`<a href="${esc(s.fuente)}" target="_blank" rel="noopener">Bariloche Trekking</a>`:'Bariloche Trekking'} ${tt('(Club Andino Bariloche y Parques Nacionales). Texto reescrito.','(Club Andino Bariloche and National Parks). Text reworded.')}</p>
+  </div></details>`}
 function tramo(id){
   const t=tById[id], db=t.db;
+  REGCTX=FORMREG?{nombre:tName(t),cand:regCandidatos(t.regHall.map(h=>h.n))}:null;
+  const sds=SD.get(id)||[], own=fv(db,'descripcion'), prest=!own&&sds.length===1&&sds[0].tramos.length===1?fv(sds[0],'descripcion'):'', dsc=own||prest;
   const A=rev?t.b:t.a,B=rev?t.a:t.b;
   const sen=t.sen.length?`<div class="sendas">${t.sen.map(s=>`<span>${s}</span>`).join('')}${t.nsen>t.sen.length?`<em>${tt('y','and')} ${t.nsen-t.sen.length} ${tt('más','more')}</em>`:''}</div>`:'';
   const tvs=TV.filter(v=>v.t.includes(id));
@@ -372,7 +588,7 @@ function tramo(id){
     const up=rev&&!t.rt?t.dn:t.up, dn=rev&&!t.rt?t.up:t.dn, z=rev&&!t.rt?[...t.prof].reverse():t.prof;
     geo=`<div class="blk"><h2><span>${t.rt?tt('Ida y vuelta','Round trip'):`${tt('De','From')} ${kn(N[A])} ${tt('a','to')} ${kn(N[B])}`}</span>${t.rt?'':`<button id="rv">${tt('Ver al revés','Reverse direction')}</button>`}</h2>
       ${bigNums(t.km,up,dn)}
-      <div style="margin-top:10px">${profSvg(z,t.km,tt('Perfil de altura del tramo','Elevation profile of the trail'))}</div>
+      <div style="margin-top:10px">${profSvg(z,t.km,tt('Perfil de altura del tramo','Elevation profile of the trail'),[[t,rev&&!t.rt]])}</div>
       <button type="button" class="gpx" id="gpx">${tt('Descargar GPX','Download GPX')}</button>
       <div class="row" style="margin-top:6px"><span class="k">${tt('Altura mínima y máxima','Lowest and highest point')}</span><span class="v">${num(t.zmin)} ${tt('a','to')} ${num(t.zmax)} m</span></div>
       ${db.agua||db.vadeos||db.sombra?rows([[tt('Agua','Water'),fv(db,'agua')],[tt('Vadeos','River crossings'),fv(db,'vadeos')],[tt('Sombra','Shade'),fv(db,'sombra')]],tt('a relevar','to be surveyed'))
@@ -389,10 +605,11 @@ function tramo(id){
   ${t.st?`<p class="fine" style="margin-top:6px"><b>${tt('Este tramo solo se recorre como parte de una travesía.','This trail is only walked as part of a multi-day route.')}</b></p>`:''}
   <div class="blk"><h2>${tt('Estado en el registro del Parque','Status in the Park registry')}</h2>${estBox(t)}</div>
   <div class="blk"><h2>${tt('Dificultad','Difficulty')}</h2>${difBox(t.g, esc(t.nota)|| (t.ed?(t.muni?tt('Es ','It is ')+esc(t.muni)+tt(', no figura en el listado de la APN.',', not in the APN list.'):tt('No figura en el listado de la APN.','Not in the APN list.')):''))}
-    <div style="margin-top:9px">${regBlock(t.reg)}</div>
+    <div style="margin-top:9px">${regBlock(t.reg,true)}</div>
   </div>
   ${geo}
-  <div class="blk"><h2>${tt('Cómo es','What it is like')}</h2>${fv(db,'descripcion')?`<p>${esc(fv(db,'descripcion'))}</p>${LANG==='en'&&!db.descripcion_en?'<p class="fine">(Description in Spanish only.)</p>':''}${db.descripcion_verificada?'':`<p class="pend" style="font-size:15px">${tt('Descripción provisoria, sin verificar en el terreno.','Provisional description, not verified on the ground.')}</p>`}`:`<p class="pend">${tt('Pendiente de escribir.','Still to be written.')}</p>`}</div>
+  <div class="blk"><h2>${tt('Cómo es','What it is like')}</h2>${dsc?`<p>${esc(dsc)}</p>${LANG==='en'&&!db.descripcion_en&&!prest?'<p class="fine">(Description in Spanish only.)</p>':''}${db.descripcion_verificada?'':`<p class="pend" style="font-size:15px">${tt('Descripción provisoria, sin verificar en el terreno.','Provisional description, not verified on the ground.')}</p>`}`:`<p class="pend">${tt('Pendiente de escribir.','Still to be written.')}</p>`}</div>
+  ${sds.length?`<div class="blk"><h2>${sds.length===1?tt('Información de la senda oficial','Official trail information'):tt('Información de las sendas oficiales','Official trails information')}</h2>${sds.map(x=>sendaBox(x,!prest||sds.length>1,sds.length===1)).join('')}</div>`:''}
   ${t.ed||!sen?'':`<div class="blk"><h2>${tt('Sendas oficiales que lo incluyen','Official trails that include it')}</h2>${sen}</div>`}
   ${tvs.length?`<div class="blk"><h2>${tt('Travesías que pasan por acá','Multi-day routes through here')}</h2><ul class="list">${tvs.map(v=>`<li><button data-v="${v.id}"><span><span class="nm">${tvN(v)}</span><span class="ds">${tvS(v)}</span></span><span class="sws">${swatch(tvG(v))}</span></button></li>`).join('')}</ul></div>`:''}
   ${INFO()}`;
@@ -421,6 +638,7 @@ function nodo(id){
 }
 function travesia(id){
   const v=TV.find(x=>x.id===id); const g=tvG(v); const O=orient(v);
+  REGCTX=FORMREG?{nombre:tvN(v),cand:regCandidatos(v.t.flatMap(i=>tById[i].regHall.map(h=>h.n)),'Travesía')}:null;
   let km=0,up=0,dn=0,z=[];
   O.forEach(([t,a])=>{if(t.src==='none')return;const f=t.a===a;km+=t.km;up+=f?t.up:t.dn;dn+=f?t.dn:t.up;const p=f?t.prof:[...t.prof].reverse();const k=Math.max(4,Math.round(t.km*4));for(let i=0;i<k;i++)z.push(p[Math.round(i*(p.length-1)/(k-1))])});
   const crit=v.t.map(i=>tById[i]).filter(t=>t.g===g);
@@ -429,8 +647,8 @@ function travesia(id){
   <p class="kind">${tt('Travesía','Multi-day route')}${v.sen?tt(', senda oficial ',', official trail ')+v.sen+' <b class="mk of">■</b>':''}</p>
   <h1 class="t">${esc(tvN(v))}</h1>
   <p class="subt">${esc(tvS(v))}</p>
-  <div class="blk"><h2>${tt('Dificultad','Difficulty')}</h2>${difBox(g,note)}<div style="margin-top:9px">${regBlock()}</div></div>
-  <div class="blk"><h2>${tt('El recorrido completo','The whole route')}</h2>${bigNums(km,up,dn)}<div style="margin-top:10px">${profSvg(z,km,tt('Perfil de altura de la travesía','Elevation profile of the route'))}</div>
+  <div class="blk"><h2>${tt('Dificultad','Difficulty')}</h2>${difBox(g,note)}<div style="margin-top:9px">${regBlock('obligatorio',true)}</div></div>
+  <div class="blk"><h2>${tt('El recorrido completo','The whole route')}</h2>${bigNums(km,up,dn)}<div style="margin-top:10px">${profSvg(z,km,tt('Perfil de altura de la travesía','Elevation profile of the route'),O.filter(([t])=>t.src!=='none'&&t.d).map(([t,a])=>[t,t.a!==a]))}</div>
     <button type="button" class="gpx" id="gpxv">${tt('Descargar GPX de la travesía','Download route GPX')}</button></div>
   ${v.dd.map((d,n)=>`<div class="blk"><h2>${tt('Día','Day')} ${n+1}</h2>
     <p class="subt" style="margin:0 0 8px">${esc(kn(N[d.from]))} ${tt('a','to')} ${esc(kn(N[d.to]))}</p>
@@ -447,11 +665,14 @@ function travesia(id){
   wire(); $('#gpxv').onclick=()=>gpxTv(v);
 }
 function wire(){
+  pfInit(pin);
+  pin.querySelectorAll('[data-reg]').forEach(b=>b.onclick=abrirRegistro);
   const b=$('#bk'); if(b)b.onclick=()=>go(null);
   pin.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{rev=b.dataset.rev==='1';go('t',b.dataset.t,true)});
   pin.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>go('v',b.dataset.v));
 }
 function go(k,id,keepRev,desde){
+  pfQuitar();
   if(!keepRev)rev=false;
   sel=k?[k,id]:null;
   if(!k){pin=pinHome;home();dr.hidden=true;mapwrap.classList.remove('dr-open')}

@@ -1,12 +1,13 @@
 # Base de datos de senderos
 
-Esta carpeta es lo único que se edita a mano, salvo `estado.js` (generado, ver abajo). Hay tres archivos, uno por tipo de objeto:
+Esta carpeta es lo único que se edita a mano, salvo `estado.js` (generado, ver abajo). Hay cuatro archivos, uno por tipo de objeto:
 
 | Archivo | Qué guarda | Cuántos |
 |---|---|---|
 | `tramos.js` | Senderos entre dos puntos: lo que se dibuja en el mapa | 111 |
 | `puntos.js` | Accesos, refugios, puntos de paso, lagunas y cumbres | 152 |
-| `travesias.js` | Recorridos armados encadenando tramos | 7 |
+| `travesias.js` | Recorridos armados encadenando tramos | 11 |
+| `sendas.js` | Información de las sendas oficiales (acceso, normas, servicios, descripción) que se muestra en la ficha de sus tramos | 61 |
 
 Las normas para cuidar el lugar y los contactos de emergencia no están acá: están en la página estática `../info-utiles.html`, que se edita directamente.
 
@@ -156,7 +157,34 @@ Las travesías no se dibujan como líneas propias: son combinaciones de tramos y
 
 ---
 
-## Estado de los senderos (`estado.js`, generado)
+## Senda oficial (`sendas.js`)
+
+Una senda es un recorrido del Anexo I del Parque o un sendero municipal de Llao Llao (por ejemplo «Base Cerro Catedral - Refugio Emilio Frey»). Su información aparece en la ficha de cada tramo que la compone, en el bloque «Información de la senda oficial». Los datos objetivos (acceso, horarios, normas, servicios) vienen de barilochetrekking.com, sitio del Club Andino Bariloche con Parques Nacionales. Las descripciones están reescritas con otras palabras. Cada ficha enlaza a la fuente.
+
+| Campo | Tipo | Qué es | Si está vacío |
+|---|---|---|---|
+| `id` | texto | Número de la senda oficial (`'63'`). Los senderos municipales llevan `mb` y un número (`'mb1'`); `38b` y `23b` son variantes. **No cambiar.** | — |
+| `nombre` | texto | Nombre como figura en la fuente | — |
+| `tramos` | lista de ids | Tramos de `tramos.js` que la componen. Solo en esos tramos se muestra la senda | `[]`: la senda no se muestra en ningún lado |
+| `fuente` | texto | Enlace (https) a la página de origen | No se enlaza |
+| `dificultad` | valor fijo | `'Baja'`, `'Media'`, `'Alta'`, `'Muy Alta'` o `'Extrema'`, según el listado del Parque para la `temporada` | — |
+| `temporada`, `temporada_en` | texto | Meses a los que se aplica esa dificultad (`'noviembre a abril'`) | No se muestra |
+| `dificultad_otra` | valor fijo | Dificultad en el resto del año, si cambia. Vacío si es la misma | No se muestra |
+| `temporada_otra`, `temporada_otra_en` | texto | Meses de la otra dificultad | No se muestra |
+| `registro` | valor fijo | `'obligatorio'` o `'no_requiere'` | — |
+| `precauciones`, `precauciones_en` | lista de textos | Normas y avisos. Las dos listas tienen que tener la misma cantidad de líneas | No se muestra el bloque |
+| `servicios`, `servicios_en` | texto | Refugios, campings, navegación, teleférico | No se muestra |
+| `descripcion`, `descripcion_en` | texto | Cómo es el recorrido | No se muestra. Si la senda tiene un solo tramo y ese tramo no tiene descripción propia, se usa esta en «Cómo es» |
+
+Para sumar una senda hacen falta su traza (los tramos) en `geo/`: lo que se agrega acá es solo la información.
+
+## Textos en inglés
+
+Los campos de texto de `puntos.js` y `travesias.js` aceptan una versión en inglés con el mismo nombre y `_en` al final (`colectivo_en`). Es **opcional**: si falta, en la versión en inglés se muestra el español. La planilla de Google usa las mismas columnas `_en` y, si una celda tiene texto, gana sobre `datos/`.
+
+## Estado de los senderos y del formulario (`estado.js`, generado)
+
+`estado.js` también guarda `FORMULARIO`: los códigos de los campos del formulario de registro del Parque y los valores a precargar para cada sendero o travesía. Con eso la ficha arma el botón «Hacer el registro». No se edita a mano.
 
 `estado.js` no se edita: lo escribe `herramientas/actualizar-estado.mjs`, que lee el formulario de registro de trekking del Parque (el mismo enlace de la web del parque) y anota si cada sendero está **habilitado** o **cerrado** (los de «sólo con guía» cuentan como habilitados y conservan esa aclaración). Se corre con `node herramientas/actualizar-estado.mjs` (hace falta Node 18 o más nuevo) y conviene repetirlo cada pocas horas (ver `herramientas/LEEME.md`).
 

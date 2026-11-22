@@ -11,6 +11,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { leerEstructura } from './formulario.mjs';
 
 const FORM = 'https://forms.gle/sGNVrn7DmpEjfmNf9';   // enlace del registro en la web del parque
 const AQUI = dirname(fileURLToPath(import.meta.url));
@@ -26,7 +27,8 @@ async function leerFormulario() {
   const html = await r.text();
   const m = html.match(/FB_PUBLIC_LOAD_DATA_ = (.*?);<\/script>/s);
   if (!m) throw new Error('No se encontró el contenido del formulario: Google pudo haber cambiado el formato.');
-  return JSON.parse(m[1])[1][1];
+  const v = html.match(/https:\/\/docs\.google\.com\/forms\/d\/e\/[^/"\\]+\/viewform/);
+  return { items: JSON.parse(m[1])[1][1], viewUrl: v ? v[0] : '' };
 }
 
 function estadoDeSeccion(sec) {
@@ -85,7 +87,8 @@ function etiquetasUsadas() {
 }
 
 try {
-  const entradas = analizar(await leerFormulario());
+  const { items, viewUrl } = await leerFormulario();
+  const entradas = analizar(items);
   const n = Object.keys(entradas).length;
   if (n < 20) throw new Error(`Solo se leyeron ${n} senderos; parece un error de lectura. No se actualiza.`);
   const usadas = etiquetasUsadas();
@@ -94,10 +97,17 @@ try {
   const salida = {};
   for (const k of Object.keys(entradas).sort((a, b) => a.localeCompare(b, 'es'))) salida[k] = entradas[k];
   const cont = c => Object.values(entradas).filter(e => e.estado === c).length;
+  // estructura del formulario (códigos de campos y valores a precargar). Si falla, el estado se actualiza igual
+  // y la página vuelve a mostrar solo el enlace al registro oficial.
+  let formulario = null;
+  try { formulario = leerEstructura(items, viewUrl); }
+  catch (e) { console.error('No se pudo leer la estructura del formulario (el estado sí se actualiza):', e.message); }
   writeFileSync(SALIDA,
 `/* GENERADO por herramientas/actualizar-estado.mjs: no editar a mano.
-   Estado de cada sendero según el formulario de registro de trekking del Parque. */
+   Estado de cada sendero según el formulario de registro de trekking del Parque,
+   y la estructura del formulario para abrirlo ya completado (FORMULARIO). */
 const ESTADO = ${JSON.stringify({ actualizado: new Date().toISOString(), fuente: FORM, entradas: salida }, null, 1)};
+const FORMULARIO = ${JSON.stringify(formulario)};
 `);
   console.log(`Estado actualizado: ${n} entradas (${cont('habilitado')} habilitadas, ${cont('cerrado')} cerradas).`);
   if (faltan.length) console.log('Nombres de datos/tramos.js que ya no están en el formulario (esos tramos quedan «No verificado»):\n  - ' + faltan.join('\n  - '));
