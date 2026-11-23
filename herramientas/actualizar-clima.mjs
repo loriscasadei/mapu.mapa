@@ -193,7 +193,7 @@ function procesarZona(zona, resp, pasado, fechas) {
       });
     }
   }
-  const conPromedio = (porModelo, red) => [red(promedio(ids.map(m => porModelo[m]))), ...ids.map(m => red(porModelo[m]))];
+  const conPromedio = (porModelo, red, entran = ids) => [red(promedio(entran.map(m => porModelo[m]))), ...ids.map(m => red(porModelo[m]))];
   const dias = fechas.map((fecha, d) => ({
     fecha,
     franjas: FRANJAS.map(fr => {
@@ -213,7 +213,7 @@ function procesarZona(zona, resp, pasado, fechas) {
         coincidencia: { general: peor(Object.values(co)), ...co },
         lluvia: conPromedio(lluvia, r1),
         viento: conPromedio(pm(c => promedio(ins(c.s.wind_speed_10m))), r0),
-        rafaga: conPromedio(rafaga, r0),
+        rafaga: conPromedio(rafaga, r0, RAFAGA_COMPARA),   // el promedio de ráfagas deja afuera a GFS
         viento_850hPa: conPromedio(pm(c => promedio(ins(c.s.wind_speed_850hPa))), r0),
         viento_700hPa: conPromedio(pm(c => promedio(ins(c.s.wind_speed_700hPa))), r0),
         isoterma_min: conPromedio(pm(c => minimo(ins(c.s.freezing_level_height))), r10),
@@ -304,7 +304,7 @@ try {
     dias: fechas,
     unidades: { temperatura: '°C', lluvia: 'mm', viento: 'km/h', isoterma: 'm', uv: 'índice UV' },
     notas: [
-      'Cada valor es una lista [promedio, ecmwf, gfs, icon]; null = ese modelo no lo da.',
+      'Cada valor es una lista [promedio, ecmwf, gfs, icon]; null = ese modelo no lo da. En rafaga, el promedio es solo de ECMWF e ICON (GFS da ráfagas mucho más bajas; su valor queda guardado).',
       'Franjas en hora de Argentina: mañana 6 a 12, tarde 12 a 18, noche 18 a 24. tmin/tmax y smin/smax son mínima y máxima de la franja; lluvia es el total; viento es el promedio; rafaga y uv, el máximo; isoterma_min, la más baja de la franja.',
       'lluvia, viento, rafaga, viento_850hPa (unos 1500 m), viento_700hPa (unos 3000 m) e isoterma_min son de la zona. Lo que está en "alturas" se calcula para cada altura fija.',
       'Temperatura en altura: entre la del suelo en el punto (altura_punto) y la del modelo a 850 y 700 hPa; fuera de ese rango, 6,5 °C cada 1000 m. Viento en altura: estimado igual, entre 10 m, 850 y 700 hPa. Sensación térmica: la de Open-Meteo en el punto, corregida por la temperatura y el viento de cada altura.',
