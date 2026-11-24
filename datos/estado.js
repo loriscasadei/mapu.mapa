@@ -2,7 +2,7 @@
    Estado de cada sendero según el formulario de registro de trekking del Parque,
    y la estructura del formulario para abrirlo ya completado (FORMULARIO). */
 const ESTADO = {
- "actualizado": "2026-11-24T09:00:32.316Z",
+ "actualizado": "2026-11-24T22:04:19.960Z",
  "fuente": "https://forms.gle/sGNVrn7DmpEjfmNf9",
  "entradas": {
   "5 Lagunas (Colonia Suiza- Pampa Linda)": {
@@ -110,8 +110,8 @@ const ESTADO = {
    "motivo": "SENDERO CERRADO"
   },
   "Cerro Flores de León": {
-   "estado": "cerrado",
-   "motivo": "SENDERO CERRADO"
+   "estado": "habilitado",
+   "motivo": ""
   },
   "Cerro Goye": {
    "estado": "habilitado",
@@ -158,8 +158,8 @@ const ESTADO = {
    "motivo": ""
   },
   "Gutiérrez- Baqueanos": {
-   "estado": "cerrado",
-   "motivo": "CERRADO POR INCLEMENCIA CLIMÁTICA"
+   "estado": "habilitado",
+   "motivo": ""
   },
   "Huella Andina Angostura- Traful": {
    "estado": "habilitado",
